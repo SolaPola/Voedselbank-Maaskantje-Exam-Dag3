@@ -22,9 +22,24 @@ class SupplierController extends Controller
         return view('supplier.products', compact('supplier', 'products'));
     }
 
-    // Use this method for the edit route
-    public function edit(Product $product)
+    // Handles both GET (show form) and POST (update) for editing expiration date
+    public function edit(Request $request, Product $product)
     {
+        if ($request->isMethod('post')) {
+            $oldDate = $product->expiration_date;
+            $newDate = $request->input('expiration_date');
+            if ($newDate && $newDate !== $oldDate) {
+                $product->expiration_date = $newDate;
+                $product->save();
+                return redirect()
+                    ->route('manager.suppliers.products', ['supplier' => $product->supplier_id])
+                    ->with('success', 'De houdbaarheidsdatum is gewijzigd.');
+            } else {
+                return redirect()
+                    ->back()
+                    ->with('error', 'De houdbaarheidsdatum is niet gewijzigd.');
+            }
+        }
         return view('supplier.edit', compact('product'));
     }
 }
