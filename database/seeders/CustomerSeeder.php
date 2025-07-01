@@ -37,19 +37,19 @@ class CustomerSeeder extends Seeder
     private function createContacts(): void
     {
         $contacts = [
-            ['id' => 1, 'street' => 'Prinses Irenestraat', 'house_number' => '12', 'addition' => 'A', 'postal_code' => '5271TH', 'city' => 'Maaskantje', 'email' => 'j.van.zevenhuizen@gmail.com', 'mobiel' => '+31 623456123'],
-            ['id' => 2, 'street' => 'Gibraltarstraat', 'house_number' => '234', 'addition' => NULL, 'postal_code' => '5271TH', 'city' => 'Maaskantje', 'email' => 'a.bergkamp@hotmail.com', 'mobiel' => '+31 623456123'],
-            ['id' => 3, 'street' => 'Der Kinderenstraat', 'house_number' => '456', 'addition' => 'Bis', 'postal_code' => '5271TH', 'city' => 'Maaskantje', 'email' => 's.van.de.heuvel@gmail.com', 'mobiel' => '+31 623456123'],
-            ['id' => 4, 'street' => 'Nachtegaalstraat', 'house_number' => '233', 'addition' => 'A', 'postal_code' => '5271TJ', 'city' => 'Maaskantje', 'email' => 'e.schierder@gmail.com', 'mobiel' => '+31 623456123'],
-            ['id' => 5, 'street' => 'Bertram Russellstraat', 'house_number' => '45', 'addition' => NULL, 'postal_code' => '5271TH', 'city' => 'Maaskantje', 'email' => 'f.de.jong@gmail.com', 'mobiel' => '+31 623456123'],
-            ['id' => 6, 'street' => 'Leonardo Da VinciHof', 'house_number' => '34', 'addition' => NULL, 'postal_code' => '5271ZE', 'city' => 'Maaskantje', 'email' => 'h.van.der.berg@gmail.com', 'mobiel' => '+31 623456123'],
-            ['id' => 7, 'street' => 'Siegfried Knutsenlaan', 'house_number' => '234', 'addition' => NULL, 'postal_code' => '5271ZE', 'city' => 'Maaskantje', 'email' => 't.ter.weiden@ah.nl', 'mobiel' => '+31 623456123'],
-            ['id' => 8, 'street' => 'Theo de Bokstraat', 'house_number' => '256', 'addition' => NULL, 'postal_code' => '5271ZH', 'city' => 'Maaskantje', 'email' => 'j.pastoor@gmail.com', 'mobiel' => '+31 623456123'],
-            ['id' => 9, 'street' => 'Meester van Leerhof', 'house_number' => '2', 'addition' => 'A', 'postal_code' => '5271ZH', 'city' => 'Maaskantje', 'email' => 'm.vazid@gemeenteutrecht.nl', 'mobiel' => '+31 623456123'],
-            ['id' => 10, 'street' => 'Van Wemelenplantsoen', 'house_number' => '300', 'addition' => NULL, 'postal_code' => '5271TH', 'city' => 'Maaskantje', 'email' => 'b.van.driel@gmail.com', 'mobiel' => '+31 623456123'],
-            ['id' => 11, 'street' => 'Treflingenhof', 'house_number' => '20', 'addition' => NULL, 'postal_code' => '5271TH', 'city' => 'Maaskantje', 'email' => 'j.pastorius@gmail.com', 'mobiel' => '+31 623456356'],
-            ['id' => 12, 'street' => 'Veldhoen', 'house_number' => '31', 'addition' => NULL, 'postal_code' => '5271ZE', 'city' => 'Maaskantje', 'email' => 's.dollaard@gmail.com', 'mobiel' => '+31 623452314'],
-            ['id' => 13, 'street' => 'ScheringaDreef', 'house_number' => '37', 'addition' => NULL, 'postal_code' => '5271ZE', 'city' => 'Vught', 'email' => 'j.blokker@gemeentevught.nl', 'mobiel' => '+31 623452314'],
+            ['id' => 1, 'street' => 'Prinses Irenestraat', 'house_number' => '12', 'addition' => 'A', 'postal_code' => '5271TH', 'city' => 'Maaskantje', 'email' => 'j.van.zevenhuizen@gmail.com', 'mobile' => '+31 623456123'],
+            ['id' => 2, 'street' => 'Gibraltarstraat', 'house_number' => '234', 'addition' => NULL, 'postal_code' => '5271TH', 'city' => 'Maaskantje', 'email' => 'a.bergkamp@hotmail.com', 'mobile' => '+31 623456123'],
+            ['id' => 3, 'street' => 'Der Kinderenstraat', 'house_number' => '456', 'addition' => 'Bis', 'postal_code' => '5271TH', 'city' => 'Maaskantje', 'email' => 's.van.de.heuvel@gmail.com', 'mobile' => '+31 623456123'],
+            ['id' => 4, 'street' => 'Nachtegaalstraat', 'house_number' => '233', 'addition' => 'A', 'postal_code' => '5271TJ', 'city' => 'Maaskantje', 'email' => 'e.schierder@gmail.com', 'mobile' => '+31 623456123'],
+            ['id' => 5, 'street' => 'Bertram Russellstraat', 'house_number' => '45', 'addition' => NULL, 'postal_code' => '5271TH', 'city' => 'Maaskantje', 'email' => 'f.de.jong@gmail.com', 'mobile' => '+31 623456123'],
+            ['id' => 6, 'street' => 'Leonardo Da VinciHof', 'house_number' => '34', 'addition' => NULL, 'postal_code' => '5271ZE', 'city' => 'Maaskantje', 'email' => 'h.van.der.berg@gmail.com', 'mobile' => '+31 623456123'],
+            ['id' => 7, 'street' => 'Siegfried Knutsenlaan', 'house_number' => '234', 'addition' => NULL, 'postal_code' => '5271ZE', 'city' => 'Maaskantje', 'email' => 't.ter.weiden@ah.nl', 'mobile' => '+31 623456123'],
+            ['id' => 8, 'street' => 'Theo de Bokstraat', 'house_number' => '256', 'addition' => NULL, 'postal_code' => '5271ZH', 'city' => 'Maaskantje', 'email' => 'j.pastoor@gmail.com', 'mobile' => '+31 623456123'],
+            ['id' => 9, 'street' => 'Meester van Leerhof', 'house_number' => '2', 'addition' => 'A', 'postal_code' => '5271ZH', 'city' => 'Maaskantje', 'email' => 'm.vazid@gemeenteutrecht.nl', 'mobile' => '+31 623456123'],
+            ['id' => 10, 'street' => 'Van Wemelenplantsoen', 'house_number' => '300', 'addition' => NULL, 'postal_code' => '5271TH', 'city' => 'Maaskantje', 'email' => 'b.van.driel@gmail.com', 'mobile' => '+31 623456123'],
+            ['id' => 11, 'street' => 'Treflingenhof', 'house_number' => '20', 'addition' => NULL, 'postal_code' => '5271TH', 'city' => 'Maaskantje', 'email' => 'j.pastorius@gmail.com', 'mobile' => '+31 623456356'],
+            ['id' => 12, 'street' => 'Veldhoen', 'house_number' => '31', 'addition' => NULL, 'postal_code' => '5271ZE', 'city' => 'Maaskantje', 'email' => 's.dollaard@gmail.com', 'mobile' => '+31 623452314'],
+            ['id' => 13, 'street' => 'ScheringaDreef', 'house_number' => '37', 'addition' => NULL, 'postal_code' => '5271ZE', 'city' => 'Vught', 'email' => 'j.blokker@gemeentevught.nl', 'mobile' => '+31 623452314'],
         ];
 
         foreach ($contacts as $contact) {
@@ -169,12 +169,6 @@ class CustomerSeeder extends Seeder
             unset($userData['role']);
             
             $user = User::create($userData);
-            if ($role) {
-                $user->roles()->attach($role->id);
-            }
-        }
-    }
-}
             if ($role) {
                 $user->roles()->attach($role->id);
             }

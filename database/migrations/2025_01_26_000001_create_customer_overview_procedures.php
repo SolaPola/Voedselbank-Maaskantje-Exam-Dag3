@@ -10,6 +10,11 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Drop existing procedures first to avoid errors
+        DB::unprepared('DROP PROCEDURE IF EXISTS GetCustomerOverviewCount');
+        DB::unprepared('DROP PROCEDURE IF EXISTS GetCustomerOverviewPaginated');
+        DB::unprepared('DROP PROCEDURE IF EXISTS GetCustomerOverview');
+        
         // Create procedure for getting total count
         DB::unprepared('
             CREATE PROCEDURE GetCustomerOverviewCount()
@@ -47,9 +52,9 @@ return new class extends Migration
                     ) as address,
                     c.city
                 FROM families f
-                LEFT JOIN people p ON f.id = p.family_id AND p.is_representative = 1 AND p.isactive = 1
-                LEFT JOIN contact_per_families cpf ON f.id = cpf.family_id AND cpf.isactive = 1
-                LEFT JOIN contacts c ON cpf.contact_id = c.id AND c.isactive = 1
+                LEFT JOIN people p ON f.id = p.family_id AND p.is_representative = 1
+                LEFT JOIN contact_per_families cpf ON f.id = cpf.family_id
+                LEFT JOIN contacts c ON cpf.contact_id = c.id
                 WHERE f.isactive = 1
                 ORDER BY f.name
                 LIMIT limit_param OFFSET offset_param;
@@ -83,9 +88,9 @@ return new class extends Migration
                     ) as address,
                     c.city
                 FROM families f
-                LEFT JOIN people p ON f.id = p.family_id AND p.is_representative = 1 AND p.isactive = 1
-                LEFT JOIN contact_per_families cpf ON f.id = cpf.family_id AND cpf.isactive = 1
-                LEFT JOIN contacts c ON cpf.contact_id = c.id AND c.isactive = 1
+                LEFT JOIN people p ON f.id = p.family_id AND p.is_representative = 1
+                LEFT JOIN contact_per_families cpf ON f.id = cpf.family_id
+                LEFT JOIN contacts c ON cpf.contact_id = c.id
                 WHERE f.isactive = 1
                 ORDER BY f.name;
             END
