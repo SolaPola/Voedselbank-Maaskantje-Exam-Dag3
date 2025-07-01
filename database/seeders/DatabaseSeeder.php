@@ -125,9 +125,3 @@ class DatabaseSeeder extends Seeder
         }
     }
 }
-                'warehouse_id' => $relation[2],
-                'location' => $relation[3]
-            ]);
-        }
-    }
-}
