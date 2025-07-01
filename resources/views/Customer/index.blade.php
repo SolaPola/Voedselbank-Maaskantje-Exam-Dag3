@@ -4,7 +4,7 @@
             {{ __('Overzicht Klanten') }}
         </h2>
     </x-slot>
-
+{{-- if statement with laravel mvc --}}
     <div class="py-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             @if(session('success'))
