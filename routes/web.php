@@ -22,7 +22,7 @@ Route::get('/debug-roles', function () {
     if (!$user) {
         return 'Not authenticated';
     }
-    
+
     $user->load('roles');
     return response()->json([
         'user_id' => $user->id,

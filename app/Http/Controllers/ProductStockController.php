@@ -6,24 +6,31 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Log;
+use App\Models\Category;
 
 class ProductStockController extends Controller
 {
     /**
      * Display the product stock overview.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        Log::info('ProductStockController accessed by user: ' . auth()->user()->email);
-        
+        Log::info('Voorraaroverzicht bezocht door gebruiker: ' . auth()->user()->email);
+
+        $categoryFilter = $request->get('category_filter');
+
         try {
-            // Try stored procedure first
-            $productStock = DB::select('CALL GetProductStockOverview()');
+            // Try stored procedure first (modified to support filtering)
+            if ($categoryFilter) {
+                $productStock = DB::select('CALL GetProductStockOverviewByCategory(?)', [$categoryFilter]);
+            } else {
+                $productStock = DB::select('CALL GetProductStockOverview()');
+            }
         } catch (\Exception $e) {
-            Log::info('Stored procedure failed, using fallback query: ' . $e->getMessage());
-            
-            // Fallback to regular query if stored procedure doesn't exist
-            $productStock = DB::table('products as p')
+            Log::info('Opgeslagen procedure mislukt, gebruik fallback query: ' . $e->getMessage());
+
+            // Fallback to regular query with optional category filter
+            $query = DB::table('products as p')
                 ->join('categories as c', 'p.category_id', '=', 'c.id')
                 ->join('product_per_warehouses as ppw', 'p.id', '=', 'ppw.product_id')
                 ->join('warehouses as w', 'ppw.warehouse_id', '=', 'w.id')
@@ -40,26 +47,40 @@ class ProductStockController extends Controller
                 ->where('p.isactive', 1)
                 ->where('c.isactive', 1)
                 ->where('w.isactive', 1)
-                ->where('ppw.isactive', 1)
-                ->orderBy('p.name')
+                ->where('ppw.isactive', 1);
+
+            if ($categoryFilter) {
+                $query->where('c.id', $categoryFilter);
+            }
+
+            $productStock = $query->orderBy('p.name')
                 ->orderBy('c.name')
                 ->get();
         }
-        
-        Log::info('Found ' . count($productStock) . ' products in stock');
-        
-        return view('product-stock.index', compact('productStock'));
+
+        // Get all categories for the filter dropdown
+        $categories = Category::where('isactive', 1)->orderBy('name')->get();
+
+        Log::info('Gevonden ' . count($productStock) . ' producten op voorraad');
+
+        return view('product-stock.index', compact('productStock', 'categories'));
     }
 
     /**
      * Get product stock data as JSON for AJAX requests.
      */
-    public function getData()
+    public function getData(Request $request)
     {
+        $categoryFilter = $request->get('category_filter');
+
         try {
-            $productStock = DB::select('CALL GetProductStockOverview()');
+            if ($categoryFilter) {
+                $productStock = DB::select('CALL GetProductStockOverviewByCategory(?)', [$categoryFilter]);
+            } else {
+                $productStock = DB::select('CALL GetProductStockOverview()');
+            }
         } catch (\Exception $e) {
-            $productStock = DB::table('products as p')
+            $query = DB::table('products as p')
                 ->join('categories as c', 'p.category_id', '=', 'c.id')
                 ->join('product_per_warehouses as ppw', 'p.id', '=', 'ppw.product_id')
                 ->join('warehouses as w', 'ppw.warehouse_id', '=', 'w.id')
@@ -76,12 +97,17 @@ class ProductStockController extends Controller
                 ->where('p.isactive', 1)
                 ->where('c.isactive', 1)
                 ->where('w.isactive', 1)
-                ->where('ppw.isactive', 1)
-                ->orderBy('p.name')
+                ->where('ppw.isactive', 1);
+
+            if ($categoryFilter) {
+                $query->where('c.id', $categoryFilter);
+            }
+
+            $productStock = $query->orderBy('p.name')
                 ->orderBy('c.name')
                 ->get();
         }
-        
+
         return response()->json($productStock);
     }
 }

@@ -19,12 +19,12 @@ class RoleMiddleware
         }
 
         $user = auth()->user();
-        
+
         // Load roles if not already loaded
         $user->load('roles');
-        
+
         $userRoles = $user->roles->pluck('id')->toArray();
-        
+
         // Parse roles - handle comma-separated roles like "1,2"
         $allowedRoles = [];
         foreach ($roles as $role) {
@@ -34,10 +34,10 @@ class RoleMiddleware
                 $allowedRoles[] = $role;
             }
         }
-        
+
         // Convert to integers
         $allowedRoles = array_map('intval', $allowedRoles);
-        
+
         // Debug logging
         Log::info('Role Middleware Debug', [
             'user_id' => $user->id,

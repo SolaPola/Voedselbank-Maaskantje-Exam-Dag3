@@ -64,8 +64,8 @@ class User extends Authenticatable
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'role_per_users')
-                    ->where('role_per_users.isactive', true)
-                    ->where('roles.isactive', true);
+            ->where('role_per_users.isactive', true)
+            ->where('roles.isactive', true);
     }
 
     /**

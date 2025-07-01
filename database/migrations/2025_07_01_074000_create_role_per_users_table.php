@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamp('dateadded')->useCurrent();
             $table->timestamp('datechanged')->useCurrent()->useCurrentOnUpdate();
             $table->timestamps();
-            
+
             // Add unique constraint to prevent duplicate role assignments
             $table->unique(['user_id', 'role_id']);
         });
