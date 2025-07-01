@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('contact_per_suppliers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('supplier_id')->constrained('suppliers')->onDelete('cascade');
-            $table->foreignId('contact_id')->constrained('contacts')->onDelete('cascade');
+            // Remove foreign keys for now, just use unsignedBigInteger
+            $table->unsignedBigInteger('supplier_id');
+            $table->unsignedBigInteger('contact_id');
             $table->timestamps();
         });
     }

@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('product_per_food_packages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('food_package_id')->constrained('food_packages')->onDelete('cascade');
-            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            // Remove foreign keys for now, just use unsignedBigInteger
+            $table->unsignedBigInteger('food_package_id');
+            $table->unsignedBigInteger('product_id');
             $table->integer('quantity_units');
             $table->timestamps();
         });

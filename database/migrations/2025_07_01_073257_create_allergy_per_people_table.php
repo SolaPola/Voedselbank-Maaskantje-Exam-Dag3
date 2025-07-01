@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('allergy_per_people', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('person_id')->constrained('people')->onDelete('cascade');
-            $table->foreignId('allergy_id')->constrained('allergies')->onDelete('cascade');
+            // Remove foreign keys for now, just use unsignedBigInteger
+            $table->unsignedBigInteger('person_id');
+            $table->unsignedBigInteger('allergy_id');
             $table->timestamps();
         });
     }

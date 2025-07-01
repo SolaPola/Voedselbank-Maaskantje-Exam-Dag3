@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ManagerDashboardController;
 use App\Http\Controllers\EmployeeDashboardController;
 use App\Http\Controllers\VolunteerDashboardController;
+use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,6 +19,10 @@ Route::get('/dashboard', function () {
 // Role-based dashboards
 Route::middleware(['auth', 'verified', 'role:1'])->group(function () {
     Route::get('/manager/dashboard', [ManagerDashboardController::class, 'index'])->name('manager.dashboard');
+
+    // Change view references to 'supplier.index'
+    Route::get('/suppliers', [SupplierController::class, 'index'])->name('supplier.index');
+    Route::get('/suppliers/{supplier}/products', [SupplierController::class, 'products'])->name('suppliers.products');
 });
 
 Route::middleware(['auth', 'verified', 'role:2'])->group(function () {
@@ -32,6 +37,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+
 });
+
 
 require __DIR__ . '/auth.php';
