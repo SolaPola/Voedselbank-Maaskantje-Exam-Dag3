@@ -104,7 +104,7 @@
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center border-b border-gray-200 pb-3">
                                 <label class="text-sm font-medium text-gray-700">{{ __('Aantal uitgeleverde producten') }}</label>
                                 <div class="md:col-span-2">
-                                    <input type="number" name="delivered_quantity" value="{{ old('delivered_quantity', 0) }}" 
+                                    <input type="number" name="delivered_quantity" value="{{ old('delivered_quantity', $warehouse->delivered_quantity ?? 0) }}" 
                                         min="0"
                                         class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('delivered_quantity') border-red-500 @enderror">
                                     @error('delivered_quantity')
@@ -129,12 +129,10 @@
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center border-b border-gray-200 pb-3">
                                 <label class="text-sm font-medium text-gray-700">{{ __('Aantal op voorraad') }}</label>
                                 <div class="md:col-span-2">
-                                    <input type="number" name="quantity" value="{{ old('quantity', $warehouse->quantity) }}" 
-                                        min="0"
-                                        class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('quantity') border-red-500 @enderror">
-                                    @error('quantity')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
+                                    <div class="bg-gray-50 border border-gray-200 rounded-md px-3 py-2 text-sm text-gray-900">
+                                        {{ $warehouse->quantity ?? '0' }}
+                                    </div>
+                                    <p class="mt-1 text-xs text-gray-500">Dit veld kan niet worden bewerkt</p>
                                 </div>
                             </div>
                         </div>

@@ -240,6 +240,7 @@ class ProductStockController extends Controller
                     'c.name as category_name',
                     'w.packaging_unit',
                     'w.quantity',
+                    'w.delivered_quantity',
                     'w.date_received',
                     'w.date_delivered',
                     'ppw.location',
@@ -278,6 +279,7 @@ class ProductStockController extends Controller
                 'id' => $productData->warehouse_id,
                 'packaging_unit' => $productData->packaging_unit,
                 'quantity' => $productData->quantity,
+                'delivered_quantity' => $productData->delivered_quantity ?? 0,
                 'date_received' => $productData->date_received ? \Carbon\Carbon::parse($productData->date_received) : null,
                 'date_delivered' => $productData->date_delivered ? \Carbon\Carbon::parse($productData->date_delivered) : null
             ];
@@ -294,6 +296,21 @@ class ProductStockController extends Controller
      */
     public function update(Request $request, $productId)
     {
+        // Get current warehouse stock from database first for validation
+        $currentWarehouseData = DB::table('product_per_warehouses as ppw')
+            ->join('warehouses as w', 'ppw.warehouse_id', '=', 'w.id')
+            ->where('ppw.product_id', $productId)
+            ->where('ppw.isactive', 1)
+            ->where('w.isactive', 1)
+            ->select('w.quantity', 'w.delivered_quantity')
+            ->first();
+
+        if (!$currentWarehouseData) {
+            return back()->withErrors(['error' => 'Product niet gevonden in magazijn.'])->withInput();
+        }
+
+        $currentStock = $currentWarehouseData->quantity;
+
         $request->validate([
             'name' => 'required|string|max:255',
             'barcode' => 'nullable|string|max:13',
@@ -301,8 +318,7 @@ class ProductStockController extends Controller
             'location' => 'required|string|max:255',
             'date_received' => 'nullable|date',
             'date_delivered' => 'nullable|date',
-            'quantity' => 'required|integer|min:0',
-            'delivered_quantity' => 'nullable|integer|min:0'
+            'delivered_quantity' => 'nullable|integer|min:0|max:' . $currentStock
         ], [
             'name.required' => 'Het veld productnaam is verplicht.',
             'name.string' => 'Het veld productnaam moet een tekst zijn.',
@@ -315,27 +331,10 @@ class ProductStockController extends Controller
             'location.max' => 'Het veld magazijnlocatie mag niet langer zijn dan :max karakters.',
             'date_received.date' => 'Het veld ontvangstdatum moet een geldige datum zijn.',
             'date_delivered.date' => 'Het veld uitleveringsdatum moet een geldige datum zijn.',
-            'quantity.required' => 'Het veld aantal op voorraad is verplicht.',
-            'quantity.integer' => 'Het veld aantal op voorraad moet een geheel getal zijn.',
-            'quantity.min' => 'Het veld aantal op voorraad moet minimaal :min zijn.',
             'delivered_quantity.integer' => 'Het veld aantal uitgeleverde producten moet een geheel getal zijn.',
-            'delivered_quantity.min' => 'Het veld aantal uitgeleverde producten moet minimaal :min zijn.'
+            'delivered_quantity.min' => 'Het veld aantal uitgeleverde producten moet minimaal :min zijn.',
+            'delivered_quantity.max' => 'Er worden meer producten uitgeleverd dan er op voorraad zijn.'
         ]);
-
-        // Get current warehouse stock from database
-        $currentStock = DB::table('product_per_warehouses as ppw')
-            ->join('warehouses as w', 'ppw.warehouse_id', '=', 'w.id')
-            ->where('ppw.product_id', $productId)
-            ->where('ppw.isactive', 1)
-            ->where('w.isactive', 1)
-            ->value('w.quantity');
-
-        // Custom validation: Check if delivered quantity exceeds current warehouse stock
-        if ($request->delivered_quantity && $request->delivered_quantity > $currentStock) {
-            return back()->withErrors([
-                'delivered_quantity' => 'Er worden meer producten uitgeleverd dan er op voorraad zijn.'
-            ])->withInput();
-        }
 
         try {
             DB::beginTransaction();
@@ -363,20 +362,15 @@ class ProductStockController extends Controller
                 ->where('product_id', $productId)
                 ->value('warehouse_id');
 
-            // Calculate new quantity based on delivered quantity
-            $newQuantity = $request->quantity;
-            if ($request->delivered_quantity && $request->delivered_quantity > 0) {
-                // Subtract delivered quantity from current stock
-                $newQuantity = max(0, $currentStock - $request->delivered_quantity);
-            }
+            $deliveredQuantity = $request->delivered_quantity ?? 0;
 
-            // Update warehouse
+            // Update warehouse with delivered quantity
             DB::table('warehouses')
                 ->where('id', $warehouseId)
                 ->update([
                     'date_received' => $request->date_received,
                     'date_delivered' => $request->date_delivered,
-                    'quantity' => $newQuantity,
+                    'delivered_quantity' => $deliveredQuantity,
                     'updated_at' => now()
                 ]);
 
