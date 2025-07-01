@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             'login_name' => 'manager',
             'name' => 'Manager User',
             'email' => 'manager@example.com',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('1'),
         ]);
         $manager->roles()->attach($managerRole->id);
 
@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
             'login_name' => 'employee',
             'name' => 'Employee User',
             'email' => 'employee@example.com',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('1'),
         ]);
         $employee->roles()->attach($employeeRole->id);
 
@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
             'login_name' => 'volunteer',
             'name' => 'Volunteer User',
             'email' => 'volunteer@example.com',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('1'),
         ]);
         $volunteer->roles()->attach($volunteerRole->id);
     }
