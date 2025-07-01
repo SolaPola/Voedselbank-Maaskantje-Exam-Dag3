@@ -20,7 +20,6 @@ Route::get('/dashboard', function () {
 Route::middleware(['auth', 'verified', 'role:1'])->group(function () {
     Route::get('/manager/dashboard', [ManagerDashboardController::class, 'index'])->name('manager.dashboard');
 
-    // Change view references to 'supplier.index'
     Route::get('/suppliers', [SupplierController::class, 'index'])->name('supplier.index');
     Route::get('/suppliers/{supplier}/products', [SupplierController::class, 'products'])->name('suppliers.products');
 });
