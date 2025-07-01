@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Support\Facades\Log;
 
@@ -12,25 +13,42 @@ class FamilyFoodPackageController extends Controller
     /**
      * Display the overview of families with food packages
      */
-    public function index(): View
+    public function index(Request $request): View
     {
+        // Get all diet preferences for the dropdown
+        $dietPreferences = DB::table('diet_preferences')->get();
+        
+        // Get the selected diet preference from the request
+        $selectedDietPreference = $request->input('diet_preference');
+        
         try {
-            // Call the stored procedure to get food packages overview
-            $families = DB::select('CALL GetFoodPackagesOverview()');
+            // If a diet preference is selected, use the filter procedure
+            if ($selectedDietPreference) {
+                $families = DB::select('CALL GetFoodPackagesOverviewByDietPreference(?)', [$selectedDietPreference]);
+            } else {
+                // Otherwise show all families
+                $families = DB::select('CALL GetFoodPackagesOverview()');
+            }
         } catch (Exception $e) {
             // Log the error
-            Log::error('Failed to call GetFoodPackagesOverview procedure: ' . $e->getMessage());
+            Log::error('Failed to call stored procedure: ' . $e->getMessage());
             
             // Fallback to direct query if stored procedure fails
-            $families = DB::table('families as f')
+            $query = DB::table('families as f')
                 ->leftJoin('people as rep', function($join) {
                     $join->on('rep.family_id', '=', 'f.id')
                          ->where('rep.is_representative', '=', 1);
                 })
                 ->leftJoin('food_packages as fp', 'f.id', '=', 'fp.family_id')
                 ->leftJoin('diet_preference_per_families as dpf', 'f.id', '=', 'dpf.family_id')
-                ->leftJoin('diet_preferences as dp', 'dpf.diet_preference_id', '=', 'dp.id')
-                ->select(
+                ->leftJoin('diet_preferences as dp', 'dpf.diet_preference_id', '=', 'dp.id');
+            
+            // Apply diet preference filter if selected
+            if ($selectedDietPreference) {
+                $query->where('dp.id', '=', $selectedDietPreference);
+            }
+            
+            $families = $query->select(
                     'f.id',
                     'f.name',
                     'f.description',
@@ -61,6 +79,6 @@ class FamilyFoodPackageController extends Controller
                 ->get();
         }
         
-        return view('FoodPackages.food-packages', compact('families'));
+        return view('FoodPackages.food-packages', compact('families', 'dietPreferences', 'selectedDietPreference'));
     }
 }
