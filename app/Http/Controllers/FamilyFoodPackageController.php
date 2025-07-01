@@ -81,4 +81,53 @@ class FamilyFoodPackageController extends Controller
         
         return view('FoodPackages.food-packages', compact('families', 'dietPreferences', 'selectedDietPreference'));
     }
+
+    /**
+     * Display the overview of all food packages for volunteers
+     */
+    public function volunteerIndex(): View
+    {
+        try {
+            // Get all food packages with family information for volunteers
+            $packages = DB::table('food_packages as fp')
+                ->join('families as f', 'fp.family_id', '=', 'f.id')
+                ->leftJoin('people as rep', function($join) {
+                    $join->on('rep.family_id', '=', 'f.id')
+                         ->where('rep.is_representative', '=', 1);
+                })
+                ->select(
+                    'fp.id',
+                    'fp.package_number',
+                    'fp.date_composed',
+                    'fp.date_issued',
+                    'fp.status',
+                    'f.id as family_id',
+                    'f.name as family_name',
+                    DB::raw("CONCAT(
+                        rep.first_name,
+                        IF(rep.infix IS NULL OR rep.infix = '', '', CONCAT(' ', rep.infix)),
+                        ' ',
+                        rep.last_name
+                    ) as representative_name"),
+                    DB::raw('(SELECT COUNT(*) FROM product_per_food_packages WHERE food_package_id = fp.id) as product_count')
+                )
+                ->orderBy('fp.date_composed', 'desc')
+                ->get();
+        
+            // Group packages by status
+            $pendingPackages = $packages->where('status', 'NietUitgereikt');
+            $issuedPackages = $packages->where('status', 'Uitgereikt');
+            $canceledPackages = $packages->where('status', 'NietMeerIngeschreven');
+            
+            return view('FoodPackages.volunteer-food-packages', compact('pendingPackages', 'issuedPackages', 'canceledPackages'));
+        } catch (Exception $e) {
+            Log::error('Failed to get food packages for volunteers: ' . $e->getMessage());
+            return view('FoodPackages.volunteer-food-packages', [
+                'pendingPackages' => collect(),
+                'issuedPackages' => collect(),
+                'canceledPackages' => collect(),
+                'error' => 'Er is een fout opgetreden bij het ophalen van de voedselpakketten'
+            ]);
+        }
+    }
 }
