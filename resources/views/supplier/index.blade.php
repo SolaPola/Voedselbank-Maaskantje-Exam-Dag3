@@ -41,8 +41,11 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border-r border-gray-300">{{ $supplier->supplier_number }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border-r border-gray-300">{{ $supplier->supplier_type }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-center">
-                            <a href="{{ route('manager.suppliers.products', $supplier->id) }}" class="inline-flex items-center px-3 py-1 bg-blue-500 text-white text-xs font-semibold rounded hover:bg-blue-700 transition">
-                                <i class="bi bi-clipboard mr-1"></i> Show
+                            <a href="{{ route('manager.suppliers.products', $supplier->id) }}" title="Toon producten">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="inline w-6 h-6 text-blue-600 hover:text-blue-800 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <rect x="4" y="4" width="16" height="16" rx="2" stroke-width="2" stroke="currentColor" fill="white"/>
+                                    <path d="M8 8h8M8 12h8M8 16h4" stroke-width="2" stroke="currentColor" stroke-linecap="round"/>
+                                </svg>
                             </a>
                         </td>
                     </tr>
