@@ -14,69 +14,66 @@
             @endif
 
             <!-- Header with controls -->
-            <div class="mb-6 flex justify-between items-center">
-                <form method="GET" action="{{ route('customers.index') }}" class="flex items-center space-x-4">
-                    <select name="postal_code" class="px-4 py-2 border border-gray-300 rounded-md bg-white text-sm">
-                        <option value="">Selecteer Postcode</option>
-                        <option value="5271TH" {{ request('postal_code') == '5271TH' ? 'selected' : '' }}>5271TH</option>
-                        <option value="5271TJ" {{ request('postal_code') == '5271TJ' ? 'selected' : '' }}>5271TJ</option>
-                        <option value="5271ZE" {{ request('postal_code') == '5271ZE' ? 'selected' : '' }}>5271ZE</option>
-                        <option value="5271ZH" {{ request('postal_code') == '5271ZH' ? 'selected' : '' }}>5271ZH</option>
-                    </select>
-                    <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700">
-                        Toon Klanten
-                    </button>
-                    @if(request('postal_code'))
-                        <a href="{{ route('customers.index') }}" class="px-4 py-2 bg-gray-500 text-white rounded-md text-sm font-medium hover:bg-gray-600">
-                            Reset Filter
-                        </a>
-                    @endif
-                </form>
+            <div class="mb-6 flex justify-between items-start">
+                <div class="flex items-center space-x-4">
+                    <form method="GET" action="{{ route('customers.index') }}" class="flex items-center space-x-4">
+                        <select name="postal_code" class="px-3 py-2 border border-gray-300 rounded bg-white text-sm min-w-48">
+                            <option value="">Selecteer Postcode</option>
+                            <option value="5271TH" {{ request('postal_code') == '5271TH' ? 'selected' : '' }}>5271TH</option>
+                            <option value="5271TJ" {{ request('postal_code') == '5271TJ' ? 'selected' : '' }}>5271TJ</option>
+                            <option value="5271ZE" {{ request('postal_code') == '5271ZE' ? 'selected' : '' }}>5271ZE</option>
+                            <option value="5271ZH" {{ request('postal_code') == '5271ZH' ? 'selected' : '' }}>5271ZH</option>
+                        </select>
+                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded text-sm hover:bg-blue-600">
+                            Toon Klanten
+                        </button>
+                    </form>
+                </div>
                 
                 <!-- Right aligned home button -->
-                <a href="{{ route('dashboard') }}" class="px-6 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700">
-                    home
+                <a href="{{ route('dashboard') }}" class="px-4 py-2 bg-blue-500 text-white rounded text-sm hover:bg-blue-600">
+                    Home
                 </a>
             </div>
 
             <!-- Table -->
-            <div class="bg-white border border-gray-200">
-                <table class="min-w-full">
-                    <thead class="bg-blue-50 border-b border-gray-200">
-                        <tr>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-r border-gray-200">Naam Gezin</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-r border-gray-200">Vertegenwoordiger</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-r border-gray-200">E-mailadres</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-r border-gray-200">Mobiel</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-r border-gray-200">Adres</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-r border-gray-200">Woonplaats</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Klant Details</th>
+            <div class="bg-white border border-gray-300 rounded-lg overflow-hidden">
+                <table class="min-w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50">
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b border-gray-300">Naam Gezin</th>
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b border-gray-300">Vertegenwoordiger</th>
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b border-gray-300">E-mailadres</th>
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b border-gray-300">Mobiel</th>
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b border-gray-300">Adres</th>
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b border-gray-300">Woonplaats</th>
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b border-gray-300">Klant Details</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white">
                         @forelse($pagination->items() as $family)
-                            <tr class="border-b border-gray-200 hover:bg-gray-50">
-                                <td class="px-4 py-3 text-sm text-gray-900 border-r border-gray-200">
-                                    {{ $family->family_name ?? '~~~~' }}
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-3 text-sm text-gray-900 border-b border-gray-200">
+                                    {{ $family->family_name ?? '~~ ~~ ~~' }}
                                 </td>
-                                <td class="px-4 py-3 text-sm text-gray-900 border-r border-gray-200">
-                                    {{ $family->representative_name ?? '~~~~' }}
+                                <td class="px-4 py-3 text-sm text-gray-900 border-b border-gray-200">
+                                    {{ $family->representative_name ?? '~~ ~~ ~~' }}
                                 </td>
-                                <td class="px-4 py-3 text-sm text-gray-900 border-r border-gray-200">
-                                    {{ $family->email ?? '~~~~' }}
+                                <td class="px-4 py-3 text-sm text-gray-900 border-b border-gray-200">
+                                    {{ $family->email ?? '~~ ~~ ~~' }}
                                 </td>
-                                <td class="px-4 py-3 text-sm text-gray-900 border-r border-gray-200">
-                                    {{ $family->mobile ?? '~~~~' }}
+                                <td class="px-4 py-3 text-sm text-gray-900 border-b border-gray-200">
+                                    {{ $family->mobile ?? '~~ ~~ ~~' }}
                                 </td>
-                                <td class="px-4 py-3 text-sm text-gray-900 border-r border-gray-200">
-                                    {{ $family->address ?? '~~~~' }}
+                                <td class="px-4 py-3 text-sm text-gray-900 border-b border-gray-200">
+                                    {{ $family->address ?? '~~ ~~ ~~' }}
                                 </td>
-                                <td class="px-4 py-3 text-sm text-gray-900 border-r border-gray-200">
-                                    {{ $family->city ?? '~~~~' }}
+                                <td class="px-4 py-3 text-sm text-gray-900 border-b border-gray-200">
+                                    {{ $family->city ?? '~~ ~~ ~~' }}
                                 </td>
-                                <td class="px-4 py-3 text-sm text-center">
+                                <td class="px-4 py-3 text-sm text-center border-b border-gray-200">
                                     <a href="{{ route('customers.edit', $family->id) }}" 
-                                       class="inline-block w-6 h-6 bg-blue-100 text-blue-600 rounded text-xs leading-6 hover:bg-blue-200">
+                                       class="inline-flex items-center justify-center w-6 h-6 bg-blue-100 text-blue-600 rounded hover:bg-blue-200 text-xs">
                                         📝
                                     </a>
                                 </td>
@@ -124,6 +121,7 @@
                     </div>
                 </div>
             @endif
+
         </div>
     </div>
 </x-app-layout>

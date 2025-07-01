@@ -15,19 +15,22 @@ return new class extends Migration
         DB::unprepared('DROP PROCEDURE IF EXISTS GetCustomerOverviewPaginated');
         DB::unprepared('DROP PROCEDURE IF EXISTS GetCustomerOverview');
         
-        // Create procedure for getting total count
+        // Create procedure for getting total count with postal code filter
         DB::unprepared('
-            CREATE PROCEDURE GetCustomerOverviewCount()
+            CREATE PROCEDURE GetCustomerOverviewCount(IN postal_code_param VARCHAR(10))
             BEGIN
                 SELECT COUNT(*) as total_count
                 FROM families f
-                WHERE f.isactive = 1;
+                LEFT JOIN contact_per_families cpf ON f.id = cpf.family_id
+                LEFT JOIN contacts c ON cpf.contact_id = c.id
+                WHERE f.isactive = 1
+                AND (postal_code_param IS NULL OR postal_code_param = "" OR c.postal_code COLLATE utf8mb4_unicode_ci = postal_code_param COLLATE utf8mb4_unicode_ci);
             END
         ');
 
-        // Create procedure for paginated results
+        // Create procedure for paginated results with postal code filter
         DB::unprepared('
-            CREATE PROCEDURE GetCustomerOverviewPaginated(IN offset_param INT, IN limit_param INT)
+            CREATE PROCEDURE GetCustomerOverviewPaginated(IN offset_param INT, IN limit_param INT, IN postal_code_param VARCHAR(10))
             BEGIN
                 SELECT 
                     f.id,
@@ -50,12 +53,14 @@ return new class extends Migration
                             ELSE "" 
                         END
                     ) as address,
-                    c.city
+                    c.city,
+                    c.postal_code
                 FROM families f
                 LEFT JOIN people p ON f.id = p.family_id AND p.is_representative = 1
                 LEFT JOIN contact_per_families cpf ON f.id = cpf.family_id
                 LEFT JOIN contacts c ON cpf.contact_id = c.id
                 WHERE f.isactive = 1
+                AND (postal_code_param IS NULL OR postal_code_param = "" OR c.postal_code COLLATE utf8mb4_unicode_ci = postal_code_param COLLATE utf8mb4_unicode_ci)
                 ORDER BY f.name
                 LIMIT limit_param OFFSET offset_param;
             END

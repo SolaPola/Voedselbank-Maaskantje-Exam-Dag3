@@ -19,12 +19,13 @@ class CustomerController extends Controller
         $page = $request->get('page', 1);
         $perPage = 10;
         $offset = ($page - 1) * $perPage;
+        $postalCode = $request->get('postal_code');
 
-        // Get total count
-        $totalCount = DB::select('CALL GetCustomerOverviewCount()')[0]->total_count;
+        // Get total count with postal code filter
+        $totalCount = DB::select('CALL GetCustomerOverviewCount(?)', [$postalCode])[0]->total_count;
         
-        // Get paginated data using stored procedure
-        $families = DB::select('CALL GetCustomerOverviewPaginated(?, ?)', [$offset, $perPage]);
+        // Get paginated data using stored procedure with postal code filter
+        $families = DB::select('CALL GetCustomerOverviewPaginated(?, ?, ?)', [$offset, $perPage, $postalCode]);
         
         // Convert to collection for easier manipulation
         $families = collect($families);
