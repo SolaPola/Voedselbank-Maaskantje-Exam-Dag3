@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->string('name');
             $table->string('allergy_type')->nullable();
-            $table->string('barcode')->unique()->nullable();
+            $table->string('barcode')->nullable();
             $table->date('expiry_date')->nullable();
             $table->text('description')->nullable();
             $table->string('status');

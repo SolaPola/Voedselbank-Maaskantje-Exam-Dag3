@@ -19,12 +19,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create roles
         $managerRole = Role::create(['name' => 'Manager']);
         $employeeRole = Role::create(['name' => 'Employee']);
         $volunteerRole = Role::create(['name' => 'Volunteer']);
 
-        // Create test users
         $manager = User::create([
             'login_name' => 'manager',
             'name' => 'Manager User',
@@ -49,7 +47,6 @@ class DatabaseSeeder extends Seeder
         ]);
         $volunteer->roles()->attach($volunteerRole->id);
 
-        // Create categories
         $categories = [
             ['id' => 1, 'name' => 'AGF', 'description' => 'Aardappelen groente en fruit'],
             ['id' => 2, 'name' => 'KV', 'description' => 'Kaas en vleeswaren'],
@@ -66,7 +63,6 @@ class DatabaseSeeder extends Seeder
             Category::create($category);
         }
 
-        // Create warehouses
         $warehouses = [
             [1, '2024-05-12', null, '5 kg', 20],
             [2, '2024-05-26', null, '2.5 kg', 40],
@@ -85,7 +81,6 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // Create products - fixed duplicate barcodes
         $products = [
             [1, 1, 'Aardappel', null, '8719587321239', '2024-07-12', 'Kruimige aardappel', 'OpVoorraad'],
             [2, 1, 'Aardappel', null, '8719587321239', '2024-07-26', 'Kruimige aardappel', 'OpVoorraad'],
@@ -112,7 +107,6 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // Create product per warehouse relationships
         $productMagazijn = [
             [1, 1, 1, 'Berlicum'],
             [2, 2, 2, 'Rosmalen'],
@@ -125,6 +119,12 @@ class DatabaseSeeder extends Seeder
             ProductPerWarehouse::create([
                 'id' => $relation[0],
                 'product_id' => $relation[1],
+                'warehouse_id' => $relation[2],
+                'location' => $relation[3]
+            ]);
+        }
+    }
+}
                 'warehouse_id' => $relation[2],
                 'location' => $relation[3]
             ]);

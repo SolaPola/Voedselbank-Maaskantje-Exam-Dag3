@@ -10,17 +10,14 @@ use App\Models\Category;
 
 class ProductStockController extends Controller
 {
-    /**
-     * Display the product stock overview.
-     */
+ 
     public function index(Request $request): View
     {
         Log::info('Voorraaroverzicht bezocht door gebruiker: ' . auth()->user()->email);
-        
+
         $categoryFilter = $request->get('category_filter');
-        
+//trying to filter for catagory
         try {
-            // Try stored procedure first (modified to support filtering)
             if ($categoryFilter) {
                 $productStock = DB::select('CALL GetProductStockOverviewByCategory(?)', [$categoryFilter]);
             } else {
@@ -28,8 +25,7 @@ class ProductStockController extends Controller
             }
         } catch (\Exception $e) {
             Log::info('Opgeslagen procedure mislukt, gebruik fallback query: ' . $e->getMessage());
-            
-            // Fallback to regular query with optional category filter
+
             $query = DB::table('products as p')
                 ->join('categories as c', 'p.category_id', '=', 'c.id')
                 ->join('product_per_warehouses as ppw', 'p.id', '=', 'ppw.product_id')
@@ -57,18 +53,16 @@ class ProductStockController extends Controller
                 ->orderBy('c.name')
                 ->get();
         }
-        
-        // Get all categories for the filter dropdown
+
+        // categories for the filter dropdown
         $categories = Category::where('isactive', 1)->orderBy('name')->get();
-        
+
         Log::info('Gevonden ' . count($productStock) . ' producten op voorraad');
-        
+
         return view('product-stock.index', compact('productStock', 'categories'));
     }
 
-    /**
-     * Show detailed view of a specific product.
-     */
+
     public function show($productId): View
     {
         try {
@@ -102,7 +96,7 @@ class ProductStockController extends Controller
                 abort(404, 'Product niet gevonden');
             }
 
-            // Convert to objects for easier access in view
+   
             $product = (object) [
                 'id' => $productData->id,
                 'name' => $productData->name,
@@ -132,9 +126,7 @@ class ProductStockController extends Controller
         }
     }
 
-    /**
-     * Get detailed information for a specific product.
-     */
+
     public function getProductDetails($productId)
     {
         try {
@@ -174,13 +166,10 @@ class ProductStockController extends Controller
         }
     }
 
-    /**
-     * Get product stock data as JSON for AJAX requests.
-     */
     public function getData(Request $request)
     {
         $categoryFilter = $request->get('category_filter');
-        
+
         try {
             if ($categoryFilter) {
                 $productStock = DB::select('CALL GetProductStockOverviewByCategory(?)', [$categoryFilter]);
@@ -215,13 +204,11 @@ class ProductStockController extends Controller
                 ->orderBy('c.name')
                 ->get();
         }
-        
+
         return response()->json($productStock);
     }
 
-    /**
-     * Show the form for editing a specific product.
-     */
+
     public function edit($productId): View
     {
         try {
@@ -258,7 +245,7 @@ class ProductStockController extends Controller
                 abort(404, 'Product niet gevonden');
             }
 
-            // Convert to objects for easier access in view
+
             $product = (object) [
                 'id' => $productData->id,
                 'name' => $productData->name,
@@ -291,12 +278,10 @@ class ProductStockController extends Controller
         }
     }
 
-    /**
-     * Update the specified product.
-     */
+    
     public function update(Request $request, $productId)
     {
-        // Get current warehouse stock from database first for validation
+
         $currentWarehouseData = DB::table('product_per_warehouses as ppw')
             ->join('warehouses as w', 'ppw.warehouse_id', '=', 'w.id')
             ->where('ppw.product_id', $productId)
@@ -339,7 +324,6 @@ class ProductStockController extends Controller
         try {
             DB::beginTransaction();
 
-            // Update product
             DB::table('products')
                 ->where('id', $productId)
                 ->update([
@@ -349,7 +333,6 @@ class ProductStockController extends Controller
                     'updated_at' => now()
                 ]);
 
-            // Update product per warehouse location
             DB::table('product_per_warehouses')
                 ->where('product_id', $productId)
                 ->update([
@@ -357,7 +340,7 @@ class ProductStockController extends Controller
                     'updated_at' => now()
                 ]);
 
-            // Get warehouse ID for this product
+    
             $warehouseId = DB::table('product_per_warehouses')
                 ->where('product_id', $productId)
                 ->value('warehouse_id');
@@ -378,13 +361,11 @@ class ProductStockController extends Controller
 
             return redirect()->route('product-stock.show', $productId)
                 ->with('success', 'Product is succesvol bijgewerkt.');
-
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Fout bij het bijwerken van product: ' . $e->getMessage());
             return back()->withErrors(['error' => 'Er is een fout opgetreden bij het bijwerken van het product.'])
-                        ->withInput();
+                ->withInput();
         }
     }
 }
-

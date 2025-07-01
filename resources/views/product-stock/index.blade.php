@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
- 
+
                     <div class="flex justify-end mb-4">
                         <form action="{{ route('product-stock.index') }}" method="GET" class="flex items-center">
                             <div class="relative inline-block">
@@ -99,8 +99,12 @@
                                                 <a href="{{ route('product-stock.show', $item->product_id) }}"
                                                     class="inline-flex items-center px-3 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-white hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
                                                     title="{{ __('Toon details') }}">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                                                        </path>
                                                     </svg>
                                                 </a>
                                             </td>
@@ -133,7 +137,8 @@
                     <h3 class="text-lg font-medium text-gray-900" id="modalTitle">{{ __('Product Details') }}</h3>
                     <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
                     </button>
                 </div>
@@ -148,10 +153,10 @@
         function showProductDetails(productId) {
             // Show modal
             document.getElementById('productModal').classList.remove('hidden');
-            
+
             // Show loading state
-            document.getElementById('modalContent').innerHTML = '<div class="text-center py-4">{{ __("Laden...") }}</div>';
-            
+            document.getElementById('modalContent').innerHTML = '<div class="text-center py-4">{{ __('Laden...') }}</div>';
+
             // Fetch product details
             fetch(`/product-stock/details/${productId}`)
                 .then(response => response.json())
@@ -162,29 +167,30 @@
                                 <h4 class="font-semibold text-gray-900 mb-2">{{ __('Product Informatie') }}</h4>
                                 <p><strong>{{ __('Naam') }}:</strong> ${data.name}</p>
                                 <p><strong>{{ __('Categorie') }}:</strong> ${data.category_name}</p>
-                                <p><strong>{{ __('Barcode') }}:</strong> ${data.barcode || '{{ __("Geen barcode") }}'}</p>
+                                <p><strong>{{ __('Barcode') }}:</strong> ${data.barcode || '{{ __('Geen barcode') }}'}</p>
                                 <p><strong>{{ __('Status') }}:</strong> ${data.status}</p>
-                                <p><strong>{{ __('Allergieën') }}:</strong> ${data.allergy_type || '{{ __("Geen allergieën") }}'}</p>
+                                <p><strong>{{ __('Allergieën') }}:</strong> ${data.allergy_type || '{{ __('Geen allergieën') }}'}</p>
                             </div>
                             <div>
                                 <h4 class="font-semibold text-gray-900 mb-2">{{ __('Voorraad Informatie') }}</h4>
                                 <p><strong>{{ __('Aantal') }}:</strong> ${data.quantity}</p>
                                 <p><strong>{{ __('Verpakkingseenheid') }}:</strong> ${data.packaging_unit}</p>
-                                <p><strong>{{ __('Locatie') }}:</strong> ${data.location || '{{ __("Niet gespecificeerd") }}'}</p>
-                                <p><strong>{{ __('Ontvangen') }}:</strong> ${data.date_received ? new Date(data.date_received).toLocaleDateString('nl-NL') : '{{ __("Onbekend") }}'}</p>
-                                <p><strong>{{ __('Vervaldatum') }}:</strong> ${data.expiry_date ? new Date(data.expiry_date).toLocaleDateString('nl-NL') : '{{ __("Geen vervaldatum") }}'}</p>
+                                <p><strong>{{ __('Locatie') }}:</strong> ${data.location || '{{ __('Niet gespecificeerd') }}'}</p>
+                                <p><strong>{{ __('Ontvangen') }}:</strong> ${data.date_received ? new Date(data.date_received).toLocaleDateString('nl-NL') : '{{ __('Onbekend') }}'}</p>
+                                <p><strong>{{ __('Vervaldatum') }}:</strong> ${data.expiry_date ? new Date(data.expiry_date).toLocaleDateString('nl-NL') : '{{ __('Geen vervaldatum') }}'}</p>
                             </div>
                         </div>
                         ${data.description ? `
-                            <div class="mt-4">
-                                <h4 class="font-semibold text-gray-900 mb-2">{{ __('Beschrijving') }}</h4>
-                                <p class="text-gray-600">${data.description}</p>
-                            </div>
-                        ` : ''}
+                                <div class="mt-4">
+                                    <h4 class="font-semibold text-gray-900 mb-2">{{ __('Beschrijving') }}</h4>
+                                    <p class="text-gray-600">${data.description}</p>
+                                </div>
+                            ` : ''}
                     `;
                 })
                 .catch(error => {
-                    document.getElementById('modalContent').innerHTML = '<div class="text-red-600 text-center py-4">{{ __("Fout bij het laden van product details") }}</div>';
+                    document.getElementById('modalContent').innerHTML =
+                        '<div class="text-red-600 text-center py-4">{{ __('Fout bij het laden van product details') }}</div>';
                 });
         }
 

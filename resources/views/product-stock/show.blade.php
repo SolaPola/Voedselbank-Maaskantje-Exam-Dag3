@@ -21,7 +21,8 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center border-b border-gray-200 pb-3">
                             <label class="text-sm font-medium text-gray-700">{{ __('Productnaam') }}</label>
                             <div class="md:col-span-2">
-                                <div class="bg-gray-50 border border-gray-200 rounded-md px-3 py-2 text-sm text-gray-900">
+                                <div
+                                    class="bg-gray-50 border border-gray-200 rounded-md px-3 py-2 text-sm text-gray-900">
                                     {{ $product->name ?? '~' }}
                                 </div>
                             </div>
@@ -31,7 +32,8 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center border-b border-gray-200 pb-3">
                             <label class="text-sm font-medium text-gray-700">{{ __('Houdbaarheidsdatum') }}</label>
                             <div class="md:col-span-2">
-                                <div class="bg-gray-50 border border-gray-200 rounded-md px-3 py-2 text-sm text-gray-900">
+                                <div
+                                    class="bg-gray-50 border border-gray-200 rounded-md px-3 py-2 text-sm text-gray-900">
                                     {{ $product->expiry_date ? \Carbon\Carbon::parse($product->expiry_date)->format('d/m/Y') : '~' }}
                                 </div>
                             </div>
@@ -41,7 +43,8 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center border-b border-gray-200 pb-3">
                             <label class="text-sm font-medium text-gray-700">{{ __('Barcode') }}</label>
                             <div class="md:col-span-2">
-                                <div class="bg-gray-50 border border-gray-200 rounded-md px-3 py-2 text-sm text-gray-900">
+                                <div
+                                    class="bg-gray-50 border border-gray-200 rounded-md px-3 py-2 text-sm text-gray-900">
                                     {{ $product->barcode ?? '~' }}
                                 </div>
                             </div>
@@ -51,7 +54,8 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center border-b border-gray-200 pb-3">
                             <label class="text-sm font-medium text-gray-700">{{ __('Magazijn locatie') }}</label>
                             <div class="md:col-span-2">
-                                <div class="bg-gray-50 border border-gray-200 rounded-md px-3 py-2 text-sm text-gray-900">
+                                <div
+                                    class="bg-gray-50 border border-gray-200 rounded-md px-3 py-2 text-sm text-gray-900">
                                     {{ $productPerWarehouse->location ?? '~' }}
                                 </div>
                             </div>
@@ -61,7 +65,8 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center border-b border-gray-200 pb-3">
                             <label class="text-sm font-medium text-gray-700">{{ __('Ontvangstdatum') }}</label>
                             <div class="md:col-span-2">
-                                <div class="bg-gray-50 border border-gray-200 rounded-md px-3 py-2 text-sm text-gray-900">
+                                <div
+                                    class="bg-gray-50 border border-gray-200 rounded-md px-3 py-2 text-sm text-gray-900">
                                     {{ $warehouse->date_received ? \Carbon\Carbon::parse($warehouse->date_received)->format('d/m/Y') : '~' }}
                                 </div>
                             </div>
@@ -71,7 +76,8 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center border-b border-gray-200 pb-3">
                             <label class="text-sm font-medium text-gray-700">{{ __('Uitleveringsdatum') }}</label>
                             <div class="md:col-span-2">
-                                <div class="bg-gray-50 border border-gray-200 rounded-md px-3 py-2 text-sm text-gray-900">
+                                <div
+                                    class="bg-gray-50 border border-gray-200 rounded-md px-3 py-2 text-sm text-gray-900">
                                     {{ $warehouse->date_delivered ? \Carbon\Carbon::parse($warehouse->date_delivered)->format('d/m/Y') : '~' }}
                                 </div>
                             </div>
@@ -81,7 +87,8 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center border-b border-gray-200 pb-3">
                             <label class="text-sm font-medium text-gray-700">{{ __('Aantal op voorraad') }}</label>
                             <div class="md:col-span-2">
-                                <div class="bg-gray-50 border border-gray-200 rounded-md px-3 py-2 text-sm text-gray-900">
+                                <div
+                                    class="bg-gray-50 border border-gray-200 rounded-md px-3 py-2 text-sm text-gray-900">
                                     {{ $warehouse->quantity ?? '~' }}
                                 </div>
                             </div>
@@ -91,16 +98,19 @@
                     <!-- Action Buttons -->
                     <div class="mt-8 flex justify-between items-center">
                         <div class="flex space-x-3">
-                            <a href="{{ route('product-stock.edit', $product->id) }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                            <a href="{{ route('product-stock.edit', $product->id) }}"
+                                class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
                                 {{ __('Wijzig') }}
                             </a>
                         </div>
-                        
+
                         <div class="flex space-x-3">
-                            <a href="{{ route('product-stock.index') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                            <a href="{{ route('product-stock.index') }}"
+                                class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
                                 {{ __('terug') }}
                             </a>
-                            <a href="{{ route('dashboard') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                            <a href="{{ route('dashboard') }}"
+                                class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
                                 {{ __('home') }}
                             </a>
                         </div>
