@@ -80,8 +80,14 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="px-4 py-8 text-center text-gray-500">
-                                    Geen klanten gevonden
+                                <td colspan="7" class="px-4 py-8 text-center">
+                                    @if(request('postal_code'))
+                                        <div class="bg-yellow-100 border border-yellow-400 text-yellow-800 px-4 py-3 rounded">
+                                            Er zijn geen klanten bekend die de geselecteerde postcode hebben
+                                        </div>
+                                    @else
+                                        <span class="text-gray-500">Geen klanten gevonden</span>
+                                    @endif
                                 </td>
                             </tr>
                         @endforelse
