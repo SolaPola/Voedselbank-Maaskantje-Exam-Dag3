@@ -17,18 +17,18 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
+                    
+                    <!-- Customer Overview (All authenticated users) -->
+                    <x-nav-link :href="route('customers.index')" :active="request()->routeIs('customers.*')">
+                        {{ __('Klant overzicht') }}
+                    </x-nav-link>
+                    
                     <!-- Product Stock Management (Managers and Employees) -->
                     @if (auth()->user()->hasRole(1) || auth()->user()->hasRole(2))
                         <x-nav-link :href="route('product-stock.index')" :active="request()->routeIs('product-stock.*')">
                             {{ __('Voorraadbeheer') }}
                         </x-nav-link>
                     @endif
-
-                    <!-- Customer Overview (All authenticated users) -->
-                    <x-nav-link :href="route('customers.index')" :active="request()->routeIs('customers.*')">
-                        {{ __('Klant overzicht') }}
-                    </x-nav-link>
-
                     <!-- Food Packages Overview -->
                     @if (auth()->user()->hasRole(1))
                         <!-- Manager can see food packages -->
@@ -36,6 +36,7 @@
                             {{ __('Voedselpakketten overzicht') }}
                         </x-nav-link>
                     @elseif(auth()->user()->hasRole(3))
+                    
                         <!-- Volunteer can see food packages -->
                         <x-nav-link :href="route('volunteer.food-packages')" :active="request()->routeIs('volunteer.food-packages*')">
                             {{ __('Voedselpakketten overzicht') }}
