@@ -3,15 +3,42 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Family;
+use App\Models\Person;
+use App\Models\Contact;
+use App\Models\ContactPerFamily;
+use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $page = $request->get('page', 1);
+        $perPage = 10;
+        $offset = ($page - 1) * $perPage;
+
+        // Get total count
+        $totalCount = DB::select('CALL GetCustomerOverviewCount()')[0]->total_count;
+        
+        // Get paginated data using stored procedure
+        $families = DB::select('CALL GetCustomerOverviewPaginated(?, ?)', [$offset, $perPage]);
+        
+        // Convert to collection for easier manipulation
+        $families = collect($families);
+        
+        // Create pagination manually
+        $pagination = new \Illuminate\Pagination\LengthAwarePaginator(
+            $families,
+            $totalCount,
+            $perPage,
+            $page,
+            ['path' => request()->url(), 'pageName' => 'page']
+        );
+
+        return view('customer.index', compact('pagination'));
     }
 
     /**
@@ -43,7 +70,14 @@ class CustomerController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $family = Family::with([
+            'people' => function($query) {
+                $query->where('is_representative', true);
+            },
+            'contactPerFamilies.contact'
+        ])->findOrFail($id);
+
+        return view('customer.edit', compact('family'));
     }
 
     /**
@@ -51,7 +85,31 @@ class CustomerController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'email' => 'required|email',
+            'mobile' => 'required|string',
+            'street' => 'required|string',
+            'house_number' => 'required|string',
+            'postal_code' => 'required|string',
+            'city' => 'required|string',
+        ]);
+
+        $family = Family::findOrFail($id);
+        $contactPerFamily = $family->contactPerFamilies()->first();
+        
+        if ($contactPerFamily && $contactPerFamily->contact) {
+            $contactPerFamily->contact->update([
+                'email' => $request->email,
+                'mobile' => $request->mobile,
+                'street' => $request->street,
+                'house_number' => $request->house_number,
+                'addition' => $request->addition,
+                'postal_code' => $request->postal_code,
+                'city' => $request->city,
+            ]);
+        }
+
+        return redirect()->route('customers.index')->with('success', 'Contactgegevens bijgewerkt');
     }
 
     /**

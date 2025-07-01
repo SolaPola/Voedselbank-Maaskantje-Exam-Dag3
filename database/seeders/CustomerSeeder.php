@@ -37,12 +37,19 @@ class CustomerSeeder extends Seeder
     private function createContacts(): void
     {
         $contacts = [
-            ['id' => 1, 'street' => 'Hoofdstraat', 'house_number' => '123', 'postal_code' => '1234AB', 'city' => 'Zevenhuizen', 'email' => 'zevenhuizen@example.com', 'mobile' => '06-12345678'],
-            ['id' => 2, 'street' => 'Bergstraat', 'house_number' => '45', 'postal_code' => '5678CD', 'city' => 'Bergkamp', 'email' => 'bergkamp@example.com', 'mobile' => '06-87654321'],
-            ['id' => 3, 'street' => 'Heuvelweg', 'house_number' => '67', 'postal_code' => '9012EF', 'city' => 'Heuvelstad', 'email' => 'heuvel@example.com', 'mobile' => '06-11223344'],
-            ['id' => 4, 'street' => 'Schilderslaan', 'house_number' => '89', 'postal_code' => '3456GH', 'city' => 'Schierdorp', 'email' => 'schierder@example.com', 'mobile' => '06-99887766'],
-            ['id' => 5, 'street' => 'Jongerenstraat', 'house_number' => '12', 'postal_code' => '7890IJ', 'city' => 'Jongeren', 'email' => 'dejong@example.com', 'mobile' => '06-55443322'],
-            ['id' => 6, 'street' => 'Bergweg', 'house_number' => '34', 'addition' => 'A', 'postal_code' => '2468KL', 'city' => 'Bergdorp', 'email' => 'vanderberg@example.com', 'mobile' => '06-77889900'],
+            ['id' => 1, 'street' => 'Prinses Irenestraat', 'house_number' => '12', 'addition' => 'A', 'postal_code' => '5271TH', 'city' => 'Maaskantje', 'email' => 'j.van.zevenhuizen@gmail.com', 'mobiel' => '+31 623456123'],
+            ['id' => 2, 'street' => 'Gibraltarstraat', 'house_number' => '234', 'addition' => NULL, 'postal_code' => '5271TH', 'city' => 'Maaskantje', 'email' => 'a.bergkamp@hotmail.com', 'mobiel' => '+31 623456123'],
+            ['id' => 3, 'street' => 'Der Kinderenstraat', 'house_number' => '456', 'addition' => 'Bis', 'postal_code' => '5271TH', 'city' => 'Maaskantje', 'email' => 's.van.de.heuvel@gmail.com', 'mobiel' => '+31 623456123'],
+            ['id' => 4, 'street' => 'Nachtegaalstraat', 'house_number' => '233', 'addition' => 'A', 'postal_code' => '5271TJ', 'city' => 'Maaskantje', 'email' => 'e.schierder@gmail.com', 'mobiel' => '+31 623456123'],
+            ['id' => 5, 'street' => 'Bertram Russellstraat', 'house_number' => '45', 'addition' => NULL, 'postal_code' => '5271TH', 'city' => 'Maaskantje', 'email' => 'f.de.jong@gmail.com', 'mobiel' => '+31 623456123'],
+            ['id' => 6, 'street' => 'Leonardo Da VinciHof', 'house_number' => '34', 'addition' => NULL, 'postal_code' => '5271ZE', 'city' => 'Maaskantje', 'email' => 'h.van.der.berg@gmail.com', 'mobiel' => '+31 623456123'],
+            ['id' => 7, 'street' => 'Siegfried Knutsenlaan', 'house_number' => '234', 'addition' => NULL, 'postal_code' => '5271ZE', 'city' => 'Maaskantje', 'email' => 't.ter.weiden@ah.nl', 'mobiel' => '+31 623456123'],
+            ['id' => 8, 'street' => 'Theo de Bokstraat', 'house_number' => '256', 'addition' => NULL, 'postal_code' => '5271ZH', 'city' => 'Maaskantje', 'email' => 'j.pastoor@gmail.com', 'mobiel' => '+31 623456123'],
+            ['id' => 9, 'street' => 'Meester van Leerhof', 'house_number' => '2', 'addition' => 'A', 'postal_code' => '5271ZH', 'city' => 'Maaskantje', 'email' => 'm.vazid@gemeenteutrecht.nl', 'mobiel' => '+31 623456123'],
+            ['id' => 10, 'street' => 'Van Wemelenplantsoen', 'house_number' => '300', 'addition' => NULL, 'postal_code' => '5271TH', 'city' => 'Maaskantje', 'email' => 'b.van.driel@gmail.com', 'mobiel' => '+31 623456123'],
+            ['id' => 11, 'street' => 'Treflingenhof', 'house_number' => '20', 'addition' => NULL, 'postal_code' => '5271TH', 'city' => 'Maaskantje', 'email' => 'j.pastorius@gmail.com', 'mobiel' => '+31 623456356'],
+            ['id' => 12, 'street' => 'Veldhoen', 'house_number' => '31', 'addition' => NULL, 'postal_code' => '5271ZE', 'city' => 'Maaskantje', 'email' => 's.dollaard@gmail.com', 'mobiel' => '+31 623452314'],
+            ['id' => 13, 'street' => 'ScheringaDreef', 'house_number' => '37', 'addition' => NULL, 'postal_code' => '5271ZE', 'city' => 'Vught', 'email' => 'j.blokker@gemeentevught.nl', 'mobiel' => '+31 623452314'],
         ];
 
         foreach ($contacts as $contact) {
@@ -69,38 +76,25 @@ class CustomerSeeder extends Seeder
     private function createPeople(): void
     {
         $people = [
-            // Employees/Staff
-            ['id' => 1, 'family_id' => null, 'first_name' => 'Hans', 'infix' => 'van', 'last_name' => 'Leeuwen', 'date_of_birth' => '1958-02-12', 'person_type' => 'Manager', 'is_representative' => false],
-            ['id' => 2, 'family_id' => null, 'first_name' => 'Jan', 'infix' => 'van der', 'last_name' => 'Sluijs', 'date_of_birth' => '1993-04-30', 'person_type' => 'Medewerker', 'is_representative' => false],
-            ['id' => 3, 'family_id' => null, 'first_name' => 'Herman', 'infix' => 'den', 'last_name' => 'Duiker', 'date_of_birth' => '1989-08-30', 'person_type' => 'Vrijwilliger', 'is_representative' => false],
-
-            // ZevenhuizenGezin (Family 1)
-            ['id' => 4, 'family_id' => 1, 'first_name' => 'Johan', 'infix' => 'van', 'last_name' => 'Zevenhuizen', 'date_of_birth' => '1990-05-20', 'person_type' => 'Klant', 'is_representative' => true],
-            ['id' => 5, 'family_id' => 1, 'first_name' => 'Sarah', 'infix' => 'den', 'last_name' => 'Dolder', 'date_of_birth' => '1985-03-23', 'person_type' => 'Klant', 'is_representative' => false],
-            ['id' => 6, 'family_id' => 1, 'first_name' => 'Theo', 'infix' => 'van', 'last_name' => 'Zevenhuizen', 'date_of_birth' => '2015-03-08', 'person_type' => 'Klant', 'is_representative' => false],
-            ['id' => 7, 'family_id' => 1, 'first_name' => 'Jantien', 'infix' => 'van', 'last_name' => 'Zevenhuizen', 'date_of_birth' => '2016-09-20', 'person_type' => 'Klant', 'is_representative' => false],
-
-            // BergkampGezin (Family 2)
-            ['id' => 8, 'family_id' => 2, 'first_name' => 'Arjan', 'infix' => null, 'last_name' => 'Bergkamp', 'date_of_birth' => '1968-07-12', 'person_type' => 'Klant', 'is_representative' => true],
-            ['id' => 9, 'family_id' => 2, 'first_name' => 'Janneke', 'infix' => null, 'last_name' => 'Sanders', 'date_of_birth' => '1969-05-11', 'person_type' => 'Klant', 'is_representative' => false],
-            ['id' => 10, 'family_id' => 2, 'first_name' => 'Stein', 'infix' => null, 'last_name' => 'Bergkamp', 'date_of_birth' => '2009-02-02', 'person_type' => 'Klant', 'is_representative' => false],
-            ['id' => 11, 'family_id' => 2, 'first_name' => 'Judith', 'infix' => null, 'last_name' => 'Bergkamp', 'date_of_birth' => '2022-02-05', 'person_type' => 'Klant', 'is_representative' => false],
-
-            // HeuvelGezin (Family 3)
-            ['id' => 12, 'family_id' => 3, 'first_name' => 'Mazin', 'infix' => 'van', 'last_name' => 'Vliet', 'date_of_birth' => '1968-08-18', 'person_type' => 'Klant', 'is_representative' => false],
-            ['id' => 13, 'family_id' => 3, 'first_name' => 'Selma', 'infix' => 'van de', 'last_name' => 'Heuvel', 'date_of_birth' => '1965-09-04', 'person_type' => 'Klant', 'is_representative' => true],
-
-            // SchierderGezin (Family 4)
-            ['id' => 14, 'family_id' => 4, 'first_name' => 'Eva', 'infix' => null, 'last_name' => 'Schierder', 'date_of_birth' => '2000-04-07', 'person_type' => 'Klant', 'is_representative' => true],
-            ['id' => 15, 'family_id' => 4, 'first_name' => 'Felida', 'infix' => null, 'last_name' => 'Schierder', 'date_of_birth' => '2021-11-29', 'person_type' => 'Klant', 'is_representative' => false],
-            ['id' => 16, 'family_id' => 4, 'first_name' => 'Devin', 'infix' => null, 'last_name' => 'Schierder', 'date_of_birth' => '2024-03-01', 'person_type' => 'Klant', 'is_representative' => false],
-
-            // DeJongGezin (Family 5)
-            ['id' => 17, 'family_id' => 5, 'first_name' => 'Frieda', 'infix' => 'de', 'last_name' => 'Jong', 'date_of_birth' => '1980-09-04', 'person_type' => 'Klant', 'is_representative' => true],
-            ['id' => 18, 'family_id' => 5, 'first_name' => 'Simeon', 'infix' => 'de', 'last_name' => 'Jong', 'date_of_birth' => '2018-05-23', 'person_type' => 'Klant', 'is_representative' => false],
-
-            // VanderBergGezin (Family 6)
-            ['id' => 19, 'family_id' => 6, 'first_name' => 'Hanna', 'infix' => 'van der', 'last_name' => 'Berg', 'date_of_birth' => '1999-09-09', 'person_type' => 'Klant', 'is_representative' => true],
+            ['id' => 1, 'family_id' => NULL, 'first_name' => 'Hans', 'infix' => 'van', 'last_name' => 'Leeuwen', 'date_of_birth' => '1958-02-12', 'person_type' => 'Manager', 'is_representative' => 0],
+            ['id' => 2, 'family_id' => NULL, 'first_name' => 'Jan', 'infix' => 'van der', 'last_name' => 'Sluijs', 'date_of_birth' => '1993-04-30', 'person_type' => 'Medewerker', 'is_representative' => 0],
+            ['id' => 3, 'family_id' => NULL, 'first_name' => 'Herman', 'infix' => 'den', 'last_name' => 'Duiker', 'date_of_birth' => '1989-08-30', 'person_type' => 'Vrijwilliger', 'is_representative' => 0],
+            ['id' => 4, 'family_id' => 1, 'first_name' => 'Johan', 'infix' => 'van', 'last_name' => 'Zevenhuizen', 'date_of_birth' => '1990-05-20', 'person_type' => 'Klant', 'is_representative' => 1],
+            ['id' => 5, 'family_id' => 1, 'first_name' => 'Sarah', 'infix' => 'den', 'last_name' => 'Dolder', 'date_of_birth' => '1985-03-23', 'person_type' => 'Klant', 'is_representative' => 0],
+            ['id' => 6, 'family_id' => 1, 'first_name' => 'Theo', 'infix' => 'van', 'last_name' => 'Zevenhuizen', 'date_of_birth' => '2015-03-08', 'person_type' => 'Klant', 'is_representative' => 0],
+            ['id' => 7, 'family_id' => 1, 'first_name' => 'Jantien', 'infix' => 'van', 'last_name' => 'Zevenhuizen', 'date_of_birth' => '2016-09-20', 'person_type' => 'Klant', 'is_representative' => 0],
+            ['id' => 8, 'family_id' => 2, 'first_name' => 'Arjan', 'infix' => NULL, 'last_name' => 'Bergkamp', 'date_of_birth' => '1968-07-12', 'person_type' => 'Klant', 'is_representative' => 1],
+            ['id' => 9, 'family_id' => 2, 'first_name' => 'Janneke', 'infix' => NULL, 'last_name' => 'Sanders', 'date_of_birth' => '1969-05-11', 'person_type' => 'Klant', 'is_representative' => 0],
+            ['id' => 10, 'family_id' => 2, 'first_name' => 'Stein', 'infix' => NULL, 'last_name' => 'Bergkamp', 'date_of_birth' => '2009-02-02', 'person_type' => 'Klant', 'is_representative' => 0],
+            ['id' => 11, 'family_id' => 2, 'first_name' => 'Judith', 'infix' => NULL, 'last_name' => 'Bergkamp', 'date_of_birth' => '2022-02-05', 'person_type' => 'Klant', 'is_representative' => 0],
+            ['id' => 12, 'family_id' => 3, 'first_name' => 'Mazin', 'infix' => 'van', 'last_name' => 'Vliet', 'date_of_birth' => '1968-08-18', 'person_type' => 'Klant', 'is_representative' => 0],
+            ['id' => 13, 'family_id' => 3, 'first_name' => 'Selma', 'infix' => 'van de', 'last_name' => 'Heuvel', 'date_of_birth' => '1965-09-04', 'person_type' => 'Klant', 'is_representative' => 1],
+            ['id' => 14, 'family_id' => 4, 'first_name' => 'Eva', 'infix' => NULL, 'last_name' => 'Schierder', 'date_of_birth' => '2000-04-07', 'person_type' => 'Klant', 'is_representative' => 1],
+            ['id' => 15, 'family_id' => 4, 'first_name' => 'Felicia', 'infix' => NULL, 'last_name' => 'Schierder', 'date_of_birth' => '2021-11-29', 'person_type' => 'Klant', 'is_representative' => 0],
+            ['id' => 16, 'family_id' => 4, 'first_name' => 'Devin', 'infix' => NULL, 'last_name' => 'Schierder', 'date_of_birth' => '2024-03-01', 'person_type' => 'Klant', 'is_representative' => 0],
+            ['id' => 17, 'family_id' => 5, 'first_name' => 'Frieda', 'infix' => 'de', 'last_name' => 'Jong', 'date_of_birth' => '1980-09-04', 'person_type' => 'Klant', 'is_representative' => 1],
+            ['id' => 18, 'family_id' => 5, 'first_name' => 'Simeon', 'infix' => 'de', 'last_name' => 'Jong', 'date_of_birth' => '2018-05-23', 'person_type' => 'Klant', 'is_representative' => 0],
+            ['id' => 19, 'family_id' => 6, 'first_name' => 'Hanna', 'infix' => 'van der', 'last_name' => 'Berg', 'date_of_birth' => '1999-09-09', 'person_type' => 'Klant', 'is_representative' => 1],
         ];
 
         foreach ($people as $person) {
@@ -175,6 +169,12 @@ class CustomerSeeder extends Seeder
             unset($userData['role']);
             
             $user = User::create($userData);
+            if ($role) {
+                $user->roles()->attach($role->id);
+            }
+        }
+    }
+}
             if ($role) {
                 $user->roles()->attach($role->id);
             }
