@@ -32,53 +32,58 @@
                         </a>
                     @endif
                 </form>
+                
+                <!-- Right aligned home button -->
+                <a href="{{ route('dashboard') }}" class="px-6 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700">
+                    home
+                </a>
             </div>
 
             <!-- Table -->
-            <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="bg-white border border-gray-200">
                 <table class="min-w-full">
-                    <thead class="bg-gray-50">
+                    <thead class="bg-blue-50 border-b border-gray-200">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Naam</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vertegenwoordiger</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mobiel</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Adres</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Woonplaats</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Klant Details</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-r border-gray-200">Naam Gezin</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-r border-gray-200">Vertegenwoordiger</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-r border-gray-200">E-mailadres</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-r border-gray-200">Mobiel</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-r border-gray-200">Adres</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-r border-gray-200">Woonplaats</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Klant Details</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody class="bg-white">
                         @forelse($pagination->items() as $family)
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    {{ $family->family_name ?? 'Geen naam' }}
+                            <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                <td class="px-4 py-3 text-sm text-gray-900 border-r border-gray-200">
+                                    {{ $family->family_name ?? '~~~~' }}
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    {{ $family->representative_name ?? 'No contact' }}
+                                <td class="px-4 py-3 text-sm text-gray-900 border-r border-gray-200">
+                                    {{ $family->representative_name ?? '~~~~' }}
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-600">
-                                    {{ $family->email ?? '' }}
+                                <td class="px-4 py-3 text-sm text-gray-900 border-r border-gray-200">
+                                    {{ $family->email ?? '~~~~' }}
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    {{ $family->mobile ?? '' }}
+                                <td class="px-4 py-3 text-sm text-gray-900 border-r border-gray-200">
+                                    {{ $family->mobile ?? '~~~~' }}
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    {{ $family->address ?? '' }}
+                                <td class="px-4 py-3 text-sm text-gray-900 border-r border-gray-200">
+                                    {{ $family->address ?? '~~~~' }}
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    {{ $family->city ?? '' }}
+                                <td class="px-4 py-3 text-sm text-gray-900 border-r border-gray-200">
+                                    {{ $family->city ?? '~~~~' }}
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                <td class="px-4 py-3 text-sm text-center">
                                     <a href="{{ route('customers.edit', $family->id) }}" 
-                                       class="text-blue-600 hover:text-blue-900 underline">
-                                        Bewerken
+                                       class="inline-block w-6 h-6 bg-blue-100 text-blue-600 rounded text-xs leading-6 hover:bg-blue-200">
+                                        📝
                                     </a>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="px-6 py-4 text-center text-gray-500">
+                                <td colspan="7" class="px-4 py-8 text-center text-gray-500">
                                     Geen klanten gevonden
                                 </td>
                             </tr>
@@ -119,13 +124,6 @@
                     </div>
                 </div>
             @endif
-
-            <!-- Bottom navigation -->
-            <div class="mt-8 flex justify-end">
-                <a href="{{ route('dashboard') }}" class="px-6 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700">
-                    Home
-                </a>
-            </div>
         </div>
     </div>
 </x-app-layout>
