@@ -43,8 +43,8 @@
                             @forelse($packages as $package)
                             <tr @if(session('status_changed') && session('status_changed')['package_id'] == $package->id) class="bg-green-50" @endif>
                                 <td class="px-4 py-2 border-b">{{ $package->package_number }}</td>
-                                <td class="px-4 py-2 border-b">{{ $package->date_composed ? date('d-m-Y', strtotime($package->date_composed)) : '~~~~' }}</td>
-                                <td class="px-4 py-2 border-b">{{ $package->date_issued ? date('d-m-Y', strtotime($package->date_issued)) : '~~~~' }}</td>
+                                <td class="px-4 py-2 border-b">{{ $package->date_composed ? date('d-m-Y', strtotime($package->date_composed)) : '-' }}</td>
+                                <td class="px-4 py-2 border-b">{{ $package->date_issued ? date('d-m-Y', strtotime($package->date_issued)) : '-' }}</td>
                                 <td class="px-4 py-2 border-b">
                                     @if($package->status == 'Uitgereikt')
                                         Uitgereikt
@@ -87,10 +87,21 @@
     </div>
     
     @if(session('success'))
+        <div id="success-message" class="fixed top-0 left-0 right-0 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded z-50 text-center" style="margin: 1rem auto; max-width: 500px;">
+            <strong>{{ session('success') }}</strong>
+        </div>
+
         <script>
             // Hide success message after 3 seconds
             setTimeout(function() {
-                document.getElementById('success-message').style.display = 'none';
+                const element = document.getElementById('success-message');
+                if (element) {
+                    element.style.opacity = '0';
+                    element.style.transition = 'opacity 0.5s';
+                    setTimeout(function() {
+                        element.remove();
+                    }, 500);
+                }
             }, 3000);
         </script>
     @endif
