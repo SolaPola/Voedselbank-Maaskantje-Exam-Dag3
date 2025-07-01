@@ -10,13 +10,12 @@ use App\Models\Category;
 
 class ProductStockController extends Controller
 {
- 
     public function index(Request $request): View
     {
         Log::info('Voorraaroverzicht bezocht door gebruiker: ' . auth()->user()->email);
 
         $categoryFilter = $request->get('category_filter');
-//trying to filter for catagory
+
         try {
             if ($categoryFilter) {
                 $productStock = DB::select('CALL GetProductStockOverviewByCategory(?)', [$categoryFilter]);
@@ -54,14 +53,12 @@ class ProductStockController extends Controller
                 ->get();
         }
 
-        // categories for the filter dropdown
         $categories = Category::where('isactive', 1)->orderBy('name')->get();
 
         Log::info('Gevonden ' . count($productStock) . ' producten op voorraad');
 
         return view('product-stock.index', compact('productStock', 'categories'));
     }
-
 
     public function show($productId): View
     {
@@ -96,7 +93,6 @@ class ProductStockController extends Controller
                 abort(404, 'Product niet gevonden');
             }
 
-   
             $product = (object) [
                 'id' => $productData->id,
                 'name' => $productData->name,
@@ -125,7 +121,6 @@ class ProductStockController extends Controller
             abort(500, 'Er is een fout opgetreden bij het laden van de productdetails');
         }
     }
-
 
     public function getProductDetails($productId)
     {
@@ -208,7 +203,6 @@ class ProductStockController extends Controller
         return response()->json($productStock);
     }
 
-
     public function edit($productId): View
     {
         try {
@@ -245,7 +239,6 @@ class ProductStockController extends Controller
                 abort(404, 'Product niet gevonden');
             }
 
-
             $product = (object) [
                 'id' => $productData->id,
                 'name' => $productData->name,
@@ -278,10 +271,6 @@ class ProductStockController extends Controller
         }
     }
 
-    
-    /**
-     * Update the specified product.
-     */
     public function update(Request $request, $productId)
     {
         // Get current warehouse stock from database first for validation
@@ -300,24 +289,13 @@ class ProductStockController extends Controller
         $currentStock = $currentWarehouseData->quantity;
 
         $request->validate([
-            'name' => 'required|string|max:255',
-            'barcode' => 'nullable|string|max:13',
-            'expiry_date' => 'nullable|date',
             'location' => 'required|string|max:255',
-            'date_received' => 'nullable|date',
             'date_delivered' => 'nullable|date',
             'delivered_quantity' => 'nullable|integer|min:0|max:' . $currentStock
         ], [
-            'name.required' => 'Het veld productnaam is verplicht.',
-            'name.string' => 'Het veld productnaam moet een tekst zijn.',
-            'name.max' => 'Het veld productnaam mag niet langer zijn dan :max karakters.',
-            'barcode.string' => 'Het veld barcode moet een tekst zijn.',
-            'barcode.max' => 'Het veld barcode mag niet langer zijn dan :max karakters.',
-            'expiry_date.date' => 'Het veld houdbaarheidsdatum moet een geldige datum zijn.',
             'location.required' => 'Het veld magazijnlocatie is verplicht.',
             'location.string' => 'Het veld magazijnlocatie moet een tekst zijn.',
             'location.max' => 'Het veld magazijnlocatie mag niet langer zijn dan :max karakters.',
-            'date_received.date' => 'Het veld ontvangstdatum moet een geldige datum zijn.',
             'date_delivered.date' => 'Het veld uitleveringsdatum moet een geldige datum zijn.',
             'delivered_quantity.integer' => 'Het veld aantal uitgeleverde producten moet een geheel getal zijn.',
             'delivered_quantity.min' => 'Het veld aantal uitgeleverde producten moet minimaal :min zijn.',
@@ -327,15 +305,7 @@ class ProductStockController extends Controller
         try {
             DB::beginTransaction();
 
-            DB::table('products')
-                ->where('id', $productId)
-                ->update([
-                    'name' => $request->name,
-                    'barcode' => $request->barcode,
-                    'expiry_date' => $request->expiry_date,
-                    'updated_at' => now()
-                ]);
-
+            // Update product per warehouse location
             DB::table('product_per_warehouses')
                 ->where('product_id', $productId)
                 ->update([
@@ -343,7 +313,7 @@ class ProductStockController extends Controller
                     'updated_at' => now()
                 ]);
 
-    
+            // Get warehouse ID for this product
             $warehouseId = DB::table('product_per_warehouses')
                 ->where('product_id', $productId)
                 ->value('warehouse_id');
@@ -354,7 +324,6 @@ class ProductStockController extends Controller
             DB::table('warehouses')
                 ->where('id', $warehouseId)
                 ->update([
-                    'date_received' => $request->date_received,
                     'date_delivered' => $request->date_delivered,
                     'delivered_quantity' => $deliveredQuantity,
                     'updated_at' => now()
