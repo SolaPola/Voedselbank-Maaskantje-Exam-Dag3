@@ -21,6 +21,10 @@ return new class extends Migration
             $table->date('expiration_date')->nullable();
             $table->text('description')->nullable();
             $table->string('status');
+            $table->text('comment')->nullable();
+            $table->boolean('isactive')->default(true);
+            $table->timestamp('dateadded')->useCurrent();
+            $table->timestamp('datechanged')->useCurrent()->useCurrentOnUpdate();
             $table->timestamps();
         });
     }

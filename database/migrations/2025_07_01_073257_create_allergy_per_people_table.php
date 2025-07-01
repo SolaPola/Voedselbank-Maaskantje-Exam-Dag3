@@ -16,6 +16,10 @@ return new class extends Migration
             // Remove foreign keys for now, just use unsignedBigInteger
             $table->unsignedBigInteger('person_id');
             $table->unsignedBigInteger('allergy_id');
+            $table->text('comment')->nullable();
+            $table->boolean('isactive')->default(true);
+            $table->timestamp('dateadded')->useCurrent();
+            $table->timestamp('datechanged')->useCurrent()->useCurrentOnUpdate();
             $table->timestamps();
         });
     }

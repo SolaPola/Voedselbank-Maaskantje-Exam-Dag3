@@ -17,8 +17,13 @@ return new class extends Migration
             $table->date('date_delivered')->nullable();
             $table->string('packaging_unit');
             $table->integer('quantity');
+            $table->integer('delivered_quantity')->default(0);
+            $table->text('comment')->nullable();
+            $table->boolean('isactive')->default(true);
+            $table->timestamp('dateadded')->useCurrent();
+            $table->timestamp('datechanged')->useCurrent()->useCurrentOnUpdate();
             $table->timestamps();
-        });
+      });
     }
 
     /**

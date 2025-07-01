@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('diet_preference_per_families', function (Blueprint $table) {
             $table->id();
-            // Remove foreign keys for now, just use unsignedBigInteger
-            $table->unsignedBigInteger('family_id');
-            $table->unsignedBigInteger('diet_preference_id');
+            $table->foreignId('family_id')->constrained('families')->onDelete('cascade');
+            $table->foreignId('diet_preference_id')->constrained('diet_preferences')->onDelete('cascade');
+            $table->text('comment')->nullable();
+            $table->boolean('isactive')->default(true);
+            $table->timestamp('dateadded')->useCurrent();
+            $table->timestamp('datechanged')->useCurrent()->useCurrentOnUpdate();
             $table->timestamps();
         });
     }
