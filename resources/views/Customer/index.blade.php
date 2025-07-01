@@ -15,14 +15,23 @@
 
             <!-- Header with controls -->
             <div class="mb-6 flex justify-between items-center">
-                <div class="flex items-center space-x-4">
-                    <select class="px-4 py-2 border border-gray-300 rounded-md bg-white text-sm">
-                        <option>Selecteer KlantType</option>
+                <form method="GET" action="{{ route('customers.index') }}" class="flex items-center space-x-4">
+                    <select name="postal_code" class="px-4 py-2 border border-gray-300 rounded-md bg-white text-sm">
+                        <option value="">Selecteer Postcode</option>
+                        <option value="5271TH" {{ request('postal_code') == '5271TH' ? 'selected' : '' }}>5271TH</option>
+                        <option value="5271TJ" {{ request('postal_code') == '5271TJ' ? 'selected' : '' }}>5271TJ</option>
+                        <option value="5271ZE" {{ request('postal_code') == '5271ZE' ? 'selected' : '' }}>5271ZE</option>
+                        <option value="5271ZH" {{ request('postal_code') == '5271ZH' ? 'selected' : '' }}>5271ZH</option>
                     </select>
-                    <button class="px-6 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700">
+                    <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700">
                         Toon Klanten
                     </button>
-                </div>
+                    @if(request('postal_code'))
+                        <a href="{{ route('customers.index') }}" class="px-4 py-2 bg-gray-500 text-white rounded-md text-sm font-medium hover:bg-gray-600">
+                            Reset Filter
+                        </a>
+                    @endif
+                </form>
             </div>
 
             <!-- Table -->
@@ -83,24 +92,27 @@
                 <div class="mt-6 flex items-center justify-between">
                     <div class="text-sm text-gray-700">
                         Toont {{ $pagination->firstItem() }} tot {{ $pagination->lastItem() }} van {{ $pagination->total() }} resultaten
+                        @if(request('postal_code'))
+                            voor postcode {{ request('postal_code') }}
+                        @endif
                     </div>
                     <div class="flex items-center space-x-2">
                         @if($pagination->onFirstPage())
                             <span class="px-3 py-2 text-sm text-gray-400 cursor-not-allowed">Vorige</span>
                         @else
-                            <a href="{{ $pagination->previousPageUrl() }}" class="px-3 py-2 text-sm text-blue-600 hover:text-blue-800">Vorige</a>
+                            <a href="{{ $pagination->appends(request()->query())->previousPageUrl() }}" class="px-3 py-2 text-sm text-blue-600 hover:text-blue-800">Vorige</a>
                         @endif
 
                         @foreach($pagination->getUrlRange(1, $pagination->lastPage()) as $page => $url)
                             @if($page == $pagination->currentPage())
                                 <span class="px-3 py-2 text-sm bg-blue-600 text-white rounded">{{ $page }}</span>
                             @else
-                                <a href="{{ $url }}" class="px-3 py-2 text-sm text-blue-600 hover:text-blue-800">{{ $page }}</a>
+                                <a href="{{ $pagination->appends(request()->query())->url($page) }}" class="px-3 py-2 text-sm text-blue-600 hover:text-blue-800">{{ $page }}</a>
                             @endif
                         @endforeach
 
                         @if($pagination->hasMorePages())
-                            <a href="{{ $pagination->nextPageUrl() }}" class="px-3 py-2 text-sm text-blue-600 hover:text-blue-800">Volgende</a>
+                            <a href="{{ $pagination->appends(request()->query())->nextPageUrl() }}" class="px-3 py-2 text-sm text-blue-600 hover:text-blue-800">Volgende</a>
                         @else
                             <span class="px-3 py-2 text-sm text-gray-400 cursor-not-allowed">Volgende</span>
                         @endif
