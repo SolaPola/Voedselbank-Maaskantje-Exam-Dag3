@@ -19,7 +19,13 @@
                         </div>
                         <div class="bg-green-50 p-4 rounded-lg">
                             <h4 class="font-semibold text-green-800">Inventory Control</h4>
-                            <p class="text-green-600">Full inventory management access</p>
+                            <p class="text-green-600 mb-2">Full inventory management access</p>
+                            <a href="{{ route('product-stock.index') }}" class="inline-flex items-center text-sm text-green-700 hover:text-green-900">
+                                View Stock Overview
+                                <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </a>
                         </div>
                         <div class="bg-purple-50 p-4 rounded-lg">
                             <h4 class="font-semibold text-purple-800">Reports</h4>
