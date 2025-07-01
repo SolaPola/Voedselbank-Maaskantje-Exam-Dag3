@@ -7,7 +7,6 @@
         <select name="type" class="form-select px-3 py-2 border rounded" onchange="this.form.submit()">
             <option value="">Selecteer LeverancierType</option>
             @php
-                // Collect unique supplier types from the $suppliers collection
                 $types = $suppliers->pluck('supplier_type')->unique()->filter()->values();
             @endphp
             @foreach($types as $type)
