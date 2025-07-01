@@ -80,8 +80,8 @@
                                     </td>
                                 </tr>
                                 @empty
-                                <tr>
-                                    <td colspan="7" class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
+                                <tr class="bg-red-100">
+                                    <td colspan="7" class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center text-red-800 font-semibold">
                                         {{ __('Geen gezinnen gevonden') }}
                                     </td>
                                 </tr>
@@ -93,12 +93,6 @@
                         <a href="{{ route('dashboard') }}" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
                             {{ __('Home') }}
                         </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</x-app-layout>
                     </div>
                 </div>
             </div>
