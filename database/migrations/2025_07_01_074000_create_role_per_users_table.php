@@ -20,9 +20,8 @@ return new class extends Migration
             $table->timestamp('dateadded')->useCurrent();
             $table->timestamp('datechanged')->useCurrent()->useCurrentOnUpdate();
             $table->timestamps();
-        });
+      });
     }
-
     /**
      * Reverse the migrations.
      */

@@ -14,6 +14,12 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     
+                    @if(Auth::user() && Auth::user()->hasRole('Manager'))
+                    <x-nav-link :href="route('FoodPackages.food-packages')" :active="request()->routeIs('FoodPackages.food-packages')">
+                        {{ __('Overzicht voedselpakketten') }}
+                    </x-nav-link>
+                    @endif
+                    
                     @auth
                         @if(auth()->user()->hasRole('Manager') || auth()->user()->hasRole('Employee') || auth()->user()->hasRole('Volunteer'))
                             <x-nav-link :href="route('customers.index')" :active="request()->routeIs('customers.*')">
@@ -70,6 +76,12 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            
+            @if(Auth::user() && Auth::user()->hasRole('Manager'))
+            <x-responsive-nav-link :href="route('FoodPackages.food-packages')" :active="request()->routeIs('FoodPackages.food-packages')">
+                {{ __('Overzicht voedselpakketten') }}
+            </x-responsive-nav-link>
+            @endif
             
             @auth
                 @if(auth()->user()->hasRole('Manager') || auth()->user()->hasRole('Employee') || auth()->user()->hasRole('Volunteer'))
