@@ -15,7 +15,7 @@ class FamilyFoodPackageController extends Controller
     public function index(): View
     {
         try {
-            // Try using a direct query since the stored procedure has issues
+            // Try using a direct query for families with food packages
             $families = DB::table('families as f')
                 ->leftJoin('people as p', 'f.representative_id', '=', 'p.id')
                 ->leftJoin('food_packages as fp', 'f.id', '=', 'fp.family_id')

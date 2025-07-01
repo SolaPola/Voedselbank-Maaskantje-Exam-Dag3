@@ -17,7 +17,7 @@
                     </x-nav-link>
                     
                     @if(Auth::user() && Auth::user()->hasRole('Manager'))
-                    <x-nav-link :href="route('families.food-packages')" :active="request()->routeIs('families.food-packages')">
+                    <x-nav-link :href="route('FoodPackages.food-packages')" :active="request()->routeIs('FoodPackages.food-packages')">
                         {{ __('Overzicht voedselpakketten') }}
                     </x-nav-link>
                     @endif
@@ -78,7 +78,7 @@
             </x-responsive-nav-link>
             
             @if(Auth::user() && Auth::user()->hasRole('Manager'))
-            <x-responsive-nav-link :href="route('families.food-packages')" :active="request()->routeIs('families.food-packages')">
+            <x-responsive-nav-link :href="route('FoodPackages.food-packages')" :active="request()->routeIs('FoodPackages.food-packages')">
                 {{ __('Overzicht voedselpakketten') }}
             </x-responsive-nav-link>
             @endif
