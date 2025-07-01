@@ -38,8 +38,11 @@
                         {{ $product->expiration_date ? \Carbon\Carbon::parse($product->expiration_date)->format('d-m-Y') : '-' }}
                     </td>
                     <td class="border px-4 py-2 text-center">
-                        <a href="{{ route('supplier.edit', $product->id) }}" class="inline-flex items-center px-3 py-1 bg-yellow-500 text-white text-xs font-semibold rounded hover:bg-yellow-600 transition">
-                            <i class="bi bi-pencil-square mr-1"></i> Edit
+                        <a href="{{ route('supplier.edit', $product->id) }}" class="">          
+                                  <svg xmlns="" class="inline w-6 h-6 text-blue-600 hover:text-blue-800 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <rect x="4" y="4" width="16" height="16" rx="2" stroke-width="2" stroke="currentColor" fill="white"/>
+                                    <path d="M8 8h8M8 12h8M8 16h4" stroke-width="2" stroke="currentColor" stroke-linecap="round"/>
+                                </svg>
                         </a>
                     </td>
                 </tr>
