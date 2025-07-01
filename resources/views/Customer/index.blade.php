@@ -72,7 +72,7 @@
                                     {{ $family->city ?? '~~ ~~ ~~' }}
                                 </td>
                                 <td class="px-4 py-3 text-sm text-center border-b border-gray-200">
-                                    <a href="{{ route('customers.edit', $family->id) }}" 
+                                    <a href="{{ route('customers.show', $family->id) }}" 
                                        class="inline-flex items-center justify-center w-6 h-6 bg-blue-100 text-blue-600 rounded hover:bg-blue-200 text-xs">
                                         📝
                                     </a>

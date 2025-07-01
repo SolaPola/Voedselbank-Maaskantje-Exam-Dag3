@@ -63,7 +63,17 @@ class CustomerController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $family = Family::with([
+            'people' => function($query) {
+                $query->where('is_representative', true);
+            },
+            'contactPerFamilies.contact'
+        ])->findOrFail($id);
+
+        $representative = $family->people->first();
+        $contact = $family->contactPerFamilies->first()?->contact;
+
+        return view('customer.show', compact('family', 'representative', 'contact'));
     }
 
     /**
