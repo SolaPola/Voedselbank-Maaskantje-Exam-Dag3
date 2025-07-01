@@ -52,7 +52,14 @@ class User extends Authenticatable
     }
 
     /**
-     * The roles that belong to the user.
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['roles'];
+
+    /**
+     * Get the roles for the user.
      */
     public function roles()
     {
@@ -73,6 +80,14 @@ class User extends Authenticatable
         
         // Check if the specified role ID is in the user's roles
         return in_array($roleId, $userRoleIds);
+    }
+
+    /**
+     * Check if user has a specific role by ID.
+     */
+    public function hasRoleId(int $roleId): bool
+    {
+        return $this->roles()->where('roles.id', $roleId)->exists();
     }
 
     /**

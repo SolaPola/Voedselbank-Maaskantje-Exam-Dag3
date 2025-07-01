@@ -20,11 +20,11 @@ return new class extends Migration
             $table->string('city');
             $table->string('email')->nullable();
             $table->string('mobile')->nullable();
-            $table->timestamps();
             $table->text('comment')->nullable();
             $table->boolean('isactive')->default(true);
             $table->timestamp('dateadded')->useCurrent();
             $table->timestamp('datechanged')->useCurrent()->useCurrentOnUpdate();
+            $table->timestamps();
         });
     }
 

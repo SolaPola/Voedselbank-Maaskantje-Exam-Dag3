@@ -15,13 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->timestamps();
             $table->text('comment')->nullable();
             $table->boolean('isactive')->default(true);
             $table->timestamp('dateadded')->useCurrent();
             $table->timestamp('datechanged')->useCurrent()->useCurrentOnUpdate();
-        });
+            $table->timestamps();
+     });
     }
+
 
     /**
      * Reverse the migrations.

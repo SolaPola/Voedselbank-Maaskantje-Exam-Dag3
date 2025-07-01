@@ -5,6 +5,7 @@ use App\Http\Controllers\ManagerDashboardController;
 use App\Http\Controllers\EmployeeDashboardController;
 use App\Http\Controllers\VolunteerDashboardController;
 use App\Http\Controllers\FamilyFoodPackageController;
+use App\Http\Controllers\ProductStockController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -19,6 +20,49 @@ Route::get('/dashboard', function () {
 // Restructure the routes to avoid authorization issues
 Route::middleware(['auth', 'verified'])->group(function () {
     // Routes available to all authenticated users
+    // Debug route to check user roles
+Route::get('/debug-roles', function () {
+    $user = auth()->user();
+    if (!$user) {
+        return 'Not authenticated';
+    }
+
+    $user->load('roles');
+    return response()->json([
+        'user_id' => $user->id,
+        'user_email' => $user->email,
+        'roles' => $user->roles->toArray(),
+        'role_ids' => $user->roles->pluck('id')->toArray()
+    ]);
+})->middleware('auth');
+
+// Manager routes
+Route::middleware(['auth', 'verified', 'role:1'])->group(function () {
+    Route::get('/manager/dashboard', [ManagerDashboardController::class, 'index'])->name('manager.dashboard');
+});
+
+// Employee routes
+Route::middleware(['auth', 'verified', 'role:2'])->group(function () {
+    Route::get('/employee/dashboard', [EmployeeDashboardController::class, 'index'])->name('employee.dashboard');
+});
+
+// Volunteer routes
+Route::middleware(['auth', 'verified', 'role:3'])->group(function () {
+    Route::get('/volunteer/dashboard', [VolunteerDashboardController::class, 'index'])->name('volunteer.dashboard');
+});
+
+// Shared routes for managers and employees
+Route::middleware(['auth', 'verified', 'role:1,2'])->group(function () {
+    Route::get('/product-stock', [ProductStockController::class, 'index'])->name('product-stock.index');
+    Route::get('/product-stock/data', [ProductStockController::class, 'getData'])->name('product-stock.data');
+    Route::get('/product-stock/details/{productId}', [ProductStockController::class, 'getProductDetails'])->name('product-stock.details');
+    Route::get('/product-stock/show/{productId}', [ProductStockController::class, 'show'])->name('product-stock.show');
+    Route::get('/product-stock/edit/{productId}', [ProductStockController::class, 'edit'])->name('product-stock.edit');
+    Route::put('/product-stock/update/{productId}', [ProductStockController::class, 'update'])->name('product-stock.update');
+});
+}); // Close the middleware group started on line 21
+
+Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -48,8 +92,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/volunteer/food-packages/{id}/update', [FamilyFoodPackageController::class, 'volunteerUpdateStatus'])->name('volunteer.food-packages.update');
     });
 });
-
 // Only include this once
-require __DIR__ . '/auth.php';
 require __DIR__ . '/auth.php';
 require __DIR__ . '/auth.php';

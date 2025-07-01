@@ -20,11 +20,11 @@ return new class extends Migration
             $table->integer('number_of_children')->default(0);
             $table->integer('number_of_babies')->default(0);
             $table->integer('total_number_of_people')->default(0);
-            $table->timestamps();
             $table->text('comment')->nullable();
             $table->boolean('isactive')->default(true);
             $table->timestamp('dateadded')->useCurrent();
             $table->timestamp('datechanged')->useCurrent()->useCurrentOnUpdate();
+            $table->timestamps();
         });
     }
 
