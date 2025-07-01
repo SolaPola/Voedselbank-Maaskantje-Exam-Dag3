@@ -8,10 +8,14 @@ use Illuminate\Http\Request;
 
 class SupplierController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Eager load contacts via the pivot table contact_per_suppliers
-        $suppliers = Supplier::with(['contacts'])->get();
+        // Filter suppliers by type if requested
+        $query = Supplier::with(['contacts']);
+        if ($request->filled('type')) {
+            $query->where('supplier_type', $request->input('type'));
+        }
+        $suppliers = $query->get();
         return view('supplier.index', compact('suppliers'));
     }
 

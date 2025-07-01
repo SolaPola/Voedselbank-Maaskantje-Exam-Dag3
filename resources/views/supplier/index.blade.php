@@ -4,7 +4,7 @@
 <div class="container mx-auto px-4 py-6">
     <h2 class="text-2xl font-bold mb-4 text-green-700">Overzicht Leveranciers</h2>
     <form method="GET" action="{{ route('supplier.index') }}" class="flex items-center gap-2 mb-4 justify-end">
-        <select name="type" class="form-select px-3 py-2 border rounded">
+        <select name="type" class="form-select px-3 py-2 border rounded" onchange="this.form.submit()">
             <option value="">Selecteer LeverancierType</option>
             @php
                 // Collect unique supplier types from the $suppliers collection
