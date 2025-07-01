@@ -19,11 +19,9 @@ Route::get('/dashboard', function () {
 // Role-based dashboards
 Route::middleware(['auth', 'verified', 'role:1'])->group(function () {
     Route::get('/manager/dashboard', [ManagerDashboardController::class, 'index'])->name('manager.dashboard');
-
     Route::get('/manager/dashboard/suppliers', [SupplierController::class, 'index'])->name('supplier.index');
     Route::get('/manager/dashboard/suppliers/{supplier}/products', [SupplierController::class, 'products'])->name('manager.suppliers.products');
-    Route::get('/manager/dashboard/suppliers/{supplier}/edit', [SupplierController::class, 'edit'])->name('manager.suppliers.edit');
-
+    Route::match(['get', 'post'], '/manager/dashboard/products/{product}/edit', [SupplierController::class, 'edit'])->name('supplier.edit');
 });
 
 Route::middleware(['auth', 'verified', 'role:2'])->group(function () {
@@ -41,4 +39,5 @@ Route::middleware('auth')->group(function () {
 });
 
 
+require __DIR__ . '/auth.php';
 require __DIR__ . '/auth.php';
