@@ -25,17 +25,29 @@ class RoleMiddleware
         
         $userRoles = $user->roles->pluck('id')->toArray();
         
+        // Parse roles - handle comma-separated roles like "1,2"
+        $allowedRoles = [];
+        foreach ($roles as $role) {
+            if (strpos($role, ',') !== false) {
+                $allowedRoles = array_merge($allowedRoles, explode(',', $role));
+            } else {
+                $allowedRoles[] = $role;
+            }
+        }
+        
+        // Convert to integers
+        $allowedRoles = array_map('intval', $allowedRoles);
+        
         // Debug logging
         Log::info('Role Middleware Debug', [
             'user_id' => $user->id,
             'user_roles' => $userRoles,
-            'required_roles' => $roles,
+            'allowed_roles' => $allowedRoles,
             'user_email' => $user->email
         ]);
 
-        // Convert string roles to integers and check
-        foreach ($roles as $role) {
-            $roleId = (int) $role;
+        // Check if user has any of the allowed roles
+        foreach ($allowedRoles as $roleId) {
             if (in_array($roleId, $userRoles)) {
                 return $next($request);
             }
@@ -45,11 +57,11 @@ class RoleMiddleware
         Log::warning('Unauthorized access attempt', [
             'user_id' => $user->id,
             'user_email' => $user->email,
-            'required_roles' => $roles,
+            'allowed_roles' => $allowedRoles,
             'user_roles' => $userRoles,
             'url' => $request->url()
         ]);
 
-        abort(403, 'Unauthorized access - Required roles: ' . implode(', ', $roles) . '. User roles: ' . implode(', ', $userRoles));
+        abort(403, 'Unauthorized access - Required roles: ' . implode(', ', $allowedRoles) . '. User roles: ' . implode(', ', $userRoles));
     }
 }

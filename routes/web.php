@@ -32,21 +32,25 @@ Route::get('/debug-roles', function () {
     ]);
 })->middleware('auth');
 
-// Role-based dashboards
+// Manager routes
 Route::middleware(['auth', 'verified', 'role:1'])->group(function () {
     Route::get('/manager/dashboard', [ManagerDashboardController::class, 'index'])->name('manager.dashboard');
-    Route::get('/product-stock', [ProductStockController::class, 'index'])->name('product-stock.index');
-    Route::get('/product-stock/data', [ProductStockController::class, 'getData'])->name('product-stock.data');
 });
 
+// Employee routes
 Route::middleware(['auth', 'verified', 'role:2'])->group(function () {
     Route::get('/employee/dashboard', [EmployeeDashboardController::class, 'index'])->name('employee.dashboard');
-    Route::get('/product-stock', [ProductStockController::class, 'index'])->name('product-stock.index');
-    Route::get('/product-stock/data', [ProductStockController::class, 'getData'])->name('product-stock.data');
 });
 
+// Volunteer routes
 Route::middleware(['auth', 'verified', 'role:3'])->group(function () {
     Route::get('/volunteer/dashboard', [VolunteerDashboardController::class, 'index'])->name('volunteer.dashboard');
+});
+
+// Shared routes for managers and employees
+Route::middleware(['auth', 'verified', 'role:1,2'])->group(function () {
+    Route::get('/product-stock', [ProductStockController::class, 'index'])->name('product-stock.index');
+    Route::get('/product-stock/data', [ProductStockController::class, 'getData'])->name('product-stock.data');
 });
 
 Route::middleware('auth')->group(function () {

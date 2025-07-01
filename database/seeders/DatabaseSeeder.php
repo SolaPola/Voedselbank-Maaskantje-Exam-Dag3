@@ -45,4 +45,5 @@ class DatabaseSeeder extends Seeder
         ]);
         $volunteer->roles()->attach($volunteerRole->id);
     }
+    
 }
