@@ -22,6 +22,10 @@ return new class extends Migration
             $table->boolean('is_logged_in')->default(false);
             $table->timestamp('logged_in_at')->nullable();
             $table->timestamp('logged_out_at')->nullable();
+            $table->text('comment')->nullable();
+            $table->boolean('isactive')->default(true);
+            $table->timestamp('dateadded')->useCurrent();
+            $table->timestamp('datechanged')->useCurrent()->useCurrentOnUpdate();
             $table->rememberToken();
             $table->timestamps();
         });

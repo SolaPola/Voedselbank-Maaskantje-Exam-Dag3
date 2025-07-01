@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('family_id')->constrained('families')->onDelete('cascade');
             $table->foreignId('diet_preference_id')->constrained('diet_preferences')->onDelete('cascade');
-            
             $table->text('comment')->nullable();
             $table->boolean('isactive')->default(true);
             $table->timestamp('dateadded')->useCurrent();

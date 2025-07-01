@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Run the migrations. 
      */
     public function up(): void
     {
@@ -17,6 +17,10 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
             $table->date('date_delivered')->nullable();
             $table->date('next_delivery_date')->nullable();
+            $table->text('comment')->nullable();
+            $table->boolean('isactive')->default(true);
+            $table->timestamp('dateadded')->useCurrent();
+            $table->timestamp('datechanged')->useCurrent()->useCurrentOnUpdate();
             $table->timestamps();
             $table->text('comment')->nullable();
             $table->boolean('isactive')->default(true);
