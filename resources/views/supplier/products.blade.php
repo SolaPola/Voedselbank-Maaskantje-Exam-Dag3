@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto px-4 py-6">
+<div class="container mx-auto px-4 py-6 bg-white rounded shadow">
     <a href="#" class="text-green-700 font-bold text-lg underline mb-4 inline-block">Overzicht producten</a>
     <table class="border mb-6">
         <tr>
@@ -36,7 +36,9 @@
                     <td class="border px-4 py-2">{{ $product->barcode ?? '-' }}</td>
                     <td class="border px-4 py-2">{{ $product->expiration_date ?? '-' }}</td>
                     <td class="border px-4 py-2 text-center">
-                        <a href="{{ route('products.edit', $product->id) }}"><i class="bi bi-pencil-square"></i></a>
+                        <a href="{{ route('products.edit', $product->id) }}" class="inline-flex items-center px-3 py-1 bg-yellow-500 text-white text-xs font-semibold rounded hover:bg-yellow-600 transition">
+                            <i class="bi bi-pencil-square mr-1"></i> Edit
+                        </a>
                     </td>
                 </tr>
                 @endforeach

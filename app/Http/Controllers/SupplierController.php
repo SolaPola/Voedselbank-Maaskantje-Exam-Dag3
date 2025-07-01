@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Supplier;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class SupplierController extends Controller
@@ -16,7 +17,14 @@ class SupplierController extends Controller
 
     public function products(Supplier $supplier)
     {
-        // Placeholder for product details per supplier
-        return view('supplier.products', compact('supplier'));
+        // Haal alle producten op die bij deze supplier horen
+        $products = Product::where('supplier_id', $supplier->id)->get();
+        return view('supplier.products', compact('supplier', 'products'));
+    }
+
+    // Use this method for the edit route
+    public function edit(Product $product)
+    {
+        return view('supplier.edit', compact('product'));
     }
 }

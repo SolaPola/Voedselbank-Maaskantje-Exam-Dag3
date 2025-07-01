@@ -19,15 +19,15 @@
         <button type="submit" class="btn btn-secondary px-4 py-2 rounded bg-blue-600 text-white">Toon Leveranciers</button>
     </form>
     <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200 border">
+        <table class="min-w-full divide-y divide-gray-200 border border-gray-300">
             <thead class="bg-gray-50">
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider">Naam</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider">Contactpersoon</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider">Email</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider">Mobiel</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider">Leveranciernummer</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider">LeverancierType</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider border-r border-gray-300">Naam</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider border-r border-gray-300">Contactpersoon</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider border-r border-gray-300">Email</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider border-r border-gray-300">Mobiel</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider border-r border-gray-300">Leveranciernummer</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider border-r border-gray-300">LeverancierType</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider">Product Details</th>
                 </tr>
             </thead>
@@ -35,13 +35,13 @@
                 @forelse($suppliers as $supplier)
                     @php $contact = $supplier->contacts->first(); @endphp
                     <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $supplier->name }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $supplier?->contact_person}}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $contact?->email ?? '' }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $contact?->mobile ?? '' }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $supplier->supplier_number }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $supplier->supplier_type }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border-r border-gray-300">{{ $supplier->name }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border-r border-gray-300">{{ $supplier?->contact_person}}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border-r border-gray-300">{{ $contact?->email ?? '' }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border-r border-gray-300">{{ $contact?->mobile ?? '' }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border-r border-gray-300">{{ $supplier->supplier_number }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border-r border-gray-300">{{ $supplier->supplier_type }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-center">
                             <a href="{{ route('manager.suppliers.products', $supplier->id) }}" class="inline-flex items-center px-3 py-1 bg-blue-500 text-white text-xs font-semibold rounded hover:bg-blue-700 transition">
                                 <i class="bi bi-clipboard mr-1"></i> Show
                             </a>
