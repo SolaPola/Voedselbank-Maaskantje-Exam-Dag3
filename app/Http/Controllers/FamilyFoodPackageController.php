@@ -93,7 +93,7 @@ class FamilyFoodPackageController extends Controller
                 ->join('families as f', 'fp.family_id', '=', 'f.id')
                 ->leftJoin('people as rep', function($join) {
                     $join->on('rep.family_id', '=', 'f.id')
-                         ->where('rep.is_representative', '=', 1);
+                        ->where('rep.is_representative', '=', 1);
                 })
                 ->select(
                     'fp.id',
@@ -114,18 +114,11 @@ class FamilyFoodPackageController extends Controller
                 ->orderBy('fp.date_composed', 'desc')
                 ->get();
         
-            // Group packages by status
-            $pendingPackages = $packages->where('status', 'NietUitgereikt');
-            $issuedPackages = $packages->where('status', 'Uitgereikt');
-            $canceledPackages = $packages->where('status', 'NietMeerIngeschreven');
-            
-            return view('volunteer.food-packages', compact('pendingPackages', 'issuedPackages', 'canceledPackages'));
+            return view('volunteer.food-packages', compact('packages'));
         } catch (Exception $e) {
             Log::error('Failed to get food packages for volunteers: ' . $e->getMessage());
             return view('volunteer.food-packages', [
-                'pendingPackages' => collect(),
-                'issuedPackages' => collect(),
-                'canceledPackages' => collect(),
+                'packages' => collect(),
                 'error' => 'Er is een fout opgetreden bij het ophalen van de voedselpakketten'
             ]);
         }
