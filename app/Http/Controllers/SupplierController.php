@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Supplier;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class SupplierController extends Controller
 {
@@ -26,22 +27,24 @@ class SupplierController extends Controller
         return view('supplier.products', compact('supplier', 'products'));
     }
 
-    // Handles both GET (show form) and POST (update) for editing expiration date
     public function edit(Request $request, Product $product)
     {
         if ($request->isMethod('post')) {
             $oldDate = $product->expiration_date;
             $newDate = $request->input('expiration_date');
+
             if ($newDate && $newDate !== $oldDate) {
+                // Check if new date is more than 7 days after old date
+                $old = Carbon::parse($oldDate);
+                $new = Carbon::parse($newDate);
+                if ($new->diffInDays($old, false) < -7) {
+                    return redirect()->back()->with('error', 'De houdbaarheidsdatum is niet gewijzigd.');
+                }
                 $product->expiration_date = $newDate;
                 $product->save();
-                return redirect()
-                    ->route('manager.suppliers.products', ['supplier' => $product->supplier_id])
-                    ->with('success', 'De houdbaarheidsdatum is gewijzigd.');
+                return redirect()->back()->with('success', 'De houdbaarheidsdatum is gewijzigd');
             } else {
-                return redirect()
-                    ->back()
-                    ->with('error', 'De houdbaarheidsdatum is niet gewijzigd.');
+                return redirect()->back()->with('error', 'De houdbaarheidsdatum is niet gewijzigd.');
             }
         }
         return view('supplier.edit', compact('product'));
