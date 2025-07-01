@@ -9,9 +9,14 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <a href="{{ route('volunteer.food-packages') }}" class="text-blue-600 hover:underline">
-                        {{ __('Overzicht voedselpakketten') }}
-                    </a>
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-2">Menu</h3>
+                        <div class="space-y-2">
+                            <a href="{{ route('volunteer.food-packages') }}" class="block px-4 py-2 bg-blue-100 text-blue-700 rounded hover:bg-blue-200">
+                                {{ __('Overzicht voedselpakketten') }}
+                            </a>
+                        </div>
+                    </div>
                     
                     <div class="mt-6">
                         <h3 class="text-lg font-semibold mb-4">Welcome, Volunteer!</h3>

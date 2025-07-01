@@ -19,34 +19,35 @@ Route::get('/dashboard', function () {
 // Role-based dashboards
 Route::middleware(['auth', 'verified', 'role:1'])->group(function () {
     Route::get('/manager/dashboard', [ManagerDashboardController::class, 'index'])->name('manager.dashboard');
+    
+    // Food packages route for managers
+    Route::get('/food-packages', [FamilyFoodPackageController::class, 'index'])->name('FoodPackages.food-packages');
 });
 
 Route::middleware(['auth', 'verified', 'role:2'])->group(function () {
     Route::get('/employee/dashboard', [EmployeeDashboardController::class, 'index'])->name('employee.dashboard');
 });
 
-// Food packages routes for all authenticated users
+// Volunteer routes
+Route::middleware(['auth', 'verified', 'role:3'])->group(function () {
+    Route::get('/volunteer/dashboard', [VolunteerDashboardController::class, 'index'])->name('volunteer.dashboard');
+    Route::get('/volunteer/food-packages', [FamilyFoodPackageController::class, 'volunteerIndex'])->name('volunteer.food-packages');
+});
+
 Route::middleware(['auth', 'verified'])->group(function () {
-    // Manager food packages overview
-    Route::get('/food-packages', [FamilyFoodPackageController::class, 'index'])
-        ->middleware(['role:1'])
-        ->name('FoodPackages.food-packages');
-    
-    // Volunteer food packages view
-    Route::get('/volunteer/food-packages', [FamilyFoodPackageController::class, 'volunteerIndex'])
-        ->middleware(['role:3'])
-        ->name('volunteer.food-packages');
-    
     // View food packages for a family
     Route::get('/food-packages/family/{id}', [FamilyFoodPackageController::class, 'showFamilyPackages'])
+        ->middleware(['role:1,3']) // Allow both managers and volunteers
         ->name('food-packages.family');
     
     // Edit food package status form
     Route::get('/food-packages/{id}/edit', [FamilyFoodPackageController::class, 'editStatus'])
+        ->middleware(['role:1,3']) // Allow both managers and volunteers
         ->name('food-packages.edit');
     
     // Update food package status
     Route::post('/food-packages/{id}/update', [FamilyFoodPackageController::class, 'updateStatus'])
+        ->middleware(['role:1,3']) // Allow both managers and volunteers
         ->name('food-packages.update');
 });
 
