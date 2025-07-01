@@ -53,6 +53,8 @@ Route::middleware(['auth', 'verified', 'role:1,2'])->group(function () {
     Route::get('/product-stock/data', [ProductStockController::class, 'getData'])->name('product-stock.data');
     Route::get('/product-stock/details/{productId}', [ProductStockController::class, 'getProductDetails'])->name('product-stock.details');
     Route::get('/product-stock/show/{productId}', [ProductStockController::class, 'show'])->name('product-stock.show');
+    Route::get('/product-stock/edit/{productId}', [ProductStockController::class, 'edit'])->name('product-stock.edit');
+    Route::put('/product-stock/update/{productId}', [ProductStockController::class, 'update'])->name('product-stock.update');
 });
 
 Route::middleware('auth')->group(function () {
