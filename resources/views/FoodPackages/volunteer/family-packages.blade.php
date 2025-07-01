@@ -1,0 +1,98 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-green-600 leading-tight">
+            {{ __('Overzicht Voedselpakketten') }}
+        </h2>
+    </x-slot>
+
+    <div class="py-6">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white shadow-sm rounded-lg p-6">
+                <!-- Family information section -->
+                <div class="mb-6 border-b pb-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-gray-600">Naam:</p>
+                            <p>{{ $family->name }}</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-600">Omschrijving:</p>
+                            <p>{{ $family->description }}</p>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <p class="text-gray-600">Totaal aantal Personen:</p>
+                        <p>{{ $family->total_number_of_people }}</p>
+                    </div>
+                </div>
+
+                <!-- Food packages table -->
+                <div>
+                    <table class="min-w-full border-collapse">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2 border-b-2 text-left">Pakketnummer</th>
+                                <th class="px-4 py-2 border-b-2 text-left">Datum samenstelling</th>
+                                <th class="px-4 py-2 border-b-2 text-left">Datum uitgifte</th>
+                                <th class="px-4 py-2 border-b-2 text-left">Status</th>
+                                <th class="px-4 py-2 border-b-2 text-left">Aantal producten</th>
+                                <th class="px-4 py-2 border-b-2 text-center">Wijzig Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($packages as $package)
+                            <tr @if(session('status_changed') && session('status_changed')['package_id'] == $package->id) class="bg-green-50" @endif>
+                                <td class="px-4 py-2 border-b">{{ $package->package_number }}</td>
+                                <td class="px-4 py-2 border-b">{{ $package->date_composed ? date('d-m-Y', strtotime($package->date_composed)) : '~~~~' }}</td>
+                                <td class="px-4 py-2 border-b">{{ $package->date_issued ? date('d-m-Y', strtotime($package->date_issued)) : '~~~~' }}</td>
+                                <td class="px-4 py-2 border-b">
+                                    @if($package->status == 'Uitgereikt')
+                                        Uitgereikt
+                                    @elseif($package->status == 'NietUitgereikt')
+                                        Niet Uitgereikt
+                                    @else
+                                        Niet Meer Ingeschreven
+                                    @endif
+                                </td>
+                                <td class="px-4 py-2 border-b">{{ $package->product_count }}</td>
+                                <td class="px-4 py-2 border-b text-center">
+                                    <a href="{{ route('food-packages.edit', $package->id) }}" class="text-blue-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                        </svg>
+                                    </a>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="6" class="px-4 py-2 border-b text-center">
+                                    {{ __('Geen voedselpakketten gevonden') }}
+                                </td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="mt-6 flex justify-end space-x-2">
+                    <a href="{{ route('volunteer.food-packages') }}" class="px-4 py-2 bg-blue-500 text-white rounded-md">
+                        {{ __('terug') }}
+                    </a>
+                    <a href="{{ route('volunteer.dashboard') }}" class="px-4 py-2 bg-indigo-500 text-white rounded-md">
+                        {{ __('home') }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    @if(session('success'))
+        <script>
+            // Hide success message after 3 seconds
+            setTimeout(function() {
+                document.getElementById('success-message').style.display = 'none';
+            }, 3000);
+        </script>
+    @endif
+</x-app-layout>

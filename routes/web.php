@@ -22,6 +22,7 @@ Route::middleware(['auth', 'verified', 'role:1'])->group(function () {
     
     // Food packages route for managers
     Route::get('/food-packages', [FamilyFoodPackageController::class, 'index'])->name('FoodPackages.food-packages');
+    Route::get('/food-packages/family/{id}', [FamilyFoodPackageController::class, 'showFamilyPackages'])->name('food-packages.family');
 });
 
 Route::middleware(['auth', 'verified', 'role:2'])->group(function () {
@@ -32,30 +33,20 @@ Route::middleware(['auth', 'verified', 'role:2'])->group(function () {
 Route::middleware(['auth', 'verified', 'role:3'])->group(function () {
     Route::get('/volunteer/dashboard', [VolunteerDashboardController::class, 'index'])->name('volunteer.dashboard');
     Route::get('/volunteer/food-packages', [FamilyFoodPackageController::class, 'volunteerIndex'])->name('volunteer.food-packages');
+    Route::get('/volunteer/food-packages/family/{id}', [FamilyFoodPackageController::class, 'volunteerShowFamilyPackages'])->name('volunteer.food-packages.family');
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    // View food packages for a family
-    Route::get('/food-packages/family/{id}', [FamilyFoodPackageController::class, 'showFamilyPackages'])
-        ->middleware(['role:1,3']) // Allow both managers and volunteers
-        ->name('food-packages.family');
-    
-    // Edit food package status form
-    Route::get('/food-packages/{id}/edit', [FamilyFoodPackageController::class, 'editStatus'])
-        ->middleware(['role:1,3']) // Allow both managers and volunteers
-        ->name('food-packages.edit');
-    
-    // Update food package status
-    Route::post('/food-packages/{id}/update', [FamilyFoodPackageController::class, 'updateStatus'])
-        ->middleware(['role:1,3']) // Allow both managers and volunteers
-        ->name('food-packages.update');
+// Routes for both managers and volunteers
+Route::middleware(['auth', 'verified', 'role:1,3'])->group(function () {
+    Route::get('/food-packages/{id}/edit', [FamilyFoodPackageController::class, 'editStatus'])->name('food-packages.edit');
+    Route::post('/food-packages/{id}/update', [FamilyFoodPackageController::class, 'updateStatus'])->name('food-packages.update');
 });
 
+// Profile routes
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__ . '/auth.php';
 require __DIR__ . '/auth.php';

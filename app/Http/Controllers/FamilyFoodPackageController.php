@@ -114,13 +114,177 @@ class FamilyFoodPackageController extends Controller
                 ->orderBy('fp.date_composed', 'desc')
                 ->get();
         
-            return view('volunteer.food-packages', compact('packages'));
+            return view('FoodPackages.volunteer.food-packages', compact('packages'));
         } catch (Exception $e) {
             Log::error('Failed to get food packages for volunteers: ' . $e->getMessage());
-            return view('volunteer.food-packages', [
+            return view('FoodPackages.volunteer.food-packages', [
                 'packages' => collect(),
                 'error' => 'Er is een fout opgetreden bij het ophalen van de voedselpakketten'
             ]);
+        }
+    }
+
+    /**
+     * Show food packages for a specific family
+     */
+    public function showFamilyPackages($id): View
+    {
+        try {
+            // Get family details
+            $family = DB::table('families')
+                ->where('id', $id)
+                ->first();
+                
+            if (!$family) {
+                return redirect()->route('FoodPackages.food-packages')
+                    ->with('error', 'Gezin niet gevonden');
+            }
+            
+            // Get all food packages for the family
+            $packages = DB::table('food_packages as fp')
+                ->where('fp.family_id', $id)
+                ->select(
+                    'fp.id',
+                    'fp.package_number',
+                    'fp.date_composed',
+                    'fp.date_issued',
+                    'fp.status',
+                    DB::raw('(SELECT COUNT(*) FROM product_per_food_packages WHERE food_package_id = fp.id) as product_count')
+                )
+                ->get();
+                
+            return view('FoodPackages.family-packages', compact('family', 'packages'));
+        } catch (Exception $e) {
+            Log::error('Failed to get family packages: ' . $e->getMessage());
+            return redirect()->route('FoodPackages.food-packages')
+                ->with('error', 'Er is een fout opgetreden bij het ophalen van de voedselpakketten');
+        }
+    }
+
+    /**
+     * Show food packages for a specific family (volunteer version)
+     */
+    public function volunteerShowFamilyPackages($id): View
+    {
+        try {
+            // Get family details
+            $family = DB::table('families')
+                ->where('id', $id)
+                ->first();
+                
+            if (!$family) {
+                return redirect()->route('volunteer.food-packages')
+                    ->with('error', 'Gezin niet gevonden');
+            }
+            
+            // Get all food packages for the family
+            $packages = DB::table('food_packages as fp')
+                ->where('fp.family_id', $id)
+                ->select(
+                    'fp.id',
+                    'fp.package_number',
+                    'fp.date_composed',
+                    'fp.date_issued',
+                    'fp.status',
+                    DB::raw('(SELECT COUNT(*) FROM product_per_food_packages WHERE food_package_id = fp.id) as product_count')
+                )
+                ->get();
+                
+            return view('FoodPackages.volunteer.family-packages', compact('family', 'packages'));
+        } catch (Exception $e) {
+            Log::error('Failed to get family packages for volunteer: ' . $e->getMessage());
+            return redirect()->route('volunteer.food-packages')
+                ->with('error', 'Er is een fout opgetreden bij het ophalen van de voedselpakketten');
+        }
+    }
+
+    /**
+     * Show form to edit food package status
+     */
+    public function editStatus($id): View
+    {
+        try {
+            // Get food package details
+            $package = DB::table('food_packages as fp')
+                ->join('families as f', 'fp.family_id', '=', 'f.id')
+                ->where('fp.id', $id)
+                ->select(
+                    'fp.id',
+                    'fp.package_number',
+                    'fp.date_composed',
+                    'fp.date_issued',
+                    'fp.status',
+                    'f.id as family_id',
+                    'f.name as family_name'
+                )
+                ->first();
+                
+            if (!$package) {
+                return redirect()->route('FoodPackages.food-packages')
+                    ->with('error', 'Voedselpakket niet gevonden');
+            }
+            
+            // Define possible status options
+            $statusOptions = [
+                'Uitgereikt' => 'Uitgereikt',
+                'NietUitgereikt' => 'Niet Uitgereikt',
+                'NietMeerIngeschreven' => 'Niet Meer Ingeschreven'
+            ];
+                
+            return view('FoodPackages.edit-status', compact('package', 'statusOptions'));
+        } catch (Exception $e) {
+            Log::error('Failed to get package for editing: ' . $e->getMessage());
+            return redirect()->route('FoodPackages.food-packages')
+                ->with('error', 'Er is een fout opgetreden bij het bewerken van het voedselpakket');
+        }
+    }
+
+    /**
+     * Update food package status
+     */
+    public function updateStatus(Request $request, $id)
+    {
+        try {
+            $package = DB::table('food_packages')->where('id', $id)->first();
+            
+            if (!$package) {
+                return redirect()->route('FoodPackages.food-packages')
+                    ->with('error', 'Voedselpakket niet gevonden');
+            }
+            
+            // Validate the request
+            $request->validate([
+                'status' => 'required|string|in:Uitgereikt,NietUitgereikt,NietMeerIngeschreven'
+            ]);
+            
+            $oldStatus = $package->status;
+            $newStatus = $request->status;
+            
+            // Only set date_issued if changing to "Uitgereikt" status
+            $dateIssued = null;
+            if ($newStatus === 'Uitgereikt') {
+                $dateIssued = now();
+            }
+            
+            // Update the package status
+            DB::table('food_packages')
+                ->where('id', $id)
+                ->update([
+                    'status' => $newStatus,
+                    'date_issued' => $dateIssued
+                ]);
+                
+            // Session flash message for the 3-second display
+            return redirect()->route('food-packages.family', $package->family_id)
+                ->with('success', 'De wijziging is doorgevoerd')
+                ->with('status_changed', [
+                    'old_status' => $oldStatus,
+                    'new_status' => $newStatus,
+                    'package_id' => $id
+                ]);
+        } catch (Exception $e) {
+            Log::error('Failed to update package status: ' . $e->getMessage());
+            return back()->with('error', 'Er is een fout opgetreden bij het bijwerken van het voedselpakket');
         }
     }
 }
