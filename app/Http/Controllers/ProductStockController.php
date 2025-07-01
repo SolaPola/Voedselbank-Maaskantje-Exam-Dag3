@@ -279,9 +279,12 @@ class ProductStockController extends Controller
     }
 
     
+    /**
+     * Update the specified product.
+     */
     public function update(Request $request, $productId)
     {
-
+        // Get current warehouse stock from database first for validation
         $currentWarehouseData = DB::table('product_per_warehouses as ppw')
             ->join('warehouses as w', 'ppw.warehouse_id', '=', 'w.id')
             ->where('ppw.product_id', $productId)
@@ -318,7 +321,7 @@ class ProductStockController extends Controller
             'date_delivered.date' => 'Het veld uitleveringsdatum moet een geldige datum zijn.',
             'delivered_quantity.integer' => 'Het veld aantal uitgeleverde producten moet een geheel getal zijn.',
             'delivered_quantity.min' => 'Het veld aantal uitgeleverde producten moet minimaal :min zijn.',
-            'delivered_quantity.max' => 'Er worden meer producten uitgeleverd dan er op voorraad zijn.'
+            'delivered_quantity.max' => 'De productgegevens kunnen niet worden gewijzigd.'
         ]);
 
         try {
