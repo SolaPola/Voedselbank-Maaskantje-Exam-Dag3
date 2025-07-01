@@ -295,15 +295,32 @@ class ProductStockController extends Controller
     public function update(Request $request, $productId)
     {
         $request->validate([
-            'name' => 'required|string|max:30',
+            'name' => 'required|string|max:255',
             'barcode' => 'nullable|string|max:13',
             'expiry_date' => 'nullable|date',
             'location' => 'required|string|max:255',
             'date_received' => 'nullable|date',
             'date_delivered' => 'nullable|date',
             'quantity' => 'required|integer|min:0',
-            'packaging_unit' => 'required|string|max:255',
             'delivered_quantity' => 'nullable|integer|min:0'
+        ], [
+            'name.required' => 'Het veld productnaam is verplicht.',
+            'name.string' => 'Het veld productnaam moet een tekst zijn.',
+            'name.max' => 'Het veld productnaam mag niet langer zijn dan :max karakters.',
+            'barcode.string' => 'Het veld barcode moet een tekst zijn.',
+            'barcode.max' => 'Het veld barcode mag niet langer zijn dan :max karakters.',
+            'expiry_date.date' => 'Het veld houdbaarheidsdatum moet een geldige datum zijn.',
+            'location.required' => 'Het veld magazijnlocatie is verplicht.',
+            'location.string' => 'Het veld magazijnlocatie moet een tekst zijn.',
+            'location.max' => 'Het veld magazijnlocatie mag niet langer zijn dan :max karakters.',
+            'date_received.date' => 'Het veld ontvangstdatum moet een geldige datum zijn.',
+            'date_delivered.date' => 'Het veld uitleveringsdatum moet een geldige datum zijn.',
+            'quantity.required' => 'Het veld aantal op voorraad is verplicht.',
+            'quantity.integer' => 'Het veld aantal op voorraad moet een geheel getal zijn.',
+            'quantity.min' => 'Het veld aantal op voorraad moet minimaal :min zijn.',
+
+            'delivered_quantity.integer' => 'Het veld aantal uitgeleverde producten moet een geheel getal zijn.',
+            'delivered_quantity.min' => 'Het veld aantal uitgeleverde producten moet minimaal :min zijn.'
         ]);
 
         try {
@@ -345,7 +362,6 @@ class ProductStockController extends Controller
                     'date_received' => $request->date_received,
                     'date_delivered' => $request->date_delivered,
                     'quantity' => $newQuantity,
-                    'packaging_unit' => $request->packaging_unit,
                     'updated_at' => now()
                 ]);
 
@@ -362,3 +378,4 @@ class ProductStockController extends Controller
         }
     }
 }
+    

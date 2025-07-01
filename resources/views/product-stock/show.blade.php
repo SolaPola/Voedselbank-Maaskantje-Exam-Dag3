@@ -82,7 +82,7 @@
                             <label class="text-sm font-medium text-gray-700">{{ __('Aantal op voorraad') }}</label>
                             <div class="md:col-span-2">
                                 <div class="bg-gray-50 border border-gray-200 rounded-md px-3 py-2 text-sm text-gray-900">
-                                    {{ $warehouse->quantity ?? '~' }} {{ $warehouse->packaging_unit ?? '' }}
+                                    {{ $warehouse->quantity ?? '~' }}
                                 </div>
                             </div>
                         </div>
