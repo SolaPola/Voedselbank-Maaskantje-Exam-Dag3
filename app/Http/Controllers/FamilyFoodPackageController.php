@@ -293,7 +293,7 @@ class FamilyFoodPackageController extends Controller
     public function volunteerEditStatus($id)
     {
         try {
-            // Get food package details
+            // Get food package details without using is_active column
             $package = DB::table('food_packages as fp')
                 ->join('families as f', 'fp.family_id', '=', 'f.id')
                 ->where('fp.id', $id)
@@ -319,14 +319,17 @@ class FamilyFoodPackageController extends Controller
                 'NietUitgereikt' => 'Niet Uitgereikt',
                 'NietMeerIngeschreven' => 'Niet Meer Ingeschreven'
             ];
-        
-            // If there's a success message, include it
-            if (session('success')) {
-                return view('FoodPackages.volunteer.edit-status', compact('package', 'statusOptions'))
-                    ->with('success', session('success'));
+            
+            // Check if package status is already "NietMeerIngeschreven"
+            $isDisabled = false;
+            $errorMessage = null;
+            
+            if ($package->status === 'NietMeerIngeschreven') {
+                $isDisabled = true;
+                $errorMessage = 'Dit gezin is niet meer ingeschreven bij de voedselbank en daarom kan er geen voedselpakket worden uitgereikt';
             }
             
-            return view('FoodPackages.volunteer.edit-status', compact('package', 'statusOptions'));
+            return view('FoodPackages.volunteer.edit-status', compact('package', 'statusOptions', 'isDisabled', 'errorMessage'));
         } catch (Exception $e) {
             Log::error('Failed to get package for editing: ' . $e->getMessage());
             return redirect()->route('volunteer.food-packages')

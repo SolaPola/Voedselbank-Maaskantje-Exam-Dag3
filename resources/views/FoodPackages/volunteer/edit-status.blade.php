@@ -8,12 +8,27 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm sm:rounded-lg p-6">
-                <!-- Make sure the form action points to the correct route -->
-                <form action="{{ route('volunteer.food-packages.update', $package->id) }}" method="POST">
+                <h3 class="text-xl font-medium text-green-600 text-center mb-6">
+                    {{ __('Wijzig voedselpakket status') }}
+                </h3>
+                
+                @if($errorMessage)
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                        {{ $errorMessage }}
+                    </div>
+                @endif
+                
+                @if(session('success'))
+                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                
+                <form action="{{ route('volunteer.food-packages.update', $package->id) }}" method="POST" class="max-w-md mx-auto">
                     @csrf
                     
                     <div class="mb-6">
-                        <select name="status" class="w-full border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm">
+                        <select name="status" class="w-full border-gray-300 rounded-md shadow-sm" {{ $isDisabled ? 'disabled' : '' }}>
                             @foreach($statusOptions as $value => $label)
                                 <option value="{{ $value }}" {{ $package->status == $value ? 'selected' : '' }}>
                                     {{ $label }}
@@ -22,26 +37,18 @@
                         </select>
                     </div>
                     
-                    @if(session('success'))
-                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-
-                    <div class="flex justify-between mt-8">
-                        <button type="submit" class="px-4 py-2 bg-gray-500 text-white rounded-md">
+                    <div class="mt-8 flex justify-center space-x-4">
+                        <button type="submit" class="px-4 py-2 bg-gray-500 text-white rounded-md" {{ $isDisabled ? 'disabled' : '' }}>
                             {{ __('Wijzig status voedselpakket') }}
                         </button>
                         
-                        <div>
-                            <a href="{{ route('volunteer.food-packages.family', $package->family_id) }}" class="px-4 py-2 bg-blue-500 text-white rounded-md mr-2">
-                                {{ __('terug') }}
-                            </a>
-                            
-                            <a href="{{ route('volunteer.dashboard') }}" class="px-4 py-2 bg-blue-500 text-white rounded-md">
-                                {{ __('home') }}
-                            </a>
-                        </div>
+                        <a href="{{ route('volunteer.food-packages.family', $package->family_id) }}" class="px-4 py-2 bg-blue-500 text-white rounded-md">
+                            {{ __('terug') }}
+                        </a>
+                        
+                        <a href="{{ route('volunteer.dashboard') }}" class="px-4 py-2 bg-blue-500 text-white rounded-md">
+                            {{ __('home') }}
+                        </a>
                     </div>
                 </form>
             </div>
