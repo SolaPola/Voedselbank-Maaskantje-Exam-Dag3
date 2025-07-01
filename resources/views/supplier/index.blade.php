@@ -25,7 +25,7 @@
                     <th class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider border-r border-gray-300">Contactpersoon</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider border-r border-gray-300">Email</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider border-r border-gray-300">Mobiel</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider border-r border-gray-300">Leveranciernummer</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider border-r border-gray-300">LeverancierNummer</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider border-r border-gray-300">LeverancierType</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider">Product Details</th>
                 </tr>
