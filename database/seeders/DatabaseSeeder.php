@@ -88,7 +88,7 @@ class DatabaseSeeder extends Seeder
         // Create products - fixed duplicate barcodes
         $products = [
             [1, 1, 'Aardappel', null, '8719587321239', '2024-07-12', 'Kruimige aardappel', 'OpVoorraad'],
-            [2, 1, 'Aardappel', null, '8719587321240', '2024-07-26', 'Kruimige aardappel', 'OpVoorraad'],
+            [2, 1, 'Aardappel', null, '8719587321239', '2024-07-26', 'Kruimige aardappel', 'OpVoorraad'],
             [3, 1, 'Ui', null, '8719437321335', '2024-09-02', 'Gele ui', 'NietOpVoorraad'],
             [4, 1, 'Appel', null, '8719486321332', '2024-08-16', 'Granny Smith', 'NietLeverbaar'],
             [5, 1, 'Appel', null, '8719486321333', '2024-09-23', 'Granny Smith', 'NietLeverbaar'],
