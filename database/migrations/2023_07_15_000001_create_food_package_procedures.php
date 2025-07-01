@@ -14,6 +14,7 @@ return new class extends Migration
     {
         // Create GetFoodPackageForEditing stored procedure
         DB::unprepared("
+        drop procedure if exists GetFoodPackageForEditing;
             CREATE PROCEDURE GetFoodPackageForEditing(IN package_id INT)
             BEGIN
                 SELECT 
@@ -32,6 +33,7 @@ return new class extends Migration
         
         // Create UpdateFoodPackageStatus stored procedure
         DB::unprepared("
+        drop procedure if exists UpdateFoodPackageStatus;
             CREATE PROCEDURE UpdateFoodPackageStatus(
                 IN package_id INT,
                 IN new_status VARCHAR(50)
