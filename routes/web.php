@@ -20,8 +20,8 @@ Route::get('/dashboard', function () {
 Route::middleware(['auth', 'verified', 'role:1'])->group(function () {
     Route::get('/manager/dashboard', [ManagerDashboardController::class, 'index'])->name('manager.dashboard');
 
-    Route::get('/suppliers', [SupplierController::class, 'index'])->name('supplier.index');
-    Route::get('/suppliers/{supplier}/products', [SupplierController::class, 'products'])->name('suppliers.products');
+    Route::get('/manager/dashboard/suppliers', [SupplierController::class, 'index'])->name('supplier.index');
+    Route::get('/manager/dashboard/suppliers/{supplier}/products', [SupplierController::class, 'products'])->name('manager.suppliers.products');
 });
 
 Route::middleware(['auth', 'verified', 'role:2'])->group(function () {

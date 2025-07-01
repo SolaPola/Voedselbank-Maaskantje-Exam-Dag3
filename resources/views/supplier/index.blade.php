@@ -2,17 +2,19 @@
 
 @section('content')
 <div class="container mx-auto px-4 py-6">
-    <h2 class="text-2xl font-bold mb-4 text-green-700">Overzicht Suppliers</h2>
+    <h2 class="text-2xl font-bold mb-4 text-green-700">Overzicht Leveranciers</h2>
     <form method="GET" action="{{ route('supplier.index') }}" class="flex items-center gap-2 mb-4 justify-end">
         <select name="type" class="form-select px-3 py-2 border rounded">
             <option value="">Selecteer LeverancierType</option>
-            @if(isset($supplierTypes))
-                @foreach($supplierTypes as $type)
-                    <option value="{{ $type->id }}" {{ request('type') == $type->id ? 'selected' : '' }}>
-                        {{ $type->name }}
-                    </option>
-                @endforeach
-            @endif
+            @php
+                // Collect unique supplier types from the $suppliers collection
+                $types = $suppliers->pluck('supplier_type')->unique()->filter()->values();
+            @endphp
+            @foreach($types as $type)
+                <option value="{{ $type }}" {{ request('type') == $type ? 'selected' : '' }}>
+                    {{ $type }}
+                </option>
+            @endforeach
         </select>
         <button type="submit" class="btn btn-secondary px-4 py-2 rounded bg-blue-600 text-white">Toon Leveranciers</button>
     </form>

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\SupplierType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class SupplierFactory extends Factory
@@ -11,8 +12,8 @@ class SupplierFactory extends Factory
         return [
             'name' => $this->faker->company(),
             'contact_person' => $this->faker->optional()->name(),
-            'supplier_number' => $this->faker->unique()->regexify('SUP[0-9]{6}'),
-            'supplier_type' => $this->faker->randomElement(['Supermarket', 'Wholesaler', 'Restaurant', 'Bakery', 'Farm']),
+            'supplier_number' => 'L' . $this->faker->unique()->numerify('####'),
+            'supplier_type_id' => SupplierType::inRandomOrder()->first()?->id ?? 1,
         ];
     }
 }
