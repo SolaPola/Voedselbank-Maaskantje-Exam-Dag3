@@ -18,6 +18,10 @@ return new class extends Migration
             $table->string('supplier_number')->unique();
             $table->string('supplier_type');
             $table->timestamps();
+            $table->text('comment')->nullable();
+            $table->boolean('isactive')->default(true);
+            $table->timestamp('dateadded')->useCurrent();
+            $table->timestamp('datechanged')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

@@ -17,6 +17,10 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->boolean('anaphylactic_risk')->default(false);
             $table->timestamps();
+            $table->text('comment')->nullable();
+            $table->boolean('isactive')->default(true);
+            $table->timestamp('dateadded')->useCurrent();
+            $table->timestamp('datechanged')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

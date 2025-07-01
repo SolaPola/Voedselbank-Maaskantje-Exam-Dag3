@@ -21,6 +21,10 @@ return new class extends Migration
             $table->string('person_type');
             $table->boolean('is_representative')->default(false);
             $table->timestamps();
+            $table->text('comment')->nullable();
+            $table->boolean('isactive')->default(true);
+            $table->timestamp('dateadded')->useCurrent();
+            $table->timestamp('datechanged')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

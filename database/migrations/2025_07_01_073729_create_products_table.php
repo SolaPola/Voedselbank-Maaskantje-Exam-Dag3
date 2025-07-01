@@ -21,6 +21,10 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('status');
             $table->timestamps();
+            $table->text('comment')->nullable();
+            $table->boolean('isactive')->default(true);
+            $table->timestamp('dateadded')->useCurrent();
+            $table->timestamp('datechanged')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

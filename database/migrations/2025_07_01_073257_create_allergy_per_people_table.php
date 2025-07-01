@@ -16,6 +16,10 @@ return new class extends Migration
             $table->foreignId('person_id')->constrained('people')->onDelete('cascade');
             $table->foreignId('allergy_id')->constrained('allergies')->onDelete('cascade');
             $table->timestamps();
+            $table->text('comment')->nullable();
+            $table->boolean('isactive')->default(true);
+            $table->timestamp('dateadded')->useCurrent();
+            $table->timestamp('datechanged')->useCurrent()->useCurrentOnUpdate();
         });
     }
 
