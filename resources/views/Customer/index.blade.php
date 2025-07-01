@@ -50,6 +50,7 @@
                             <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b border-gray-300">Klant Details</th>
                         </tr>
                     </thead>
+                    {{-- tables --}}
                     <tbody class="bg-white">
                         @forelse($pagination->items() as $family)
                             <tr class="hover:bg-gray-50">
