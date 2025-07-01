@@ -11,6 +11,8 @@ return new class extends Migration
     public function up(): void
     {
         DB::unprepared('
+            DROP PROCEDURE IF EXISTS GetProductStockOverviewByCategory;
+
             CREATE PROCEDURE GetProductStockOverviewByCategory(IN categoryId INT)
             BEGIN
                 SELECT 

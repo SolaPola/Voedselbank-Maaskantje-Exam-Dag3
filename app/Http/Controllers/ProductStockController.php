@@ -318,10 +318,24 @@ class ProductStockController extends Controller
             'quantity.required' => 'Het veld aantal op voorraad is verplicht.',
             'quantity.integer' => 'Het veld aantal op voorraad moet een geheel getal zijn.',
             'quantity.min' => 'Het veld aantal op voorraad moet minimaal :min zijn.',
-
             'delivered_quantity.integer' => 'Het veld aantal uitgeleverde producten moet een geheel getal zijn.',
             'delivered_quantity.min' => 'Het veld aantal uitgeleverde producten moet minimaal :min zijn.'
         ]);
+
+        // Get current warehouse stock from database
+        $currentStock = DB::table('product_per_warehouses as ppw')
+            ->join('warehouses as w', 'ppw.warehouse_id', '=', 'w.id')
+            ->where('ppw.product_id', $productId)
+            ->where('ppw.isactive', 1)
+            ->where('w.isactive', 1)
+            ->value('w.quantity');
+
+        // Custom validation: Check if delivered quantity exceeds current warehouse stock
+        if ($request->delivered_quantity && $request->delivered_quantity > $currentStock) {
+            return back()->withErrors([
+                'delivered_quantity' => 'Er worden meer producten uitgeleverd dan er op voorraad zijn.'
+            ])->withInput();
+        }
 
         try {
             DB::beginTransaction();
@@ -349,10 +363,11 @@ class ProductStockController extends Controller
                 ->where('product_id', $productId)
                 ->value('warehouse_id');
 
-            // Calculate new quantity if delivery quantity is provided
+            // Calculate new quantity based on delivered quantity
             $newQuantity = $request->quantity;
             if ($request->delivered_quantity && $request->delivered_quantity > 0) {
-                $newQuantity = max(0, $request->quantity - $request->delivered_quantity);
+                // Subtract delivered quantity from current stock
+                $newQuantity = max(0, $currentStock - $request->delivered_quantity);
             }
 
             // Update warehouse
@@ -378,4 +393,4 @@ class ProductStockController extends Controller
         }
     }
 }
-    
+
