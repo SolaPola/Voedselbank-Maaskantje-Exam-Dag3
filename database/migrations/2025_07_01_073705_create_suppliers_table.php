@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('contact_person')->nullable();
             $table->string('supplier_number')->unique();
             $table->string('supplier_type');
+            $table->text('comment')->nullable();
+            $table->boolean('isactive')->default(true);
+            $table->timestamp('dateadded')->useCurrent();
+            $table->timestamp('datechanged')->useCurrent()->useCurrentOnUpdate();
             $table->timestamps();
         });
     }
