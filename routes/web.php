@@ -51,6 +51,8 @@ Route::middleware(['auth', 'verified', 'role:3'])->group(function () {
 Route::middleware(['auth', 'verified', 'role:1,2'])->group(function () {
     Route::get('/product-stock', [ProductStockController::class, 'index'])->name('product-stock.index');
     Route::get('/product-stock/data', [ProductStockController::class, 'getData'])->name('product-stock.data');
+    Route::get('/product-stock/details/{productId}', [ProductStockController::class, 'getProductDetails'])->name('product-stock.details');
+    Route::get('/product-stock/show/{productId}', [ProductStockController::class, 'show'])->name('product-stock.show');
 });
 
 Route::middleware('auth')->group(function () {
