@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Role;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -44,5 +43,10 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('1'),
         ]);
         $volunteer->roles()->attach($volunteerRole->id);
+
+        // Call the DummyDataSeeder to add sample data
+        $this->call([
+            FoodpackagesDataSeeder::class,
+        ]);
     }
 }
