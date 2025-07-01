@@ -18,6 +18,10 @@ return new class extends Migration
             $table->date('date_delivered')->nullable();
             $table->date('next_delivery_date')->nullable();
             $table->timestamps();
+            $table->text('comment')->nullable();
+            $table->boolean('isactive')->default(true);
+            $table->timestamp('dateadded')->useCurrent();
+            $table->timestamp('datechanged')->useCurrent()->useCurrentOnUpdate();
         });
     }
 
