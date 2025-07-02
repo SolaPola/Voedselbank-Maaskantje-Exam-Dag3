@@ -20,18 +20,18 @@ class SupplierController extends Controller
         return view('supplier.index', compact('suppliers'));
     }
 
-    public function products(Supplier $supplier)
+    public function show(Supplier $supplier)
     {
         // Haal alle producten op die bij deze supplier horen
         $products = Product::where('supplier_id', $supplier->id)->get();
-        return view('supplier.products', compact('supplier', 'products'));
+        return view('supplier.show', compact('supplier', 'products'));
     }
 
     public function edit(Request $request, Product $product)
     {
         if ($request->isMethod('post')) {
-            $oldDate = $product->expiration_date;
-            $newDate = $request->input('expiration_date');
+            $oldDate = $product->expiry_date;
+            $newDate = $request->input('expiry_date');
 
             if ($newDate && $newDate !== $oldDate) {
                 // Check if new date is more than 7 days after old date
@@ -40,7 +40,7 @@ class SupplierController extends Controller
                 if ($new->diffInDays($old, false) < -7) {
                     return redirect()->back()->with('error', 'De houdbaarheidsdatum is niet gewijzigd.');
                 }
-                $product->expiration_date = $newDate;
+                $product->expiry_date = $newDate;
                 $product->save();
                 return redirect()->back()->with('success', 'De houdbaarheidsdatum is gewijzigd');
             } else {

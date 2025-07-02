@@ -1,66 +1,85 @@
-@extends('layouts.app')
+{{-- filepath: c:\Users\bilag\OneDrive - MBO Utrecht\MBO-U-Leerljaar-2\Periode 4\Exam\day 3\code\Voedselbank-Maaskantje-Exam-Dag3-dev-dag03\resources\views\supplier\index.blade.php --}}
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Overzicht Leveranciers') }}
+        </h2>
+    </x-slot>
 
-@section('content')
-<div class="container mx-auto px-4 py-6">
-    <h2 class="text-2xl font-bold mb-4 text-green-700 underline underline-offset-4">Overzicht Leveranciers</h2>
-    <form method="GET" action="{{ route('supplier.index') }}" class="flex items-center gap-2 mb-4 justify-end">
-        <select name="type" class="form-select px-3 py-2 border rounded" onchange="this.form.submit()">
-            <option value="">Selecteer LeverancierType</option>
-            @php
-                $types = $suppliers->pluck('supplier_type')->unique()->filter()->values();
-            @endphp
-            @foreach($types as $type)
-                <option value="{{ $type }}" {{ request('type') == $type ? 'selected' : '' }}>
-                    {{ $type }}
-                </option>
-            @endforeach
-        </select>
-        <button type="submit" class="btn btn-secondary px-4 py-2 rounded bg-blue-600 text-white">Toon Leveranciers</button>
-    </form>
-    <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200 border border-gray-300">
-            <thead class="bg-gray-50">
-                <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider border-r border-gray-300">Naam</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider border-r border-gray-300">Contactpersoon</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider border-r border-gray-300">Email</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider border-r border-gray-300">Mobiel</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider border-r border-gray-300">LeverancierNummer</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider border-r border-gray-300">LeverancierType</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider">Product Details</th>
-                </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-                @forelse($suppliers as $supplier)
-                    @php $contact = $supplier->contacts->first(); @endphp
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border-r border-gray-300">{{ $supplier->name }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border-r border-gray-300">{{ $supplier?->contact_person}}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border-r border-gray-300">{{ $contact?->email ?? '' }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border-r border-gray-300">{{ $contact?->mobile ?? '' }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border-r border-gray-300">{{ $supplier->supplier_number }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border-r border-gray-300">{{ $supplier->supplier_type }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-center">
-                            <a href="{{ route('manager.suppliers.products', $supplier->id) }}" title="Toon producten">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="inline w-6 h-6 text-blue-600 hover:text-blue-800 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <rect x="4" y="4" width="16" height="16" rx="2" stroke-width="2" stroke="currentColor" fill="white"/>
-                                    <path d="M8 8h8M8 12h8M8 16h4" stroke-width="2" stroke="currentColor" stroke-linecap="round"/>
-                                </svg>
-                            </a>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900" colspan="7">No suppliers found.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+
+                    @if (count($suppliers) > 0)
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full bg-white border border-gray-200">
+                                <thead>
+                                    <tr>
+                                        <th class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                            {{ __('Naam') }}
+                                        </th>
+                                        <th class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                            {{ __('Contactpersoon') }}
+                                        </th>
+                                        <th class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                            {{ __('Leverancier Nummer') }}
+                                        </th>
+                                        <th class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                            {{ __('Type') }}
+                                        </th>
+                                        <th class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                            {{ __('Details') }}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($suppliers as $supplier)
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                                {{ $supplier->name }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                                {{ $supplier->contact_person }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                                {{ $supplier->supplier_number }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                                {{ $supplier->supplier_type }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                                <a href="{{ route('supplier.show', $supplier->id) }}"
+                                                    class="inline-flex items-center px-3 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-white hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                                                    title="{{ __('Toon details') }}">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                                                        </path>
+                                                    </svg>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @else
+                        <div class="p-4 bg-yellow-50 text-yellow-700 border border-yellow-200 rounded-lg text-center">
+                            {{ __('Er zijn momenteel geen leveranciers in het systeem.') }}
+                        </div>
+                    @endif
+
+                    <div class="mt-4 flex justify-end">
+                        <a href="{{ route('dashboard') }}"
+                            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                            {{ __('Home') }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="flex justify-end mt-4">
-        <a href="{{ route('manager.dashboard') }}" class="px-6 py-2 rounded bg-blue-600 text-white font-semibold shadow hover:bg-blue-700 transition">
-            Home
-        </a>
-    </div>
-</div>
-@endsection
+</x-app-layout>

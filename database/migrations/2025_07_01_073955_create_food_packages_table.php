@@ -18,8 +18,12 @@ return new class extends Migration
             $table->date('date_composed')->nullable();
             $table->date('date_issued')->nullable();
             $table->string('status');
+            $table->text('comment')->nullable();
+            $table->boolean('isactive')->default(true);
+            $table->timestamp('dateadded')->useCurrent();
+            $table->timestamp('datechanged')->useCurrent()->useCurrentOnUpdate();
             $table->timestamps();
-        });
+       });
     }
 
     /**

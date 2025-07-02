@@ -52,19 +52,42 @@ class User extends Authenticatable
     }
 
     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['roles'];
+
+    /**
      * Get the roles for the user.
      */
-    public function roles(): BelongsToMany
+    public function roles()
     {
-        return $this->belongsToMany(Role::class, 'role_per_users');
+        return $this->belongsToMany(\App\Models\Role::class, 'role_per_users', 'user_id', 'role_id')
+            ->select('roles.id', 'roles.name'); // Explicitly select columns with table prefix
     }
 
     /**
      * Check if user has a specific role.
      */
-    public function hasRole(string $roleName): bool
+    public function hasRole($roleId): bool
     {
-        return $this->roles()->where('name', $roleName)->exists();
+        // Cast roleId to integer to ensure proper type
+        $roleId = (int)$roleId;
+        
+        // Get all role IDs for the user
+        $userRoleIds = $this->roles()->pluck('roles.id')->toArray();
+        
+        // Check if the specified role ID is in the user's roles
+        return in_array($roleId, $userRoleIds);
+    }
+
+    /**
+     * Check if user has a specific role by ID.
+     */
+    public function hasRoleId(int $roleId): bool
+    {
+        return $this->roles()->where('roles.id', $roleId)->exists();
     }
 
     /**
