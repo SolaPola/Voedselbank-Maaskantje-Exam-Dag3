@@ -133,7 +133,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Jan van der Heijden',
                 'contact_person' => 'Jan van der Heijden',
                 'supplier_number' => 'L0005',
-                'supplier_type' => 'Donor'
+                'supplier_type' => ''
             ]),
             6 => Supplier::create([
                 'name' => 'Vomar',
