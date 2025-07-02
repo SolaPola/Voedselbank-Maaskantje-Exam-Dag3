@@ -11,7 +11,7 @@
                 <div class="p-6">
                     <!-- Green Title Section -->
                     <div class="mb-6 text-center">
-                        <h1 class="text-2xl font-bold text-green-600 text-left">
+                        <h1 class="text-2xl font-bold text-green-600 text-left underline">
                             Wijzig Product Details {{ $product->name }}
                         </h1>
                     </div>
@@ -19,14 +19,56 @@
                     <!-- Success Message -->
                     @if (session('success'))
                         <div class="mb-4 p-4 bg-green-50 text-green-700 border border-green-200 rounded-lg">
-                            {{ session('success') }}
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="font-medium">Gelukt!</span>
+                            </div>
+                            <p class="ml-7">{{ session('success') }}</p>
+                            <p class="ml-7 text-sm mt-1">U wordt over <span id="countdown">3</span> seconden
+                                doorgestuurd naar het overzicht.</p>
                         </div>
+
+                        <script>
+                            let countdown = 3;
+                            const countdownElement = document.getElementById('countdown');
+
+                            const timer = setInterval(() => {
+                                countdown--;
+                                countdownElement.textContent = countdown;
+
+                                if (countdown <= 0) {
+                                    clearInterval(timer);
+                                    window.location.href = '{{ route('product-stock.index') }}';
+                                }
+                            }, 1000);
+                        </script>
                     @endif
 
                     <!-- Error Message -->
                     @if ($errors->has('error'))
                         <div class="mb-4 p-4 bg-red-50 text-red-700 border border-red-200 rounded-lg">
                             {{ $errors->first('error') }}
+                        </div>
+                    @endif
+
+                    <!-- Delivered Quantity Validation Error -->
+                    @if ($errors->has('delivered_quantity'))
+                        <div class="mb-4 p-3 bg-red-100 text-red-800 border border-red-300 rounded-md">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zm-1 9a1 1 0 01-1-1v-4a1 1 0 112 0v4a1 1 0 01-1 1z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="font-medium">Let op!</span>
+                            </div>
+                            <p class="ml-7">{{ $errors->first('delivered_quantity') }}</p>
                         </div>
                     @endif
 
@@ -122,15 +164,6 @@
                                         class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('delivered_quantity') border-red-500 @enderror">
                                     @error('delivered_quantity')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                        <div class="mt-2 p-3 bg-red-100 text-red-800 border border-red-300 rounded-md">
-                                            <div class="flex items-center">
-                                                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zm-1 9a1 1 0 01-1-1v-4a1 1 0 112 0v4a1 1 0 01-1 1z" clip-rule="evenodd"></path>
-                                                </svg>
-                                                <span class="font-medium">Let op!</span>
-                                            </div>
-                                            <p class="ml-7">{{ $message }}</p>
-                                        </div>
                                     @enderror
                                 </div>
                             </div>
