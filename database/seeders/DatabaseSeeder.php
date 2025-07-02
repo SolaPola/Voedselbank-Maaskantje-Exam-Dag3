@@ -172,7 +172,18 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($products as $product) {
-            Product::create($product);
+            Product::create([
+                'supplier_id' => $product[0],
+                'category_id' => $product[1],
+                'name' => $product[2],
+                'allergy_type' => $product[3],
+                'barcode' => $product[4],
+                'expiry_date' => $product[5],
+                'description' => $product[6],
+                'status' => $product[7],
+               
+
+            ]);
         }
 
         // Create product per warehouse relationships
