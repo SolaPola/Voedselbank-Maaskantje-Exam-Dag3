@@ -91,17 +91,31 @@ class FamilyFoodPackageController extends Controller
     /**
      * Display the overview of all food packages for volunteers
      */
-    public function volunteerIndex(): View
+    public function volunteerIndex(Request $request): View
     {
         try {
-            // Get all food packages with family information for volunteers
-            $packages = DB::table('food_packages as fp')
+            // Get all diet preferences for the dropdown
+            $dietPreferences = DB::table('diet_preferences')->get();
+            
+            // Get the selected diet preference from the request
+            $selectedDietPreference = $request->input('diet_preference');
+            
+            // Base query for food packages
+            $query = DB::table('food_packages as fp')
                 ->join('families as f', 'fp.family_id', '=', 'f.id')
                 ->leftJoin('people as rep', function($join) {
                     $join->on('rep.family_id', '=', 'f.id')
                         ->where('rep.is_representative', '=', 1);
-                })
-                ->select(
+                });
+                
+            // Apply diet preference filter if selected
+            if ($selectedDietPreference) {
+                $query->join('diet_preference_per_families as dpf', 'f.id', '=', 'dpf.family_id')
+                      ->where('dpf.diet_preference_id', '=', $selectedDietPreference);
+            }
+            
+            // Complete the query with select and order
+            $packages = $query->select(
                     'fp.id',
                     'fp.package_number',
                     'fp.date_composed',
@@ -119,12 +133,14 @@ class FamilyFoodPackageController extends Controller
                 )
                 ->orderBy('fp.date_composed', 'desc')
                 ->get();
-        
-            return view('FoodPackages.volunteer.food-packages', compact('packages'));
+    
+            return view('FoodPackages.volunteer.food-packages', compact('packages', 'dietPreferences', 'selectedDietPreference'));
         } catch (Exception $e) {
             Log::error('Failed to get food packages for volunteers: ' . $e->getMessage());
             return view('FoodPackages.volunteer.food-packages', [
                 'packages' => collect(),
+                'dietPreferences' => DB::table('diet_preferences')->get(),
+                'selectedDietPreference' => null,
                 'error' => 'Er is een fout opgetreden bij het ophalen van de voedselpakketten'
             ]);
         }
