@@ -69,11 +69,11 @@ class DatabaseSeeder extends Seeder
         }
 
         $warehouses = [
-            [1, '2024-05-12', null, '5 kg', 20],
-            [2, '2024-05-26', null, '2.5 kg', 40],
-            [3, '2024-04-02', null, '1 kg', 30],
-            [4, '2024-05-16', null, '1.5 kg', 25],
-            [5, '2024-05-23', null, '4 stuks', 75],
+            [1, '2025-05-12', null, '5 kg', 20],
+            [2, '2025-05-26', null, '2.5 kg', 40],
+            [3, '2025-04-02', null, '1 kg', 30],
+            [4, '2025-05-16', null, '1.5 kg', 25],
+            [5, '2025-05-23', null, '4 stuks', 75],
         ];
 
         foreach ($warehouses as $warehouse) {
@@ -87,16 +87,16 @@ class DatabaseSeeder extends Seeder
         }
 
         $products = [
-            [1, 1, 'Aardappel', null, '8719587321239', '2024-07-12', 'Kruimige aardappel', 'OpVoorraad'],
-            [2, 1, 'Aardappel', null, '8719587321239', '2024-07-26', 'Kruimige aardappel', 'OpVoorraad'],
-            [3, 1, 'Ui', null, '8719437321335', '2024-09-02', 'Gele ui', 'NietOpVoorraad'],
-            [4, 1, 'Appel', null, '8719486321332', '2024-08-16', 'Granny Smith', 'NietLeverbaar'],
-            [5, 1, 'Appel', null, '8719486321333', '2024-09-23', 'Granny Smith', 'NietLeverbaar'],
-            [6, 1, 'Banaan', 'Banaan', '8719484321336', '2024-07-12', 'Biologische Banaan', 'OverHoudbaarheidsDatum'],
-            [7, 1, 'Banaan', 'Banaan', '8719484321337', '2024-07-19', 'Biologische Banaan', 'OverHoudbaarheidsDatum'],
-            [8, 2, 'Kaas', 'Lactose', '8719487421338', '2024-09-19', 'Jonge Kaas', 'OpVoorraad'],
-            [9, 2, 'Rosbief', null, '8719487421331', '2024-07-23', 'Rundvlees', 'OpVoorraad'],
-            [10, 3, 'Melk', 'Lactose', '8719447321332', '2024-07-23', 'Halfvolle melk', 'OpVoorraad'],
+            [1, 1, 'Aardappel', null, '8719587321239', '2025-07-12', 'Kruimige aardappel', 'OpVoorraad'],
+            [2, 1, 'Aardappel', null, '8719587321239', '2025-07-26', 'Kruimige aardappel', 'OpVoorraad'],
+            [3, 1, 'Ui', null, '8719437321335', '2025-09-02', 'Gele ui', 'NietOpVoorraad'],
+            [4, 1, 'Appel', null, '8719486321332', '2025-08-16', 'Granny Smith', 'NietLeverbaar'],
+            [5, 1, 'Appel', null, '8719486321333', '2025-09-23', 'Granny Smith', 'NietLeverbaar'],
+            [6, 1, 'Banaan', 'Banaan', '8719484321336', '2025-07-12', 'Biologische Banaan', 'OverHoudbaarheidsDatum'],
+            [7, 1, 'Banaan', 'Banaan', '8719484321337', '2025-07-19', 'Biologische Banaan', 'OverHoudbaarheidsDatum'],
+            [8, 2, 'Kaas', 'Lactose', '8719487421338', '2025-09-19', 'Jonge Kaas', 'OpVoorraad'],
+            [9, 2, 'Rosbief', null, '8719487421331', '2025-07-23', 'Rundvlees', 'OpVoorraad'],
+            [10, 3, 'Melk', 'Lactose', '8719447321332', '2025-07-23', 'Halfvolle melk', 'OpVoorraad'],
         ];
 
         foreach ($products as $product) {
@@ -134,4 +134,4 @@ class DatabaseSeeder extends Seeder
         ]);
     }
 }
-       
+
