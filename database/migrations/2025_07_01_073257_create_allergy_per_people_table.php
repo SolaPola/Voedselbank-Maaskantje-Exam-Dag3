@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Make sure the 'people' table exists before this migration runs!
         Schema::create('allergy_per_people', function (Blueprint $table) {
             $table->id();
             $table->foreignId('person_id')->constrained('people')->onDelete('cascade');

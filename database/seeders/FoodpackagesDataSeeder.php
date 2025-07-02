@@ -15,8 +15,7 @@ class FoodpackagesDataSeeder extends Seeder
     public function run(): void
     {
 
-
-        // Seed Eetwens (Diet Preference) table
+    // Seed Eetwens (Diet Preference) table
         $dietPreferences = [
             ['id' => 1, 'name' => 'GeenVarken', 'description' => 'Geen Varkensvlees'],
             ['id' => 2, 'name' => 'Veganistisch', 'description' => 'Geen zuivelproducten en vlees'],
