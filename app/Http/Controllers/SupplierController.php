@@ -34,15 +34,19 @@ class SupplierController extends Controller
             $newDate = $request->input('expiry_date');
 
             if ($newDate && $newDate !== $oldDate) {
-                // Check if new date is more than 7 days after old date
                 $old = Carbon::parse($oldDate);
                 $new = Carbon::parse($newDate);
-                if ($new->diffInDays($old, false) < -7) {
-                    return redirect()->back()->with('error', 'De houdbaarheidsdatum is niet gewijzigd.');
+                $diff = $old->diffInDays($new, false); // correct: old->diffInDays(new, false)
+
+                // Show red feedback if 7 days or more in the future
+                if ($diff < -7) {
+                    return redirect()->back()->with('error', 'De houdbaarheidsdatum mag met maximaal 7 dagen worden verlengd');
                 }
+
+                // Green feedback for all other cases (including negative diff and 0-6 days forward)
                 $product->expiry_date = $newDate;
                 $product->save();
-                return redirect()->back()->with('success', 'De houdbaarheidsdatum is gewijzigd');
+                return redirect()->back()->with('success', 'De houdbaarheidsdatum is gewijzigd.');
             } else {
                 return redirect()->back()->with('error', 'De houdbaarheidsdatum is niet gewijzigd.');
             }

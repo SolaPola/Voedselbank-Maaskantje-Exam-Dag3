@@ -11,44 +11,76 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
 
+                    {{-- Filter for supplier type --}}
+                    <form method="GET" action="{{ route('supplier.index') }}" class="flex items-center gap-2 mb-4 justify-end">
+                        <select name="type" class="form-select px-3 py-2 border rounded" onchange="this.form.submit()">
+                            <option value="">Selecteer LeverancierType</option>
+                            @php
+                                $types = $suppliers->pluck('supplier_type')->unique()->filter()->values();
+                                // Add 'Donor' if not present
+                                if (!$types->contains('Donor')) {
+                                    $types->push('Donor');
+                                }
+                            @endphp
+                            @foreach($types as $type)
+                                <option value="{{ $type }}" {{ request('type') == $type ? 'selected' : '' }}>
+                                    {{ $type }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <button type="submit" class="btn btn-secondary px-4 py-2 rounded bg-blue-600 text-white">Toon Leveranciers</button>
+                    </form>
+
                     @if (count($suppliers) > 0)
                         <div class="overflow-x-auto">
-                            <table class="min-w-full bg-white border border-gray-200">
+                            <table class="min-w-full bg-white border border-gray-300">
                                 <thead>
                                     <tr>
-                                        <th class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                        <th class="px-6 py-3 border-b border-r border-gray-300 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                             {{ __('Naam') }}
                                         </th>
-                                        <th class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                        <th class="px-6 py-3 border-b border-r border-gray-300 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                             {{ __('Contactpersoon') }}
                                         </th>
-                                        <th class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                        <th class="px-6 py-3 border-b border-r border-gray-300 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                            {{ __('email') }}
+                                        </th>
+                                        <th class="px-6 py-3 border-b border-r border-gray-300 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                            {{ __('mobiel') }}
+                                        </th>
+                                        <th class="px-6 py-3 border-b border-r border-gray-300 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                             {{ __('Leverancier Nummer') }}
                                         </th>
-                                        <th class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                            {{ __('Type') }}
+                                        <th class="px-6 py-3 border-b border-r border-gray-300 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                            {{ __('Leverancier Type') }}
                                         </th>
-                                        <th class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                            {{ __('Details') }}
+                                        <th class="px-6 py-3 border-b border-gray-300 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                            {{ __('Product Details') }}
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($suppliers as $supplier)
                                         <tr>
-                                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                            <td class="px-6 py-4 border-b border-r border-gray-300">
                                                 {{ $supplier->name }}
                                             </td>
-                                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                            <td class="px-6 py-4 border-b border-r border-gray-300">
                                                 {{ $supplier->contact_person }}
                                             </td>
-                                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                            <td class="px-6 py-4 border-b border-r border-gray-300">
+                                                {{ $supplier->email }}
+                                            </td>
+                                            <td class="px-6 py-4 border-b border-r border-gray-300">
+                                                {{ $supplier->mobiel }}
+                                            </td>
+                                            <td class="px-6 py-4 border-b border-r border-gray-300">
                                                 {{ $supplier->supplier_number }}
                                             </td>
-                                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                            <td class="px-6 py-4 border-b border-r border-gray-300">
                                                 {{ $supplier->supplier_type }}
                                             </td>
-                                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                            <td class="px-6 py-4 border-b border-gray-300">
                                                 <a href="{{ route('supplier.show', $supplier->id) }}"
                                                     class="inline-flex items-center px-3 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-white hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
                                                     title="{{ __('Toon details') }}">
@@ -68,7 +100,7 @@
                         </div>
                     @else
                         <div class="p-4 bg-yellow-50 text-yellow-700 border border-yellow-200 rounded-lg text-center">
-                            {{ __('Er zijn momenteel geen leveranciers in het systeem.') }}
+                            {{ __('Er zijn geen leveranciers bekent van het geselecteerde leverancierstype.') }}
                         </div>
                     @endif
 

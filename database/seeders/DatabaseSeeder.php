@@ -59,49 +59,65 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Albert Heijn',
                 'contact_person' => 'Ruud ter Weijden',
                 'supplier_number' => 'L0001',
-                'supplier_type' => 'Company'
+                'supplier_type' => 'Company',
+                'email' => 'albertheijn@example.com',
+                'mobiel' => '0612345678'
             ]),
             2 => Supplier::create([
                 'name' => 'Albertus Kerk',
                 'contact_person' => 'Leo Pastoor',
                 'supplier_number' => 'L0002',
-                'supplier_type' => 'Institution'
+                'supplier_type' => 'Institution',
+                'email' => 'albertuskerk@example.com',
+                'mobiel' => '0623456789'
             ]),
             3 => Supplier::create([
                 'name' => 'Gemeente Utrecht',
                 'contact_person' => 'Mohammed Yazidi',
                 'supplier_number' => 'L0003',
-                'supplier_type' => 'Government'
+                'supplier_type' => 'Government',
+                'email' => 'utrecht@example.com',
+                'mobiel' => '0634567890'
             ]),
             4 => Supplier::create([
                 'name' => 'Boerderij Meerhoven',
                 'contact_person' => 'Bertus van Driel',
                 'supplier_number' => 'L0004',
-                'supplier_type' => 'Private'
+                'supplier_type' => 'Private',
+                'email' => 'meerhoven@example.com',
+                'mobiel' => '0645678901'
             ]),
             5 => Supplier::create([
                 'name' => 'Jan van der Heijden',
                 'contact_person' => 'Jan van der Heijden',
                 'supplier_number' => 'L0005',
-                'supplier_type' => ''
+                'supplier_type' => 'Company',
+                'email' => 'janvdheijden@example.com',
+                'mobiel' => '0656789012'
             ]),
             6 => Supplier::create([
                 'name' => 'Vomar',
                 'contact_person' => 'Jaco Pastorius',
                 'supplier_number' => 'L0006',
-                'supplier_type' => 'Company'
+                'supplier_type' => 'Company',
+                'email' => 'vomar@example.com',
+                'mobiel' => '0667890123'
             ]),
             7 => Supplier::create([
                 'name' => 'DekaMarkt',
                 'contact_person' => 'Sil den Dollaard',
                 'supplier_number' => 'L0007',
-                'supplier_type' => 'Company'
+                'supplier_type' => 'Company',
+                'email' => 'dekamarkt@example.com',
+                'mobiel' => '0678901234'
             ]),
             8 => Supplier::create([
                 'name' => 'Gemeente Vught',
                 'contact_person' => 'Jan Blokker',
                 'supplier_number' => 'L0008',
-                'supplier_type' => 'Government'
+                'supplier_type' => 'Government',
+                'email' => 'vught@example.com',
+                'mobiel' => '0689012345'
             ]),
         ];
 

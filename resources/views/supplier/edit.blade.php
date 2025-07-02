@@ -18,7 +18,7 @@
                         </h1>
                     </div>
 
-                    <!-- Success Message -->
+                    <!-- Success Message (green) -->
                     @if(session('success'))
                         <div class="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative flex items-center gap-2">
                             <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -28,7 +28,7 @@
                         </div>
                     @endif
 
-                    <!-- Error Messages -->
+                    <!-- Error Message (red) for 7 days or more -->
                     @if(session('error'))
                         <div class="mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative flex items-center gap-2">
                             <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -38,6 +38,7 @@
                         </div>
                     @endif
 
+                    <!-- Error Message (red) for date_error (7+ days) -->
                     @if(session('date_error'))
                         <div class="mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative flex items-center gap-2">
                             <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -60,17 +61,18 @@
                                 <input type="date" 
                                        id="expiry_date" 
                                        name="expiry_date" 
-                                       value="{{ $product->expiry_date }}" 
+                                       value="{{ old('expiry_date', $product->expiry_date) }}" 
                                        class="w-full bg-white border border-gray-200 rounded-md px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500">
                             </div>
                         </div>
 
-                        <!-- Warning Message -->
-                        <div class="p-4 bg-red-50 border border-red-200 rounded-lg">
-                            <p class="text-red-700 font-medium text-sm">
-                                De houdbaarheidsdatum mag met maximaal 7 dagen worden verlengd
-                            </p>
-                        </div>
+                        @if(session('error'))
+                            <div class="p-4 bg-red-50 border border-red-200 rounded-lg mt-2">
+                                <p class="text-red-700 font-medium text-sm">
+                                    {{ session('error') }}
+                                </p>
+                            </div>
+                        @endif
 
                         <!-- Action Buttons -->
                         <div class="mt-8 flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-4">
