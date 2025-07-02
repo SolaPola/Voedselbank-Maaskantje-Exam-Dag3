@@ -23,6 +23,11 @@ class DatabaseSeeder extends Seeder
         $employeeRole = Role::create(['name' => 'Employee']);
         $volunteerRole = Role::create(['name' => 'Volunteer']);
 
+        // Call CustomerSeeder which includes all families, people, contacts, and users
+        $this->call([
+            CustomerSeeder::class,
+        ]);
+
         $manager = User::create([
             'login_name' => 'manager',
             'name' => 'Manager User',
@@ -123,5 +128,10 @@ class DatabaseSeeder extends Seeder
                 'location' => $relation[3]
             ]);
         }
+        
+        $this->call([
+            FoodpackagesDataSeeder::class,
+        ]);
     }
 }
+

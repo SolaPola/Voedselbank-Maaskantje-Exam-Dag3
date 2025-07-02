@@ -16,6 +16,10 @@ return new class extends Migration
             $table->foreignId('food_package_id')->constrained('food_packages')->onDelete('cascade');
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
             $table->integer('quantity_units');
+            $table->text('comment')->nullable();
+            $table->boolean('isactive')->default(true);
+            $table->timestamp('dateadded')->useCurrent();
+            $table->timestamp('datechanged')->useCurrent()->useCurrentOnUpdate();
             $table->timestamps();
         });
     }

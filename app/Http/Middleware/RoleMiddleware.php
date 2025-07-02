@@ -11,57 +11,38 @@ class RoleMiddleware
 {
     /**
      * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @param  string  $roles  Comma-separated list of allowed roles
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function handle(Request $request, Closure $next, ...$roles): Response
+    public function handle(Request $request, Closure $next, $roles): Response
     {
-        if (!auth()->check()) {
-            return redirect('/login');
+        $user = $request->user();
+        
+        if (!$user) {
+            return redirect('login');
         }
 
-        $user = auth()->user();
-
-        // Load roles if not already loaded
-        $user->load('roles');
-
-        $userRoles = $user->roles->pluck('id')->toArray();
-
-        // Parse roles - handle comma-separated roles like "1,2"
-        $allowedRoles = [];
-        foreach ($roles as $role) {
-            if (strpos($role, ',') !== false) {
-                $allowedRoles = array_merge($allowedRoles, explode(',', $role));
-            } else {
-                $allowedRoles[] = $role;
-            }
-        }
-
-        // Convert to integers
-        $allowedRoles = array_map('intval', $allowedRoles);
-
-        // Debug logging
-        Log::info('Role Middleware Debug', [
-            'user_id' => $user->id,
-            'user_roles' => $userRoles,
-            'allowed_roles' => $allowedRoles,
-            'user_email' => $user->email
-        ]);
-
-        // Check if user has any of the allowed roles
-        foreach ($allowedRoles as $roleId) {
-            if (in_array($roleId, $userRoles)) {
+        // Convert comma-separated roles to array
+        $allowedRoles = explode(',', $roles);
+        
+        // Get user roles with explicit table prefix
+        $userRoles = \DB::table('role_per_users')
+            ->where('user_id', $user->id)
+            ->pluck('role_id')
+            ->toArray();
+        
+        // Check if user has any of the required roles
+        foreach ($allowedRoles as $role) {
+            if (in_array((int)$role, $userRoles)) {
                 return $next($request);
             }
         }
-
-        // If no roles match, return 403
-        Log::warning('Unauthorized access attempt', [
-            'user_id' => $user->id,
-            'user_email' => $user->email,
-            'allowed_roles' => $allowedRoles,
-            'user_roles' => $userRoles,
-            'url' => $request->url()
-        ]);
-
-        abort(403, 'Unauthorized access - Required roles: ' . implode(', ', $allowedRoles) . '. User roles: ' . implode(', ', $userRoles));
+        
+        // If we get here, the user doesn't have any of the required roles
+        // Return a 403 Unauthorized response
+        return abort(403, 'Unauthorized action.');
     }
 }
