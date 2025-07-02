@@ -19,8 +19,34 @@
                     <!-- Success Message -->
                     @if (session('success'))
                         <div class="mb-4 p-4 bg-green-50 text-green-700 border border-green-200 rounded-lg">
-                            {{ session('success') }}
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="font-medium">Gelukt!</span>
+                            </div>
+                            <p class="ml-7">{{ session('success') }}</p>
+                            <p class="ml-7 text-sm mt-1">U wordt over <span id="countdown">3</span> seconden
+                                doorgestuurd naar het overzicht.</p>
                         </div>
+
+                        <script>
+                            let countdown = 3;
+                            const countdownElement = document.getElementById('countdown');
+
+                            const timer = setInterval(() => {
+                                countdown--;
+                                countdownElement.textContent = countdown;
+
+                                if (countdown <= 0) {
+                                    clearInterval(timer);
+                                    window.location.href = '{{ route('product-stock.index') }}';
+                                }
+                            }, 1000);
+                        </script>
                     @endif
 
                     <!-- Error Message -->

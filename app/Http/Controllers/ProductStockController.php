@@ -331,15 +331,21 @@ class ProductStockController extends Controller
                 ->where('id', $warehouseId)
                 ->update([
                     'date_delivered' => $request->date_delivered,
-                    'quantity' => $newWarehouseQuantity, // Update the actual warehouse stock
+                    'quantity' => $newWarehouseQuantity,
                     'delivered_quantity' => $deliveredQuantity,
                     'updated_at' => now()
                 ]);
 
             DB::commit();
 
-            return redirect()->route('product-stock.show', $productId)
-                ->with('success', 'Product is succesvol bijgewerkt.');
+            // Create specific success message
+            $deliveredMessage = $deliveredQuantity > 0
+                ? "Product is succesvol bijgewerkt. $deliveredQuantity producten uitgeleverd."
+                : "Product is succesvol bijgewerkt.";
+
+            // Redirect back to the edit page with success message
+            return redirect()->route('product-stock.edit', $productId)
+                ->with('success', $deliveredMessage);
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Fout bij het bijwerken van product: ' . $e->getMessage());
