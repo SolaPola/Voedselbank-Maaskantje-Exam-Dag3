@@ -22,7 +22,8 @@
                     <x-nav-link :href="route('customers.index')" :active="request()->routeIs('customers.*')">
                         {{ __('Klant overzicht') }}
                     </x-nav-link>
-                    
+
+
                     <!-- Product Stock Management (Managers and Employees) -->
                     @if (auth()->user()->hasRole(1) || auth()->user()->hasRole(2))
                         <x-nav-link :href="route('product-stock.index')" :active="request()->routeIs('product-stock.*')">
