@@ -70,7 +70,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
     // Customer management routes
-    Route::middleware(['auth', 'verified', 'role:1,2,3'])->group(function () {
+    Route::middleware(['auth', 'verified', 'role:1'])->group(function () {
     Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
     Route::get('/customers/{customer}', [CustomerController::class, 'show'])->name('customers.show');
     Route::get('/customers/{customer}/edit', [CustomerController::class, 'edit'])->name('customers.edit');

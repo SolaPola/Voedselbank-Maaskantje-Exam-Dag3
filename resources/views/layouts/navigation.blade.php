@@ -112,11 +112,12 @@
                     {{ __('Voorraadbeheer') }}
                 </x-responsive-nav-link>
             @endif
-
+            @if (auth()->user()->hasRole(1) || auth()->user()->hasRole(2) || auth()->user()->hasRole(3))
             <!-- Customer Overview (All authenticated users) -->
             <x-responsive-nav-link :href="route('customers.index')" :active="request()->routeIs('customers.*')">
                 {{ __('Klant overzicht') }}
             </x-responsive-nav-link>
+            @endif
 
             <!-- Food Packages Overview -->
             @if (auth()->user()->hasRole(1))
