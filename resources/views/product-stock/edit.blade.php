@@ -11,7 +11,7 @@
                 <div class="p-6">
                     <!-- Green Title Section -->
                     <div class="mb-6 text-center">
-                        <h1 class="text-2xl font-bold text-green-600 text-left">
+                        <h1 class="text-2xl font-bold text-green-600 text-left underline">
                             Wijzig Product Details {{ $product->name }}
                         </h1>
                     </div>
