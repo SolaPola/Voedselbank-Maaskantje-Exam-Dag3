@@ -1,15 +1,18 @@
 {{-- filepath: c:\Users\bilag\OneDrive - MBO Utrecht\MBO-U-Leerljaar-2\Periode 4\Exam\day 3\code\Voedselbank-Maaskantje-Exam-Dag3-dev-dag03\resources\views\customer\index.blade.php --}}
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Overzicht Klanten') }}
-        </h2>
-    </x-slot>
+   
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
+
+                    <!-- Green Title Section inside content area -->
+                    <div class="mb-6">
+                        <h1 class="text-2xl font-bold text-green-600 underline text-left">
+                            Overzicht Klanten
+                        </h1>
+                    </div>
 
                     {{-- Success message display --}}
                     @if(session('success'))
@@ -24,7 +27,7 @@
                             <div class="relative inline-block">
                                 <select name="postal_code" id="filterSelect"
                                     class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm pl-3 pr-10 py-2">
-                                    <option value="">Alle Postcodes</option>
+                                    <option value="">Selecteer Postcode</option>
                                     <option value="5271TH" {{ request('postal_code') == '5271TH' ? 'selected' : '' }}>5271TH</option>
                                     <option value="5271TJ" {{ request('postal_code') == '5271TJ' ? 'selected' : '' }}>5271TJ</option>
                                     <option value="5271ZE" {{ request('postal_code') == '5271ZE' ? 'selected' : '' }}>5271ZE</option>
@@ -63,7 +66,7 @@
                                             {{ __('Woonplaats') }}
                                         </th>
                                         <th class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                            {{ __('Details') }}
+                                            {{ __('Klant Details') }}
                                         </th>
                                     </tr>
                                 </thead>
@@ -71,33 +74,28 @@
                                     @foreach ($pagination->items() as $family)
                                         <tr>
                                             <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                {{ $family->family_name ?? '~~ ~~ ~~' }}
+                                                {{ $family->family_name ?? '~~~~' }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                {{ $family->representative_name ?? '~~ ~~ ~~' }}
+                                                {{ $family->representative_name ?? '~~~~' }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                {{ $family->email ?? '~~ ~~ ~~' }}
+                                                {{ $family->email ?? '~~~~' }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                {{ $family->mobile ?? '~~ ~~ ~~' }}
+                                                {{ $family->mobile ?? '~~~~' }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                {{ $family->address ?? '~~ ~~ ~~' }}
+                                                {{ $family->address ?? '~~~~' }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                {{ $family->city ?? '~~ ~~ ~~' }}
+                                                {{ $family->city ?? '~~~~' }}
                                             </td>
-                                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                <a href="{{ route('customers.show', $family->id) }}"
-                                                    class="inline-flex items-center px-3 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-white hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
-                                                    title="{{ __('Toon details') }}">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
-                                                        </path>
+                                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
+                                                <a href="{{ route('customers.show', $family->id) }}" class="text-blue-600 hover:text-blue-800">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                        <rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" fill="none"/>
+                                                        <path d="M8 8h8M8 12h8M8 16h4" stroke="currentColor" stroke-linecap="round"/>
                                                     </svg>
                                                 </a>
                                             </td>
@@ -153,7 +151,7 @@
                     <div class="mt-4 flex justify-end">
                         <a href="{{ route('dashboard') }}"
                             class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-                            {{ __('Home') }}
+                            {{ __('home') }}
                         </a>
                     </div>
                 </div>
