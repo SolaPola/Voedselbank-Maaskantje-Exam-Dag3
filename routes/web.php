@@ -43,8 +43,9 @@ Route::get('/debug-roles', function () {
 Route::middleware(['auth', 'verified', 'role:1'])->group(function () {
     Route::get('/manager/dashboard', [ManagerDashboardController::class, 'index'])->name('manager.dashboard');
     Route::get('/manager/dashboard/suppliers', [SupplierController::class, 'index'])->name('supplier.index');
-    Route::get('/manager/dashboard/suppliers/{supplier}/products', [SupplierController::class, 'products'])->name('manager.suppliers.products');
-    Route::match(['get', 'post'], '/manager/dashboard/products/{product}/edit', [SupplierController::class, 'edit'])->name('supplier.edit');
+    Route::get('/manager/dashboard/suppliers/{supplier}', [SupplierController::class, 'show'])->name('supplier.show');
+    Route::get('/manager/dashboard/suppliers/{supplier}/show', [SupplierController::class, 'show'])->name('manager.suppliers.show');
+    Route::match(['get', 'post'], '/manager/dashboard/show/{product}/edit', [SupplierController::class, 'edit'])->name('supplier.edit');
 });
 
 // Employee routes
@@ -74,7 +75,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
     // Customer management routes
-    Route::middleware(['auth', 'verified', 'role:1'])->group(function () {
+    Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
     Route::get('/customers/{customer}', [CustomerController::class, 'show'])->name('customers.show');
     Route::get('/customers/{customer}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
