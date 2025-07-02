@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('contact_person')->nullable();
+            $table->string('email')->nullable();
+            $table->string('mobiel')->nullable();
             $table->string('supplier_number')->unique();
             $table->string('supplier_type');
             $table->text('comment')->nullable();

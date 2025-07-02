@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Supplier;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Warehouse;
@@ -52,28 +53,97 @@ class DatabaseSeeder extends Seeder
         ]);
         $volunteer->roles()->attach($volunteerRole->id);
 
-        $categories = [
-            ['id' => 1, 'name' => 'AGF', 'description' => 'Aardappelen groente en fruit'],
-            ['id' => 2, 'name' => 'KV', 'description' => 'Kaas en vleeswaren'],
-            ['id' => 3, 'name' => 'ZPE', 'description' => 'Zuivel plantaardig en eieren'],
-            ['id' => 4, 'name' => 'BB', 'description' => 'Bakkerij en Banket'],
-            ['id' => 5, 'name' => 'FSKT', 'description' => 'Frisdranken, sappen, koffie en thee'],
-            ['id' => 6, 'name' => 'PRW', 'description' => 'Pasta, rijst en wereldkeuken'],
-            ['id' => 7, 'name' => 'SSKO', 'description' => 'Soepen, sauzen, kruiden en olie'],
-            ['id' => 8, 'name' => 'SKCC', 'description' => 'Snoep, koek, chips en chocolade'],
-            ['id' => 9, 'name' => 'BVH', 'description' => 'Baby, verzorging en hygiëne'],
+
+        $suppliers = [
+            1 => Supplier::create([
+                'name' => 'Albert Heijn',
+                'contact_person' => 'Ruud ter Weijden',
+                'supplier_number' => 'L0001',
+                'supplier_type' => 'Company',
+                'email' => 'albertheijn@example.com',
+                'mobiel' => '0612345678'
+            ]),
+            2 => Supplier::create([
+                'name' => 'Albertus Kerk',
+                'contact_person' => 'Leo Pastoor',
+                'supplier_number' => 'L0002',
+                'supplier_type' => 'Institution',
+                'email' => 'albertuskerk@example.com',
+                'mobiel' => '0623456789'
+            ]),
+            3 => Supplier::create([
+                'name' => 'Gemeente Utrecht',
+                'contact_person' => 'Mohammed Yazidi',
+                'supplier_number' => 'L0003',
+                'supplier_type' => 'Government',
+                'email' => 'utrecht@example.com',
+                'mobiel' => '0634567890'
+            ]),
+            4 => Supplier::create([
+                'name' => 'Boerderij Meerhoven',
+                'contact_person' => 'Bertus van Driel',
+                'supplier_number' => 'L0004',
+                'supplier_type' => 'Private',
+                'email' => 'meerhoven@example.com',
+                'mobiel' => '0645678901'
+            ]),
+            5 => Supplier::create([
+                'name' => 'Jan van der Heijden',
+                'contact_person' => 'Jan van der Heijden',
+                'supplier_number' => 'L0005',
+                'supplier_type' => 'Company',
+                'email' => 'janvdheijden@example.com',
+                'mobiel' => '0656789012'
+            ]),
+            6 => Supplier::create([
+                'name' => 'Vomar',
+                'contact_person' => 'Jaco Pastorius',
+                'supplier_number' => 'L0006',
+                'supplier_type' => 'Company',
+                'email' => 'vomar@example.com',
+                'mobiel' => '0667890123'
+            ]),
+            7 => Supplier::create([
+                'name' => 'DekaMarkt',
+                'contact_person' => 'Sil den Dollaard',
+                'supplier_number' => 'L0007',
+                'supplier_type' => 'Company',
+                'email' => 'dekamarkt@example.com',
+                'mobiel' => '0678901234'
+            ]),
+            8 => Supplier::create([
+                'name' => 'Gemeente Vught',
+                'contact_person' => 'Jan Blokker',
+                'supplier_number' => 'L0008',
+                'supplier_type' => 'Government',
+                'email' => 'vught@example.com',
+                'mobiel' => '0689012345'
+            ]),
         ];
 
-        foreach ($categories as $category) {
-            Category::create($category);
+        // Seed categories before products
+        $categories = [
+            1 => ['name' => 'AGF', 'description' => 'Aardappelen groente en fruit'],
+            2 => ['name' => 'KV', 'description' => 'Kaas en vleeswaren'],
+            3 => ['name' => 'ZPE', 'description' => 'Zuivel plantaardig en eieren'],
+            4 => ['name' => 'BB', 'description' => 'Bakkerij en Banket'],
+            5 => ['name' => 'FSKT', 'description' => 'Frisdranken, sappen, koffie en thee'],
+            6 => ['name' => 'PRW', 'description' => 'Pasta, rijst en wereldkeuken'],
+            7 => ['name' => 'SSKO', 'description' => 'Soepen, sauzen, kruiden en olie'],
+            8 => ['name' => 'SKCC', 'description' => 'Snoep, koek, chips en chocolade'],
+            9 => ['name' => 'BVH', 'description' => 'Baby, verzorging en hygiëne'],
+        ];
+        foreach ($categories as $id => $data) {
+            Category::firstOrCreate(['id' => $id], $data);
         }
 
+        // Create warehouses first
         $warehouses = [
-            [1, '2024-05-12', null, '5 kg', 20],
-            [2, '2024-05-26', null, '2.5 kg', 40],
-            [3, '2024-04-02', null, '1 kg', 30],
-            [4, '2024-05-16', null, '1.5 kg', 25],
-            [5, '2024-05-23', null, '4 stuks', 75],
+            [1, '2025-05-12', null, '5 kg', 20],
+            [2, '2025-05-26', null, '2.5 kg', 40],
+            [3, '2025-04-02', null, '1 kg', 30],
+            [4, '2025-05-16', null, '1.5 kg', 25],
+            [5, '2025-05-23', null, '4 stuks', 75],
         ];
 
         foreach ($warehouses as $warehouse) {
@@ -86,32 +156,37 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
+        // Products with correct field names
         $products = [
-            [1, 1, 'Aardappel', null, '8719587321239', '2024-07-12', 'Kruimige aardappel', 'OpVoorraad'],
-            [2, 1, 'Aardappel', null, '8719587321239', '2024-07-26', 'Kruimige aardappel', 'OpVoorraad'],
-            [3, 1, 'Ui', null, '8719437321335', '2024-09-02', 'Gele ui', 'NietOpVoorraad'],
-            [4, 1, 'Appel', null, '8719486321332', '2024-08-16', 'Granny Smith', 'NietLeverbaar'],
-            [5, 1, 'Appel', null, '8719486321333', '2024-09-23', 'Granny Smith', 'NietLeverbaar'],
-            [6, 1, 'Banaan', 'Banaan', '8719484321336', '2024-07-12', 'Biologische Banaan', 'OverHoudbaarheidsDatum'],
-            [7, 1, 'Banaan', 'Banaan', '8719484321337', '2024-07-19', 'Biologische Banaan', 'OverHoudbaarheidsDatum'],
-            [8, 2, 'Kaas', 'Lactose', '8719487421338', '2024-09-19', 'Jonge Kaas', 'OpVoorraad'],
-            [9, 2, 'Rosbief', null, '8719487421331', '2024-07-23', 'Rundvlees', 'OpVoorraad'],
-            [10, 3, 'Melk', 'Lactose', '8719447321332', '2024-07-23', 'Halfvolle melk', 'OpVoorraad'],
+
+            [1, 1, 'Aardappel', null, '8719587321239', '2025-07-12', 'Kruimige aardappel', 'OpVoorraad'],
+            [2, 1, 'Aardappel', null, '8719587321239', '2025-07-26', 'Kruimige aardappel', 'OpVoorraad'],
+            [3, 1, 'Ui', null, '8719437321335', '2025-09-02', 'Gele ui', 'NietOpVoorraad'],
+            [4, 1, 'Appel', null, '8719486321332', '2025-08-16', 'Granny Smith', 'NietLeverbaar'],
+            [5, 1, 'Appel', null, '8719486321333', '2025-09-23', 'Granny Smith', 'NietLeverbaar'],
+            [6, 1, 'Banaan', 'Banaan', '8719484321336', '2025-07-12', 'Biologische Banaan', 'OverHoudbaarheidsDatum'],
+            [7, 1, 'Banaan', 'Banaan', '8719484321337', '2025-07-19', 'Biologische Banaan', 'OverHoudbaarheidsDatum'],
+            [8, 2, 'Kaas', 'Lactose', '8719487421338', '2025-09-19', 'Jonge Kaas', 'OpVoorraad'],
+            [9, 2, 'Rosbief', null, '8719487421331', '2025-07-23', 'Rundvlees', 'OpVoorraad'],
+            [10, 3, 'Melk', 'Lactose', '8719447321332', '2025-07-23', 'Halfvolle melk', 'OpVoorraad'],
         ];
 
         foreach ($products as $product) {
             Product::create([
-                'id' => $product[0],
+                'supplier_id' => $product[0],
                 'category_id' => $product[1],
                 'name' => $product[2],
                 'allergy_type' => $product[3],
                 'barcode' => $product[4],
                 'expiry_date' => $product[5],
                 'description' => $product[6],
-                'status' => $product[7]
+                'status' => $product[7],
+               
+
             ]);
         }
 
+        // Create product per warehouse relationships
         $productMagazijn = [
             [1, 1, 1, 'Berlicum'],
             [2, 2, 2, 'Rosmalen'],
@@ -128,6 +203,9 @@ class DatabaseSeeder extends Seeder
                 'location' => $relation[3]
             ]);
         }
+        
+        $this->call([
+            FoodpackagesDataSeeder::class,
+        ]);
     }
 }
-       

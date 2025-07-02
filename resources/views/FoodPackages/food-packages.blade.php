@@ -1,21 +1,18 @@
-{{-- filepath: c:\Users\bilag\OneDrive - MBO Utrecht\MBO-U-Leerljaar-2\Periode 4\Exam\day 3\code\Voedselbank-Maaskantje-Exam-Dag3-dev-dag03\resources\views\FoodPackages\food-packages.blade.php --}}
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Overzicht gezinnen met voedselpakketten') }}
-        </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-
-                    <div class="flex justify-end mb-4">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-lg text-green-600 font-medium underline">{{ __('Overzicht gezinnen met voedselpakketten') }}</h3>
+                    
+                    <div class="flex items-center">
                         <form action="{{ route('FoodPackages.food-packages') }}" method="GET" class="flex items-center">
                             <div class="relative inline-block">
                                 <select name="diet_preference" id="filterSelect"
-                                    class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm pl-3 pr-10 py-2">
+                                    class="border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2">
                                     <option value="">Selecteer Eetwens</option>
                                     @foreach($dietPreferences as $dietPreference)
                                         <option value="{{ $dietPreference->id }}" {{ $selectedDietPreference == $dietPreference->id ? 'selected' : '' }}>
@@ -25,97 +22,59 @@
                                 </select>
                             </div>
                             <button type="submit"
-                                class="ml-4 px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700">
+                                class="ml-4 px-4 py-2 bg-gray-600 text-white rounded-md">
                                 {{ __('Toon Gezinnen') }}
                             </button>
                         </form>
                     </div>
+                </div>
 
-                    @if(count($families) > 0)
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full bg-white border border-gray-200">
-                                <thead>
-                                    <tr>
-                                        <th
-                                            class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                            {{ __('Gezinsnaam') }}
-                                        </th>
-                                        <th
-                                            class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                            {{ __('Omschrijving') }}
-                                        </th>
-                                        <th
-                                            class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                            {{ __('Volwassenen') }}
-                                        </th>
-                                        <th
-                                            class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                            {{ __('Kinderen') }}
-                                        </th>
-                                        <th
-                                            class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                            {{ __('Baby\'s') }}
-                                        </th>
-                                        <th
-                                            class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                            {{ __('Vertegenwoordiger') }}
-                                        </th>
-                                        <th
-                                            class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                            {{ __('Details') }}
-                                        </th>
+                @if(count($families) > 0)
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full">
+                            <thead>
+                                <tr class="border-b">
+                                    <th class="py-3 px-4 text-left font-medium">{{ __('Gezinsnaam') }}</th>
+                                    <th class="py-3 px-4 text-left font-medium">{{ __('Omschrijving') }}</th>
+                                    <th class="py-3 px-4 text-left font-medium">{{ __('Volwassenen') }}</th>
+                                    <th class="py-3 px-4 text-left font-medium">{{ __('Kinderen') }}</th>
+                                    <th class="py-3 px-4 text-left font-medium">{{ __('Baby\'s') }}</th>
+                                    <th class="py-3 px-4 text-left font-medium">{{ __('Vertegenwoordiger') }}</th>
+                                    <th class="py-3 px-4 text-left font-medium">{{ __('Voedselpakket Details') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($families as $family)
+                                    <tr class="border-b hover:bg-gray-50">
+                                        <td class="py-3 px-4">{{ $family->name }}</td>
+                                        <td class="py-3 px-4">{{ $family->description }}</td>
+                                        <td class="py-3 px-4">{{ $family->adults }}</td>
+                                        <td class="py-3 px-4">{{ $family->children }}</td>
+                                        <td class="py-3 px-4">{{ $family->babies }}</td>
+                                        <td class="py-3 px-4">{{ $family->representative_name ?? '~~~~' }}</td>
+                                        <td class="py-3 px-4 text-center">
+                                            <a href="{{ route('food-packages.family', $family->id) }}" class="text-blue-300 flex justify-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box" viewBox="0 0 16 16">
+                                                  <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5 8 5.961 14.154 3.5zM15 4.239l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464z"/>
+                                                </svg>
+                                            </a>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($families as $family)
-                                        <tr>
-                                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                {{ $family->name }}
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                {{ $family->description }}
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                {{ $family->adults }}
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                {{ $family->children }}
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                {{ $family->babies }}
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                {{ $family->representative_name ?? 'N/A' }}
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                <a href="#"
-                                                    class="inline-flex items-center px-3 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-white hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
-                                                    title="{{ __('Toon details') }}">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
-                                                        </path>
-                                                    </svg>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    @else
-                        <div class="p-4 bg-yellow-50 text-yellow-700 border border-yellow-200 rounded-lg text-center">
-                            {{ __('Er zijn geen gezinnen bekent die de geselecteerde eetwens hebben') }}
-                        </div>
-                    @endif
-                    <div class="mt-4 flex justify-end">
-                        <a href="{{ route('dashboard') }}"
-                            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-                            {{ __('Home') }}
-                        </a>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
+                @else
+                    <div class="p-4 bg-yellow-50 text-yellow-700 border border-yellow-200 rounded-lg text-center">
+                        {{ __('Er zijn geen gezinnen bekent die de geselecteerde eetwens hebben') }}
+                    </div>
+                @endif
+                
+                <div class="mt-6 flex justify-end">
+                    <a href="{{ route('dashboard') }}"
+                        class="px-4 py-2 bg-blue-500 text-white rounded-md">
+                        {{ __('home') }}
+                    </a>
                 </div>
             </div>
         </div>

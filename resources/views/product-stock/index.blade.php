@@ -1,8 +1,5 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Overzicht ProductVoorraaden') }}
-        </h2>
     </x-slot>
 
     <div class="py-12">
@@ -10,7 +7,11 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
 
-                    <div class="flex justify-end mb-4">
+                    <div class="flex justify-between items-center mb-4">
+                        <h1 class="text-2xl font-bold text-green-600 underline">
+                            Overzicht Product
+                        </h1>
+                        
                         <form action="{{ route('product-stock.index') }}" method="GET" class="flex items-center">
                             <div class="relative inline-block">
                                 <select name="category_filter" id="filterSelect"
@@ -25,7 +26,7 @@
                                 </select>
                             </div>
                             <button type="submit"
-                                class="ml-4 px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700">
+                                class="ml-4 px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-400">
                                 {{ __('Toon Voorraad') }}
                             </button>
                         </form>
@@ -115,7 +116,7 @@
                         </div>
                     @else
                         <div class="p-4 bg-yellow-50 text-yellow-700 border border-yellow-200 rounded-lg text-center">
-                            {{ __('Er zijn momenteel geen producten in de magazijnvoorraad.') }}
+                            {{ __('Er zijn geen producten bekend die behoren bij de geselecteerde productcategorie') }}
                         </div>
                     @endif
                     <div class="mt-4 flex justify-end">

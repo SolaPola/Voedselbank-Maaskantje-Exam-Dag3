@@ -1,4 +1,3 @@
-{{-- filepath: c:\Users\bilag\OneDrive - MBO Utrecht\MBO-U-Leerljaar-2\Periode 4\Exam\day 3\code\Voedselbank-Maaskantje-Exam-Dag3-dev-dag03\resources\views\layouts\navigation.blade.php --}}
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -22,6 +21,14 @@
                     <x-nav-link :href="route('customers.index')" :active="request()->routeIs('customers.*')">
                         {{ __('Klant overzicht') }}
                     </x-nav-link>
+
+
+                    <!-- Suppliers (Managers and Employees) -->
+                    @if (auth()->user()->hasRole(1) || auth()->user()->hasRole(2))
+                        <x-nav-link :href="route('supplier.index')" :active="request()->routeIs('leveranciers.*')">
+                            {{ __('Leveranciers') }}
+                        </x-nav-link>
+                    @endif
                     
                     <!-- Product Stock Management (Managers and Employees) -->
                     @if (auth()->user()->hasRole(1) || auth()->user()->hasRole(2))
@@ -112,11 +119,12 @@
                     {{ __('Voorraadbeheer') }}
                 </x-responsive-nav-link>
             @endif
-
+            @if (auth()->user()->hasRole(1) || auth()->user()->hasRole(2) || auth()->user()->hasRole(3))
             <!-- Customer Overview (All authenticated users) -->
             <x-responsive-nav-link :href="route('customers.index')" :active="request()->routeIs('customers.*')">
                 {{ __('Klant overzicht') }}
             </x-responsive-nav-link>
+            @endif
 
             <!-- Food Packages Overview -->
             @if (auth()->user()->hasRole(1))
