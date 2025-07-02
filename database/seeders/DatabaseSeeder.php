@@ -173,9 +173,28 @@ class DatabaseSeeder extends Seeder
             Product::create($product);
         }
 
-        // Debug tip: Check if products are seeded and linked to suppliers
-        // You can temporarily add:
-        // dd(Product::all(), Supplier::all());
+
+        $productMagazijn = [
+            [1, 1, 1, 'Berlicum'],
+            [2, 2, 2, 'Rosmalen'],
+            [3, 3, 3, 'Berlicum'],
+            [4, 4, 4, 'Berlicum'],
+            [5, 5, 5, 'Rosmalen'],
+        ];
+
+        foreach ($productMagazijn as $relation) {
+            ProductPerWarehouse::create([
+                'id' => $relation[0],
+                'product_id' => $relation[1],
+                'warehouse_id' => $relation[2],
+                'location' => $relation[3]
+            ]);
+        }
+        
+        $this->call([
+            FoodpackagesDataSeeder::class,
+        ]);
+
     }
 }
 
