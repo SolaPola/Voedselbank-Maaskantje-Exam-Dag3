@@ -78,7 +78,7 @@
                     <a href="{{ route('volunteer.food-packages') }}" class="px-4 py-2 bg-blue-500 text-white rounded-md">
                         {{ __('terug') }}
                     </a>
-                    <a href="{{ route('volunteer.dashboard') }}" class="px-4 py-2 bg-indigo-500 text-white rounded-md">
+                    <a href="{{ route('volunteer.dashboard') }}" class="px-4 py-2 bg-blue-500 text-white rounded-md">
                         {{ __('home') }}
                     </a>
                 </div>

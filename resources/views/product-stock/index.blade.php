@@ -26,7 +26,7 @@
                                 </select>
                             </div>
                             <button type="submit"
-                                class="ml-4 px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700">
+                                class="ml-4 px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-400">
                                 {{ __('Toon Voorraad') }}
                             </button>
                         </form>
