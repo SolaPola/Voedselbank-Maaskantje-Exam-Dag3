@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('person_id')->nullable()->constrained('people')->onDelete('set null');
+            // Remove foreign constraint for now, just make it nullable unsignedBigInteger
+            $table->unsignedBigInteger('person_id')->nullable();
             $table->string('login_name')->unique();
             $table->string('name'); // Keep existing name field
             $table->string('email')->unique();

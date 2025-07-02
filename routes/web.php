@@ -5,6 +5,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ManagerDashboardController;
 use App\Http\Controllers\EmployeeDashboardController;
 use App\Http\Controllers\VolunteerDashboardController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\FamilyFoodPackageController;
 use App\Http\Controllers\ProductStockController;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +42,9 @@ Route::get('/debug-roles', function () {
 // Manager routes
 Route::middleware(['auth', 'verified', 'role:1'])->group(function () {
     Route::get('/manager/dashboard', [ManagerDashboardController::class, 'index'])->name('manager.dashboard');
+    Route::get('/manager/dashboard/suppliers', [SupplierController::class, 'index'])->name('supplier.index');
+    Route::get('/manager/dashboard/suppliers/{supplier}/products', [SupplierController::class, 'products'])->name('manager.suppliers.products');
+    Route::match(['get', 'post'], '/manager/dashboard/products/{product}/edit', [SupplierController::class, 'edit'])->name('supplier.edit');
 });
 
 // Employee routes
@@ -141,4 +145,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 // Only include this once
+
 require __DIR__ . '/auth.php';
