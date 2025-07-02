@@ -30,6 +30,22 @@
                         </div>
                     @endif
 
+                    <!-- Delivered Quantity Validation Error -->
+                    @if ($errors->has('delivered_quantity'))
+                        <div class="mb-4 p-3 bg-red-100 text-red-800 border border-red-300 rounded-md">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zm-1 9a1 1 0 01-1-1v-4a1 1 0 112 0v4a1 1 0 01-1 1z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="font-medium">Let op!</span>
+                            </div>
+                            <p class="ml-7">{{ $errors->first('delivered_quantity') }}</p>
+                        </div>
+                    @endif
+
                     <form method="POST" action="{{ route('product-stock.update', $product->id) }}">
                         @csrf
                         @method('PUT')
@@ -122,15 +138,6 @@
                                         class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('delivered_quantity') border-red-500 @enderror">
                                     @error('delivered_quantity')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                        <div class="mt-2 p-3 bg-red-100 text-red-800 border border-red-300 rounded-md">
-                                            <div class="flex items-center">
-                                                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zm-1 9a1 1 0 01-1-1v-4a1 1 0 112 0v4a1 1 0 01-1 1z" clip-rule="evenodd"></path>
-                                                </svg>
-                                                <span class="font-medium">Let op!</span>
-                                            </div>
-                                            <p class="ml-7">{{ $message }}</p>
-                                        </div>
                                     @enderror
                                 </div>
                             </div>

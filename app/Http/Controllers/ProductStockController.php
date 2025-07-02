@@ -271,6 +271,9 @@ class ProductStockController extends Controller
         }
     }
 
+    /**
+     * Update the specified product.
+     */
     public function update(Request $request, $productId)
     {
         // Get current warehouse stock from database first for validation
@@ -320,11 +323,15 @@ class ProductStockController extends Controller
 
             $deliveredQuantity = $request->delivered_quantity ?? 0;
 
-            // Update warehouse with delivered quantity
+            // Calculate new warehouse quantity: current stock - delivered quantity
+            $newWarehouseQuantity = $currentStock - $deliveredQuantity;
+
+            // Update warehouse with new quantity and delivered quantity
             DB::table('warehouses')
                 ->where('id', $warehouseId)
                 ->update([
                     'date_delivered' => $request->date_delivered,
+                    'quantity' => $newWarehouseQuantity, // Update the actual warehouse stock
                     'delivered_quantity' => $deliveredQuantity,
                     'updated_at' => now()
                 ]);
