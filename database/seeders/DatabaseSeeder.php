@@ -128,6 +128,10 @@ class DatabaseSeeder extends Seeder
                 'location' => $relation[3]
             ]);
         }
+        
+        $this->call([
+            FoodpackagesDataSeeder::class,
+        ]);
     }
 }
        
